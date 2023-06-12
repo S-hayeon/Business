@@ -1,73 +1,82 @@
-# This Streamlit application simulates business decisions that contribute to value through either 1. Cost 2. Quality 3. Speed or 4. Flexibility. In the system add all the primary and secondary activities. 
 import streamlit as st
 
-def display_linkages(decision, metric):
-    st.write("### Primary Activities")
-    st.write("- Inbound Logistics")
-    st.write("- Operations")
-    st.write("- Outbound Logistics")
-    st.write("- Marketing and Sales")
-    st.write("- Service")
+# Define the primary activities and support activities
+primary_activities = [
+    "Inbound Logistics",
+    "Operations",
+    "Outbound Logistics",
+    "Marketing and Sales",
+    "Service"
+]
 
-    st.write("### Support Activities")
-    st.write("- Firm Infrastructure")
-    st.write("- Human Resource Management")
-    st.write("- Technology Development")
-    st.write("- Procurement")
+support_activities = [
+    "Procurement",
+    "Technology Development",
+    "Human Resource Management",
+    "Firm Infrastructure"
+]
 
-    st.write("### Linkages")
-    if decision == "Inbound Logistics":
-        st.write("- Horizontal Linkages: Operations, Outbound Logistics")
-        st.write("- Vertical Linkages: Procurement, Marketing and Sales, Service")
-        st.write("- Task Interdependence: Operations, Procurement")
-        st.write("- Cross-functional Linkages: Marketing and Sales, Service")
-        st.write("- Shared Resources: Operations, Procurement, Marketing and Sales, Service")
-    elif decision == "Operations":
-        st.write("- Horizontal Linkages: Inbound Logistics, Outbound Logistics")
-        st.write("- Vertical Linkages: Procurement, Marketing and Sales, Service")
-        st.write("- Task Interdependence: Inbound Logistics, Outbound Logistics, Procurement")
-        st.write("- Cross-functional Linkages: Marketing and Sales, Service")
-        st.write("- Shared Resources: Inbound Logistics, Outbound Logistics, Procurement, Marketing and Sales, Service")
-    elif decision == "Outbound Logistics":
-        st.write("- Horizontal Linkages: Inbound Logistics, Operations")
-        st.write("- Vertical Linkages: Procurement, Marketing and Sales, Service")
-        st.write("- Task Interdependence: Inbound Logistics, Operations, Procurement")
-        st.write("- Cross-functional Linkages: Marketing and Sales, Service")
-        st.write("- Shared Resources: Inbound Logistics, Operations, Procurement, Marketing and Sales, Service")
-    elif decision == "Marketing and Sales":
-        st.write("- Horizontal Linkages: Operations, Outbound Logistics")
-        st.write("- Vertical Linkages: Inbound Logistics, Procurement, Service")
-        st.write("- Task Interdependence: Operations, Outbound Logistics, Service")
-        st.write("- Cross-functional Linkages: Inbound Logistics, Procurement, Service")
-        st.write("- Shared Resources: Operations, Outbound Logistics, Inbound Logistics, Procurement, Service")
-    elif decision == "Service":
-        st.write("- Horizontal Linkages: Operations, Outbound Logistics")
-        st.write("- Vertical Linkages: Inbound Logistics, Procurement, Marketing and Sales")
-        st.write("- Task Interdependence: Operations, Outbound Logistics, Marketing and Sales")
-        st.write("- Cross-functional Linkages: Inbound Logistics, Procurement, Marketing and Sales")
-        st.write("- Shared Resources: Operations, Outbound Logistics, Inbound Logistics, Procurement, Marketing and Sales")
+# Create a dictionary to store the decisions and their impacts
+decisions = {
+    "Inbound Logistics": 0,
+    "Operations": 0,
+    "Outbound Logistics": 0,
+    "Marketing and Sales": 0,
+    "Service": 0,
+    "Procurement": 0,
+    "Technology Development": 0,
+    "Human Resource Management": 0,
+    "Firm Infrastructure": 0
+}
 
-def main():
-    st.title("Business Decisions Simulator")
+# Render the sidebar for decision inputs
+def render_sidebar():
+    st.sidebar.subheader("Value Chain Decisions")
+    for activity in primary_activities:
+        decision = st.sidebar.slider(
+            f"{activity} Decision",
+            min_value=-10,
+            max_value=10,
+            value=0,
+            step=1
+        )
+        decisions[activity] = decision
 
-    decisions = [
-        "Inbound Logistics",
-        "Operations",
-        "Outbound Logistics",
-        "Marketing and Sales",
-        "Service"
-    ]
-    metrics = [
-        "Cost",
-        "Quality",
-        "Speed",
-        "Flexibility"
-    ]
+    for activity in support_activities:
+        decision = st.sidebar.slider(
+            f"{activity} Decision",
+            min_value=-10,
+            max_value=10,
+            value=0,
+            step=1
+        )
+        decisions[activity] = decision
 
-    decision = st.selectbox("Select a business decision:", decisions)
-    metric = st.selectbox("Select the metric of concern:", metrics)
+# Calculate the overall impact based on the decisions
+def calculate_impact():
+    primary_impact = sum(decisions[activity] for activity in primary_activities)
+    support_impact = sum(decisions[activity] for activity in support_activities)
+    total_impact = primary_impact + support_impact
+    return total_impact
 
-    display_linkages(decision, metric)
+# Render the main content
+def render_content():
+    st.title("Michael Porter's Value Chain Model Simulator")
+    st.write("Use the sliders in the sidebar to make decisions and see their impact on the value chain.")
 
+    render_sidebar()
+
+    total_impact = calculate_impact()
+
+    st.subheader("Decisions and Impact")
+    st.write("Primary Activities")
+    for activity in primary_activities:
+        st.write(f"- {activity}: {decisions[activity]}")
+    st.write("Support Activities")
+    for activity in support_activities:
+        st.write(f"- {activity}: {decisions[activity]}")
+    st.write(f"Total Impact: {total_impact}")
+
+# Run the app
 if __name__ == "__main__":
-    main()
+    render_content()
