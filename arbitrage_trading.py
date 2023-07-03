@@ -1,51 +1,24 @@
-import os
+import pandas as pd
 import streamlit as st
-from binance import Client
 
-api_key = st.secrets['BINANCE_TEST_API']
-api_secret = st.secrets['BINANCE_TEST_SECRET']
-
-client = Client(api_key, api_secret)
-
-def get_available_coins():
-    exchange_info = client.get_exchange_info()
-    symbols = exchange_info['symbols']
-    coins = set()
-
-    for symbol in symbols:
-        base_asset = symbol['baseAsset']
-        quote_asset = symbol['quoteAsset']
-        coins.add(base_asset)
-        coins.add(quote_asset)
-
-    return sorted(coins)
-
-def calculate_profit_margins(klines, price):
-    profit_margins = []
-
-    for kline in klines:
-        open_price = float(kline[1])
-        close_price = float(kline[4])
-        profit_margin = (close_price - open_price) / open_price * 100
-        profit_margins.append(profit_margin)
-
-    return profit_margins
+def calculate_arbitrage(df, base_coin, investment_coin):
+    filtered_df = df[(df.symbol.str.endswith(base_coin)) & (df.symbol.str.startswith(investment_coin))]
+    filtered_df['profit_margin'] = ((filtered_df.bidPrice - filtered_df.askPrice) / filtered_df.askPrice) * 100
+    sorted_df = filtered_df.sort_values(by='profit_margin', ascending=False)
+    return sorted_df
 
 def main():
     st.title('Binance Arbitrage Trading')
-    base_coin = st.selectbox('Select the base coin:', get_available_coins())
-    investment_coin = st.selectbox('Select the investment coin:', get_available_coins())
-    interval = st.selectbox('Select the interval:', ['15m', '30m', '1h', '4h', '1d', '3d', '1M', '1Y'])
+    df = pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
+    coins = df.symbol.str.extract(r'(\w+)(\w+)')
+    coins = coins[1].unique()
+    base_coin = st.selectbox('Select the base coin:', coins)
+    investment_coin = st.selectbox('Select the investment coin:', coins)
 
-    ticker = client.get_symbol_ticker(symbol=f"{base_coin}{investment_coin}")
-    price = float(ticker['price'])
+    sorted_df = calculate_arbitrage(df, base_coin, investment_coin)
 
-    klines = client.get_historical_klines(symbol=f"{base_coin}{investment_coin}", interval=interval)
-
-    profit_margins = calculate_profit_margins(klines, price)
-
-    st.write(f"Profit margins for {base_coin} to {investment_coin} using {interval} interval:")
-    st.write(profit_margins)
+    st.write(f"Profit margins for {base_coin} to {investment_coin}:")
+    st.dataframe(sorted_df[['symbol', 'profit_margin']])
 
 if __name__ == '__main__':
     main()
