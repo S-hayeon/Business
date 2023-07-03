@@ -1,33 +1,26 @@
 import requests
-import pandas as pd
 import streamlit as st
 
-def calculate_arbitrage(df, base_coin, investment_coin):
-    filtered_df = df[(df['FROMSYMBOL'] == base_coin) & (df['TOSYMBOL'] == investment_coin)]
-    filtered_df['profit_margin'] = ((filtered_df['BID'] - filtered_df['ASK']) / filtered_df['ASK']) * 100
-    sorted_df = filtered_df.sort_values(by='profit_margin', ascending=False)
-    return sorted_df
+def calculate_arbitrage(data, base_coin, investment_coin):
+    filtered_data = [item for item in data if item['symbol'].endswith(base_coin) and item['symbol'].startswith(investment_coin)]
+    for item in filtered_data:
+        item['profit_margin'] = ((float(item['bid_price']) - float(item['ask_price'])) / float(item['ask_price'])) * 100
+    sorted_data = sorted(filtered_data, key=lambda x: x['profit_margin'], reverse=True)
+    return sorted_data
 
 def main():
-    st.title('CryptoCompare Arbitrage Trading')
-    url = 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=*&tsyms=USD'
-    response = requests.get(url)
+    st.title('Binance Arbitrage Trading')
+    response = requests.get('https://api.coinmarketcap.com/v1/ticker/?limit=100')
     data = response.json()
-    
-    if 'RAW' in data:
-        raw_data = data['RAW']
-        df = pd.DataFrame.from_dict(raw_data).transpose()
-        
-        coins = df.index.tolist()
-        base_coin = st.selectbox('Select the base coin:', coins)
-        investment_coin = st.selectbox('Select the investment coin:', coins)
-        
-        sorted_df = calculate_arbitrage(df, base_coin, investment_coin)
-        
-        st.write(f"Profit margins for {base_coin} to {investment_coin}:")
-        st.dataframe(sorted_df[['MARKET', 'profit_margin']])
-    else:
-        st.write("Failed to retrieve data from CryptoCompare API")
+    coins = [item['symbol'] for item in data]
+    base_coin = st.selectbox('Select the base coin:', coins)
+    investment_coin = st.selectbox('Select the investment coin:', coins)
+
+    sorted_data = calculate_arbitrage(data, base_coin, investment_coin)
+
+    st.write(f"Profit margins for {base_coin} to {investment_coin}:")
+    for item in sorted_data:
+        st.write(f"Symbol: {item['symbol']}, Profit Margin: {item['profit_margin']}")
 
 if __name__ == '__main__':
     main()
