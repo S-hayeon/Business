@@ -2,8 +2,8 @@ import os
 import streamlit as st
 from binance import Client
 
-api_key = st.secrets('BINANCE_TEST_API')
-api_secret = st.secrets('BINANCE_TEST_SECRET')
+api_key = st.secrets['BINANCE_TEST_API']
+api_secret = st.secrets['BINANCE_TEST_SECRET']
 
 client = Client(api_key, api_secret)
 
