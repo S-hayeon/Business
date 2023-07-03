@@ -8,6 +8,7 @@ def fetch_data():
     url = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=10&sortBy=market_cap&sortType=desc&convert=USD,BTC,ETH&cryptoType=all&tagType=all&audited=false"
     response = requests.get(url)
     data = response.json()
+    print(data)  # Print the data to the console
     return data
 
 # Calculating the arbitrage
