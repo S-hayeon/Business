@@ -11,7 +11,18 @@ def calculate_arbitrage(data, base_coin, investment_coin):
 def main():
     st.title('Binance Arbitrage Trading')
     response = requests.get('https://api.coinmarketcap.com/v1/ticker/?limit=100')
-    data = response.json()
+
+    try:
+        response.raise_for_status()
+        data = response.json()
+    except requests.exceptions.HTTPError as e:
+        st.error(f"HTTP Error: {e}")
+        return
+    except requests.exceptions.JSONDecodeError:
+        st.error("Error decoding JSON response:")
+        st.text(response.content)
+        return
+
     coins = [item['symbol'] for item in data]
     base_coin = st.selectbox('Select the base coin:', coins)
     investment_coin = st.selectbox('Select the investment coin:', coins)
