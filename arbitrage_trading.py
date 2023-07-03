@@ -1,37 +1,36 @@
-import requests
 import streamlit as st
+import requests
+import pandas as pd
 
-def calculate_arbitrage(data, base_coin, investment_coin):
-    filtered_data = [item for item in data if item['symbol'].endswith(base_coin) and item['symbol'].startswith(investment_coin)]
-    for item in filtered_data:
-        item['profit_margin'] = ((float(item['bid_price']) - float(item['ask_price'])) / float(item['ask_price'])) * 100
-    sorted_data = sorted(filtered_data, key=lambda x: x['profit_margin'], reverse=True)
-    return sorted_data
+# Fetching the data
+def fetch_data(coin):
+    url = f"https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=10&sortBy=market_cap&sortType=desc&convert=USD,BTC,ETH&cryptoType=all&tagType=all&audited=false"
+    response = requests.get(url)
+    data = response.json()
+    return data
 
+# Calculating the arbitrage
+def calculate_arbitrage(base_coin, investment_coin, data):
+    # This is a placeholder. You'll need to implement the actual arbitrage calculation here.
+    return "Most profitable coin"
+
+# Streamlit application
 def main():
-    st.title('Binance Arbitrage Trading')
-    response = requests.get('https://api.coinmarketcap.com/v1/ticker/?limit=100')
+    st.title("CoinMarketCap Arbitrage Trading Application")
 
-    try:
-        response.raise_for_status()
-        data = response.json()
-    except requests.exceptions.HTTPError as e:
-        st.error(f"HTTP Error: {e}")
-        return
-    except requests.exceptions.JSONDecodeError:
-        st.error("Error decoding JSON response:")
-        st.text(response.content)
-        return
+    # Fetching the data
+    data = fetch_data('all')
 
-    coins = [item['symbol'] for item in data]
-    base_coin = st.selectbox('Select the base coin:', coins)
-    investment_coin = st.selectbox('Select the investment coin:', coins)
+    # Creating the dropdown menus
+    base_coin = st.selectbox("Select Base Coin", options=data['data']['cryptoCurrencyList'])
+    investment_coin = st.selectbox("Select Investment Coin", options=data['data']['cryptoCurrencyList'])
+    time_interval = st.selectbox("Select Time Interval", options=['15min', '30min', '1hr', '4hr', '1day', '3day', '1month', '1year'])
 
-    sorted_data = calculate_arbitrage(data, base_coin, investment_coin)
+    # Calculating the arbitrage
+    most_profitable_coin = calculate_arbitrage(base_coin, investment_coin, data)
 
-    st.write(f"Profit margins for {base_coin} to {investment_coin}:")
-    for item in sorted_data:
-        st.write(f"Symbol: {item['symbol']}, Profit Margin: {item['profit_margin']}")
+    # Displaying the results
+    st.write(f"The most profitable coin is: {most_profitable_coin}")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
