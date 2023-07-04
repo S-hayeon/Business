@@ -24,7 +24,8 @@ def calculate_arbitrage(base_coin, investment_coin):
 
     return arbitrage
 
-# Streamlit interfacedef main():
+# Streamlit interface
+def main():
     st.title('Crypto Arbitrage Trading App')
 
     # User inputs
