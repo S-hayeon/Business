@@ -13,6 +13,7 @@ def fetch_data():
 
 # Calculate arbitrage
 def calculate_arbitrage(base_coin, investment_coin):
+    pass
     # Fetch data for base and investment coins
     # base_data = fetch_data(base_coin)
     # investment_data = fetch_data(investment_coin)
