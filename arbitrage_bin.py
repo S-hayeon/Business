@@ -37,5 +37,5 @@ def calculate_arbitrage(base_coin, investment_coin):
     # Display results
     st.write(f'The arbitrage between {base_coin} and {investment_coin} is {arbitrage}')
 
-ifname == "__main__":
+if name == "__main__":
     main()
