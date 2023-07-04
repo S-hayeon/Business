@@ -7,7 +7,7 @@ def fetch_data():
     import requests
     headers = {
     'Content-Type': 'application/json' }
-    requestResponse = requests.get("https://api.tiingo.com/tiingo/crypto/prices?tickers=btc&startDate=2019-01-02&resampleFreq=5min&token=bc908ecf0174940b54fc0841864d52642a607604", headers=headers)
+    requestResponse = requests.get("https://api.tiingo.com/tiingo/crypto/prices?tickers=btcusdt&startDate=2019-01-02&resampleFreq=5min&token=bc908ecf0174940b54fc0841864d52642a607604", headers=headers)
     st.write(requestResponse.json())
     #return data
 
