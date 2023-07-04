@@ -9,7 +9,7 @@ def fetch_data():
     'Content-Type': 'application/json' }
     requestResponse = requests.get("https://api.tiingo.com/tiingo/crypto/prices?tickers=btcusd&startDate=2019-01-02&resampleFreq=5min&token=st.secrets['TIINGO_API']", headers=headers)
     st.write(requestResponse.json())
-    return data
+    #return data
 
 # Calculate arbitrage
 def calculate_arbitrage(base_coin, investment_coin):
