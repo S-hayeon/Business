@@ -20,7 +20,7 @@ def calculate_arbitrage(base_coin, investment_coin):
     investment_data = fetch_data(investment_coin)
 
     # Calculate arbitrage (this is a simplified example, you'll need to implement your own logic here)
-    arbitrage = investment_data[0]['price'] - base_data[0price']
+    arbitrage = investment_data[0]['price'] - base_data[0]['price']
 
     return arbitrage
 
