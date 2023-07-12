@@ -1,8 +1,8 @@
 "This the fundamental App"
 import streamlit as st
-from fx import main
+
 import sys
 sys.path.append('/app/business/fx')
-
+from fx import main
 
 st.write(main.message)
