@@ -2,4 +2,4 @@
 import streamlit as st
 from fx import main
 
-st.write("main.message)
+st.write(main.message)
