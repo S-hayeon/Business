@@ -2,7 +2,7 @@
 import streamlit as st
 from fx import main
 import sys
-sys.path.append('/app/business')
+sys.path.append('/app/business/fx')
 
 
 st.write(main.message)
