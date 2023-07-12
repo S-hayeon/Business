@@ -1,5 +1,5 @@
 "This the fundamental App"
 import streamlit as st
-import main
+from fx import main
 
 st.write("main.message)
