@@ -1,7 +1,9 @@
 class TechnicalAnalysis:
   def technicalIndicators(self):
     import numpy as np
-    import talib
+    import ta_py as ta
     c=np.random.randn(100)
-    k,b=talib.STOCHRSI(c)
-    return k,b
+    length1 = 3; # default = 12
+    length2 = 6; # default = 26
+    k=ta.macd(c, length1, length2)
+    return k
