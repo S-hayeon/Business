@@ -2,4 +2,4 @@ pandas
 python-binance
 requests
 streamlit
-TA-Lib
+ta-py
