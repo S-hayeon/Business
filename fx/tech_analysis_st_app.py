@@ -3,5 +3,6 @@ import sys
 #sys.path.append('/app/business/fx')
 sys.path.append('/app/business')
 from technical_analysis import TechnicalAnalysis
-results=TechnicalAnalysis.technicalIndicators()
+ta=TechnicalAnalysis()
+results=ta.technicalIndicators()
 st.write(results)
