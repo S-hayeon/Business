@@ -4,5 +4,5 @@ import sys
 sys.path.append('/app/business')
 from technical_analysis import TechnicalAnalysis
 ta=TechnicalAnalysis()
-results=ta.technicalIndicators()
+results=ta.technicalIndicators(None)
 st.write(results)
