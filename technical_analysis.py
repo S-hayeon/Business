@@ -1,4 +1,6 @@
 class TechnicalAnalysis:
+  def __init__(self):
+    pass
   def technicalIndicators(self):
     import numpy as np
     import ta_py as ta
