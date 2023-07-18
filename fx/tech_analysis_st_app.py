@@ -1,10 +1,10 @@
-from fx import main
-import numpy as np
-import streamlit as st
 import sys
 #from ta import trend
 #sys.path.append('/app/business/fx')
 sys.path.append('/app/business')
+from fx import main
+import numpy as np
+import streamlit as st
 from technical_analysis import TIndicators
 ta=TIndicators()
 results=ta.MACD()
