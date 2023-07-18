@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import ta_py as ta
 class TIndicators:
