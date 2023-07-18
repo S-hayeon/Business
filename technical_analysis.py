@@ -1,16 +1,16 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import ta_py as ta
 class TIndicators:
-  def __init__(self):
+  def __init__(self,data):
+    self.data=data
     pass
   def MACD(self):
-    c=np.random.randn(100)
+    #c=np.random.randn(100)
     length1 = 12; # default = 12
     length2 = 26; # default = 26
     length3= 9;
-    macd = ta.macd(c, length1, length2)
-    signal_line = ta.ema(c,length3)
+    macd = ta.macd(self.data, length1, length2)
+    signal_line = ta.ema(self.data,length3)
     plt.plot(macd, label='MACD Line')
     plt.plot(signal_line, label='Signal Line')
     plt.xlabel('Time')
