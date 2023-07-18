@@ -13,7 +13,7 @@ currencypair=st.selectbox("Select you investment currency pair: ",main.maj_forex
 #st.write(results)
 data = main.collect_forex_data(f"{currencypair}=X")
 ta=TIndicators(data['Open'])
-macd,signal=ta.MACD()
+results=ta.MACD()
 st.write(results)
 #st.write(data)
 st.write(f"Investment yako inabamba enyewe {currencypair}")
