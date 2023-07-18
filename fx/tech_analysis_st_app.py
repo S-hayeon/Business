@@ -12,7 +12,7 @@ from technical_analysis import TIndicators
 currencypair=st.selectbox("Select you investment currency pair: ",main.maj_forex_pairs)
 #st.write(results)
 data = main.collect_forex_data(f"{currencypair}=X")
-ta=TIndicators(data)
+ta=TIndicators(data['Open'])
 macd,signal=ta.MACD()
 st.write(results)
 #st.write(data)
