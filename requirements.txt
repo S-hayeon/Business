@@ -4,3 +4,4 @@ python-binance
 requests
 streamlit
 ta_py
+yfinance
