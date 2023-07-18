@@ -1,11 +1,26 @@
-class TechnicalAnalysis:
+import matplotlib.pyplot as plt
+import numpy as np
+import ta_py as ta
+class TIndicators:
   def __init__(self):
     pass
-  def technicalIndicators(self):
-    import numpy as np
-    import ta_py as ta
+  def MACD(self):
     c=np.random.randn(100)
-    length1 = 3; # default = 12
-    length2 = 6; # default = 26
-    k=ta.macd(c, length1, length2)
-    return k
+    length1 = 12; # default = 12
+    length2 = 26; # default = 26
+    macd = ta.macd(c, length1, length2)
+    signal_line = ta.macd_signal(c, length1, length2)
+    plt.plot(macd, label='MACD Line')
+    plt.plot(signal_line, label='Signal Line')
+    plt.xlabel('Time')
+    plt.ylabel('Value')
+    plt.title('MACD and Signal Line')
+    plt.legend()
+    plt.show()
+
+    # Check for crossovers between MACD and Signal Line
+    for i in range(1, len(macd)):
+      if macd[i] > signal_line[i] and macd[i - 1] <= signal_line[i - 1]:
+        print("MACD Line crossed above Signal Line at index", i)
+      elif macd[i] < signal_line[i] and macd[i - 1] >= signal_line[i - 1]:
+        print("MACD Line crossed below Signal Line at index", i)
