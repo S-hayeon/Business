@@ -8,8 +8,9 @@ class TIndicators:
     c=np.random.randn(100)
     length1 = 12; # default = 12
     length2 = 26; # default = 26
+    length3= 9;
     macd = ta.macd(c, length1, length2)
-    signal_line = ta.macd_signal(c, length1, length2)
+    signal_line = ta.ema(c,length3)
     plt.plot(macd, label='MACD Line')
     plt.plot(signal_line, label='Signal Line')
     plt.xlabel('Time')
