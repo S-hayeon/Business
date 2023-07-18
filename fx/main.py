@@ -23,3 +23,23 @@ countries = [
     'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan', 'Vanuatu',
     'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
 ]
+maj_forex_pairs = [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCHF",
+    "USDCAD",
+    "NZDUSD"
+]
+
+import pandas as pd
+import yfinance as yf
+def collect_forex_data(currency_pair):
+    # Create a ticker object for the currency pair
+    ticker = yf.Ticker(currency_pair)
+
+    # Fetch the data for the currency pair
+    data = ticker.history(period='1d')
+    df=pd.DataFrame(data)
+    return df
