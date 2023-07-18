@@ -36,11 +36,11 @@ intervals = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'm
 labels = ['1 Day', '5 Days', '1 Month', '3 Months', '6 Months','1 Year','2 Years','5 Years','10 Years','YTD','Max']
 import pandas as pd
 import yfinance as yf
-def collect_forex_data(currency_pair):
+def collect_forex_data(currency_pair,duration):
     # Create a ticker object for the currency pair
     ticker = yf.Ticker(currency_pair)
 
     # Fetch the data for the currency pair
-    data = ticker.history(period='1d')
+    data = ticker.history(period=duration)
     df=pd.DataFrame(data)
     return df
