@@ -25,3 +25,4 @@ class TIndicators:
         print("MACD Line crossed above Signal Line at index", i)
       elif macd[i] < signal_line[i] and macd[i - 1] >= signal_line[i - 1]:
         print("MACD Line crossed below Signal Line at index", i)
+    return macd,signal_line
