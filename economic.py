@@ -1,5 +1,5 @@
 import pandas as pd
-import worldbank as wb
+import world_bank_data
 class Economic:
   def __init__(self):
     pass
