@@ -4,9 +4,7 @@ sys.path.append('/app/business')
 from economic import Economic
 from fx import main
 
-if st.session_state["CurrencyPair"]=="":
-  st.write("Enter FX currency pair to proceed!!")
-else:
+try:
   def get_country_and_currency_from_pair(currency_pair):
     # Extract the first three characters as the first currency code and the last three as the second currency code
     currency1, currency2 = currency_pair[:3], currency_pair[-3:]
@@ -46,25 +44,35 @@ else:
     st.header(f"Currency 1: {currency1}")
     st.write("Interest Rates")
     st.bar_chart(data=interest1,x="Year",y="Value")
-    with st.expander("See the data"):
+    with st.expander(f"See {country1} Interest data"):
       st.dataframe(interest1.style.highlight_max(axis=0))
     st.write("Inflation Rates")
     st.bar_chart(data=inflation1,x="Year",y="Value")
-    with st.expander("See the data"):
+    with st.expander(f"See {country1} Inflation data"):
       st.dataframe(inflation1.style.highlight_max(axis=0))
   with col2:
     st.header(f"Currency 2: {currency2}")
     st.write("Interest Rates")
-    st.dataframe(interest2)
+    st.bar_chart(data=interest2,x="Year",y="Value")
+    with st.expander(f"See {country2} Interest data"):
+      st.dataframe(interest2)
     st.write("Inflation Rates")
-    st.dataframe(inflation2)
+    st.bar_chart(data=inflation1,x="Year",y="Value")
+    with st.expander(f"See {country2} Inflation data"):
+      st.dataframe(inflation2)
   if 'EUR' in st.session_state["CurrencyPair"]:
     for country in countries_with_eur:
-      st.write("Showing data for Europe")
-      st.write("Interest Rates")
+      st.write(f"{country} data which has EUR Currency")
+      st.write(f"{country} Interest Rates")
       interest=economic.interest(country)
-      st.dataframe(interest)
-      st.write("Inflation Rates")
+      st.bar_chart(data=interest,x="Year",y="Value")
+      with st.expander(f"See {country} Interest data"):
+        st.dataframe(interest)
+      st.write(f"{country} Inflation Rates")
       inflation=economic.inflation(country)
-      st.dataframe(inflation)
+      st.bar_chart(data=inflation,x="Year",y="Value")
+      with st.expander(f"See {country2} Inflation data"):
+        st.dataframe(inflation)
+except:
+   st.write("Enter your desired currency pair in main app to proceed!!")
 
