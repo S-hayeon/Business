@@ -61,7 +61,7 @@ country_currencyPair={
     'Tanzania': 'TZS', 'Thailand': 'THB', 'Togo': 'XOF', 'Tonga': 'TOP', 'Trinidad and Tobago': 'TTD', 
     'Tunisia': 'TND', 'Turkey': 'TRY', 'Turkmenistan': 'TMT', 'Tuvalu': 'AUD', 'Uganda': 'UGX', 
     'Ukraine': 'UAH', 'United Arab Emirates': 'AED', 'United Kingdom': 'GBP', 
-    'United States of America': 'USD', 'Uruguay': 'UYU', 'Uzbekistan': 'UZS', 'Vanuatu': 'VUV', 
+    'United States': 'USD', 'Uruguay': 'UYU', 'Uzbekistan': 'UZS', 'Vanuatu': 'VUV', 
     'Vatican City': 'EUR', 'Venezuela': 'VES', 'Vietnam': 'VND', 'Yemen': 'YER', 'Zambia': 'ZMW', 
     'Zimbabwe': 'ZWL'
 }
