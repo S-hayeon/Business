@@ -1,6 +1,8 @@
 import pandas as pd
 import worldbank as wb
 class Economic:
+  def __init__(self):
+    pass
   def interest(self,Country):
     #Appproach 1: FRED Daily Latest data https://fred.stlouisfed.org/series/REAINTRATREARAT1YE
     #Appproach 2:Indicator: FR.INR.RINR
