@@ -9,7 +9,10 @@ import streamlit as st
 from technical_analysis import TIndicators
 #c=np.random.randn(100)
 #macd=trend.MACD(close=c,window_slow=26,window_fast=12,window_sign=9)
+if "CurrencyPair" not in st.session_state:
+  st.sesssion_state["CurrencyPair"]=""
 currencypair=st.selectbox("Select you investment currency pair: ",main.maj_forex_pairs)
+st.sesssion_state["CurrencyPair"]=currencypair
 #st.write(results)
 #selected_interval = st.slider('Select an interval:', 0, len(main.intervals)-1, format_func=lambda i: main.labels[i])
 
