@@ -18,7 +18,6 @@ class Economic:
     interestDF = df[df['Country'] == str(Country)]
     # Reset the index to remove the existing index and create a new default integer index
     interestDF = interestDF.reset_index(drop=True)
-    interestDF = series[series['Country'] == str(Country)]
     return interestDF
   def inflation(self,Country):
     #Indicator: FP.CPI.TOTL.ZG 
@@ -33,7 +32,6 @@ class Economic:
     inflationDF = df[df['Country'] == str(Country)]
     # Reset the index to remove the existing index and create a new default integer index
     inflationDF=interestDF.reset_index(drop=True)
-    inflationDF=series[series['Country'] == str(Country)]
     return inflationDF
       
       
