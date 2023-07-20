@@ -3,7 +3,7 @@ from fx import main
 import streamlit as st
 import sys
 sys.path.append('/app/business')
-if st.sesssion_state["CurrencyPair"]=="":
+if st.session_state["CurrencyPair"]=="":
   st.write("Enter FX currency pair to proceed!!")
 else:
   def get_country_and_currency_from_pair(currency_pair):
@@ -32,13 +32,13 @@ else:
                 countries_with_eur.append(country)
 
     return country1, currency1, country2, currency2, countries_with_eur
-  country1, currency1, country2, currency2, countries_with_eur = get_country_and_currency_from_pair(st.sesssion_state["CurrencyPair"])
+  country1, currency1, country2, currency2, countries_with_eur = get_country_and_currency_from_pair(st.session_state["CurrencyPair"])
   economic=Economic()
   st.write(interest=economic.interest(country1))
   st.write(inflation=economic.inflation(country1))
   st.write(interest=economic.interest(country2))
   st.write(inflation=economic.inflation(country2))
-  if 'EUR' in st.sesssion_state["CurrencyPair"]:
+  if 'EUR' in st.session_state["CurrencyPair"]:
     for country in countries_with_eur:
       st.write(interest=economic.interest(country))
       st.write(inflation=economic.inflation(country1))
