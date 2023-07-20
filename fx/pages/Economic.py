@@ -35,12 +35,32 @@ else:
     return country1, currency1, country2, currency2, countries_with_eur
   country1, currency1, country2, currency2, countries_with_eur = get_country_and_currency_from_pair(st.session_state["CurrencyPair"])
   economic=Economic()
-  st.write(interest=economic.interest(country1))
-  st.write(inflation=economic.inflation(country1))
-  st.write(interest=economic.interest(country2))
-  st.write(inflation=economic.inflation(country2))
+  interest1=economic.interest(country1)
+  inflation1=economic.inflation(country1)
+  interest2=economic.interest(country2)
+  inflation2=economic.inflation(country2)
+  # Use st.beta_columns to create two columns for displaying DataFrames side by side
+  col1, col2 = st.columns(2)
+  # Display the DataFrames in each column
+  with col1:
+    st.header(f"Currency 1: {currency1}")
+    st.write("Interest Rates")
+    st.dataframe(interest1)
+    st.write("Inflation Rates")
+    st.dataframe(inflation1)
+  with col2:
+    st.header(f"Currency 2: {currency2}")
+    st.write("Interest Rates")
+    st.dataframe(interest2)
+    st.write("Inflation Rates")
+    st.dataframe(inflation2)
   if 'EUR' in st.session_state["CurrencyPair"]:
     for country in countries_with_eur:
-      st.write(interest=economic.interest(country))
-      st.write(inflation=economic.inflation(country1))
+      st.write("Showing data for Europe")
+      st.write("Interest Rates")
+      interest=economic.interest(country)
+      st.dataframe(interest)
+      st.write("Inflation Rates")
+      inflation=economic.inflation(country)
+      st.dataframe(inflation)
 
