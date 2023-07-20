@@ -45,9 +45,13 @@ else:
   with col1:
     st.header(f"Currency 1: {currency1}")
     st.write("Interest Rates")
-    st.dataframe(interest1)
+    st.bar_chart(data=interest1,x="Year",y="Value")
+    with st.expander("See the data"):
+      st.dataframe(interest1.style.highlight_max(axis=0))
     st.write("Inflation Rates")
-    st.dataframe(inflation1)
+    st.bar_chart(data=inflation1,x="Year",y="Value")
+    with st.expander("See the data"):
+      st.dataframe(inflation1.style.highlight_max(axis=0))
   with col2:
     st.header(f"Currency 2: {currency2}")
     st.write("Interest Rates")
