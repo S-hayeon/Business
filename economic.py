@@ -18,6 +18,10 @@ class Economic:
     interestDF = df[df['Country'] == str(Country)]
     # Reset the index to remove the existing index and create a new default integer index
     interestDF = interestDF.reset_index(drop=True)
+    # Drop the "Series" column from interestDF
+    interestDF = interestDF.drop(columns='Series')
+    # Sort the DataFrame in descending order based on the "Year" column
+    interestDF = interestDF.sort_values(by='Year', ascending=False)
     return interestDF
   def inflation(self,Country):
     #Indicator: FP.CPI.TOTL.ZG 
@@ -32,6 +36,10 @@ class Economic:
     inflationDF = df[df['Country'] == str(Country)]
     # Reset the index to remove the existing index and create a new default integer index
     inflationDF=inflationDF.reset_index(drop=True)
+    # Drop the "Series" column from inflationDF
+    inflationDF = inflationDF.drop(columns='Series')
+    # Sort the DataFrame in descending order based on the "Year" column
+    inflationDF = inflationDF.sort_values(by='Year', ascending=False)
     return inflationDF
       
       
