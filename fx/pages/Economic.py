@@ -13,14 +13,14 @@ else:
 
     # Search for the country corresponding to currency1 in the dictionary
     country1 = None
-    for country, code in main.country_currency_pair.items():
+    for country, code in main.country_currencyPair.items():
         if code == currency1:
             country1 = country
             break
 
     # Search for the country corresponding to currency2 in the dictionary
     country2 = None
-    for country, code in main.country_currency_pair.items():
+    for country, code in main.country_currencyPair.items():
         if code == currency2:
             country2 = country
             break
@@ -28,7 +28,7 @@ else:
     # Check if the currency pair contains 'EUR' and store the associated countries in a list
     countries_with_eur = []
     if 'EUR' in currency_pair:
-        for country, code in main.country_currency_pair.items():
+        for country, code in main.country_currencyPair.items():
             if code == 'EUR':
                 countries_with_eur.append(country)
 
