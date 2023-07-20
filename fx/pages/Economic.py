@@ -1,8 +1,9 @@
-from economic import Economic
-from fx import main
 import streamlit as st
 import sys
 sys.path.append('/app/business')
+from economic import Economic
+from fx import main
+
 if st.session_state["CurrencyPair"]=="":
   st.write("Enter FX currency pair to proceed!!")
 else:
