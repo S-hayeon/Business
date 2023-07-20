@@ -57,7 +57,7 @@ try:
     with st.expander(f"See {country2} Interest data"):
       st.dataframe(interest2)
     st.write("Inflation Rates")
-    st.bar_chart(data=inflation1,x="Year",y="Value")
+    st.bar_chart(data=inflation2,x="Year",y="Value")
     with st.expander(f"See {country2} Inflation data"):
       st.dataframe(inflation2)
   if 'EUR' in st.session_state["CurrencyPair"]:
