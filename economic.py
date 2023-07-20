@@ -31,7 +31,7 @@ class Economic:
     # Filter the DataFrame based on the specified country
     inflationDF = df[df['Country'] == str(Country)]
     # Reset the index to remove the existing index and create a new default integer index
-    inflationDF=interestDF.reset_index(drop=True)
+    inflationDF=inflationDF.reset_index(drop=True)
     return inflationDF
       
       
