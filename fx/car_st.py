@@ -39,7 +39,7 @@ def main():
     st.write(f"Slip Angle: {np.degrees(slip_angle):.2f} degrees")
 
     # Plot the car's trajectory with car icon
-    plt.figure(figsize=(8, 6))
+    fig=plt.figure(figsize=(8, 6))
     plt.plot([0, L * np.cos(np.radians(beta))], [0, L * np.sin(np.radians(beta))], "r-", label="Car's Trajectory")
     plot_car_icon(L * np.cos(np.radians(beta)), L * np.sin(np.radians(beta)), np.radians(beta))
     plt.xlim(-L, L)
@@ -49,7 +49,7 @@ def main():
     plt.gca().set_aspect("equal", adjustable="box")
     plt.legend()
     plt.title("Car's Trajectory on the Race Track")
-    st.pyplot()
+    st.pyplot(fig)
 
 if __name__ == "__main__":
     main()
