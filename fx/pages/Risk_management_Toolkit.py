@@ -29,8 +29,8 @@ def main():
         for date, currency_pair, strategy_used, risk_to_reward_ratio in zip(
             trade_dates, currency_pairs, strategy_useds, risk_to_reward_ratios
         ):
-            trade_data = add_trade(trade_data, date, currency_pair.strip(), strategy_used.strip(),
-                                   risk_to_reward_ratio, risk_per_trades, risk_tolerances)
+            add_trade(trade_data, date, currency_pair.strip(), strategy_used.strip(),
+                      risk_to_reward_ratio, risk_per_trades, risk_tolerances)
         st.success("Trade(s) added successfully!")
 
     # Calculate and display risk per trade and maximum exposure
@@ -58,13 +58,18 @@ def main():
     st.header("Equity Drawdown")
     st.write(f"Equity Drawdown: {equity_drawdown:.2f}%")
 
-    # Export the trade dataframe to an Excel file
-    if st.button("Export Trades"):
-        export_to_excel(trade_data)
-        st.success("Trades exported to 'trades_data.xlsx'")
+    # Import trades from an Excel file
+    import_file = st.file_uploader("Import Trade Data (Excel)", type=["xlsx"])
+    if import_file is not None:
+        trade_data = pd.read_excel(import_file)
+        st.success("Data successfully imported")
 
+    # Export the trade dataframe to an Excel file
+    df=export_to_excel(trade_data)
     # Provide a download link for the Excel file
-    st.download_button("Download Trades Data", data=trade_data.to_csv(index=False), file_name="trades_data.csv", mime="text/csv")
+    st.download_button("Download Trades Data", data=df, file_name="trades_data.xlsx", mime="text/xlsx")
+    #st.download_button("Download Trades Data", data=trade_data.to_csv(index=False), file_name="trades_data.csv", mime="text/csv")
+    st.success("Trades exported to 'trades_data.xlsx'")
 
 def load_trade_data():
     try:
@@ -73,6 +78,7 @@ def load_trade_data():
         trade_data = pd.DataFrame(columns=["Date", "Currency Pair", "Strategy", "Risk to Reward Ratio",
                                            "Risk per Trade", "Risk Tolerance", "Win"])
     return trade_data
+
 def add_trade(trade_data, date, currency_pair, strategy, risk_to_reward_ratio, risk_per_trade, risk_tolerance):
     win = st.radio("Trade Result", ["Win", "Loss"])
     new_trade = {
@@ -86,7 +92,6 @@ def add_trade(trade_data, date, currency_pair, strategy, risk_to_reward_ratio, r
     }
     trade_data.loc[len(trade_data)] = new_trade
     return trade_data
-
 
 def calculate_total_risk_capital(trade_data):
     return trade_data["Risk per Trade"].sum()
@@ -109,7 +114,8 @@ def calculate_equity_drawdown(trade_data, total_risk_capital):
     return equity_drawdown
 
 def export_to_excel(trade_data):
-    trade_data.to_excel("trades_data.xlsx", index=False)
+    df=trade_data.to_excel("trades_data.xlsx", index=False)
+    return df
 
 if __name__ == "__main__":
     main()
