@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import base64
+from datetime import timedelta
 
 def main():
     st.title("Forex Risk Management Application")
@@ -66,10 +67,10 @@ def main():
 
     # Provide a download link for the Excel file
     if not trade_data.empty:
-        export_to_excel(trade_data)
+        export_to_excel(trade_data) # Export the trade dataframe to an Excel file
         csv = trade_data.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()  # Convert DataFrame to base64
-        href = f'<a href="data:file/csv;base64,{b64}" download="trades_data.xlsx">Download Trades Data</a>'
+        href = f'<a href="data:file/csv;base64,{b64}" download="trades_data.csv">Download Trades Data</a>'
         st.markdown(href, unsafe_allow_html=True)
         st.success("Trades exported to 'trades_data.xlsx'")
 
