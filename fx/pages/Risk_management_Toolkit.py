@@ -9,28 +9,31 @@ def main():
 
     # User inputs for a new trade
     st.header("Enter New Trade")
-    trade_date = st.date_input("Date")
-    currency_pair = st.text_input("Currency Pair (e.g., EUR/USD)")
-    strategy_used = st.text_input("Strategy Used")
-    risk_to_reward_ratio = st.slider("Risk to Reward Ratio", min_value=1, max_value=5, value=2)
-    risk_per_trade = st.number_input("Risk per Trade (%)", min_value=0.1, max_value=5.0, value=2.0, step=0.1)
-    risk_tolerance = st.radio("Risk Tolerance", ["Low", "Medium", "High"])
+    trade_dates = st.date_input("Date", [], key="dates")
+    currency_pairs = st.text_input("Currency Pair (e.g., EUR/USD)", "", key="currency_pairs")
+    strategy_useds = st.text_input("Strategy Used", "", key="strategies")
+    risk_to_reward_ratios = st.slider("Risk to Reward Ratio", min_value=1, max_value=5, value=2, key="rr_ratios")
+    risk_per_trades = st.number_input("Risk per Trade (%)", min_value=0.1, max_value=5.0, value=2.0, step=0.1, key="risk_per_trade")
+    risk_tolerances = st.radio("Risk Tolerance", ["Low", "Medium", "High"], key="risk_tolerance")
 
     if st.button("Add Trade"):
-        # Add the new trade to the dataframe
-        trade_data = add_trade(trade_data, trade_date, currency_pair, strategy_used, risk_to_reward_ratio,
-                               risk_per_trade, risk_tolerance)
-        st.success("Trade added successfully!")
+        # Add the new trade(s) to the dataframe
+        for date, currency_pair, strategy_used, risk_to_reward_ratio in zip(
+            trade_dates, currency_pairs.split(","), strategy_useds.split(","), risk_to_reward_ratios
+        ):
+            trade_data = add_trade(trade_data, date, currency_pair.strip(), strategy_used.strip(),
+                                   risk_to_reward_ratio, risk_per_trades, risk_tolerances)
+        st.success("Trade(s) added successfully!")
 
     # Calculate and display risk per trade and maximum exposure
     total_risk_capital = calculate_total_risk_capital(trade_data)
-    risk_per_trade = (total_risk_capital * risk_per_trade) / 100
+    risk_per_trade = (total_risk_capital * risk_per_trades) / 100
     maximum_exposure = risk_per_trade * total_risk_capital / 100
 
     st.header("Risk Management")
     st.write(f"Risk per Trade: {risk_per_trade:.2f} USD")
     st.write(f"Maximum Exposure: {maximum_exposure:.2f} USD")
-    st.write(f"Risk Tolerance: {risk_tolerance}")
+    st.write(f"Risk Tolerance: {risk_tolerances}")
 
     # Calculate and display the count of trades and win-rate
     total_trades = len(trade_data)
@@ -88,6 +91,11 @@ def calculate_equity_drawdown(trade_data, total_risk_capital):
         else:
             equity -= trade["Risk per Trade"]
         max_equity = max(max_equity, equity)
+
+    # Avoid division by zero
+    if max_equity == 0:
+        return 0
+
     equity_drawdown = ((max_equity - equity) / max_equity) * 100
     return equity_drawdown
 
