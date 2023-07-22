@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import base64
-from datetime import timedelta
 
 def main():
     st.title("Forex Risk Management Application")
@@ -35,6 +34,9 @@ def main():
                       risk_to_reward_ratio, risk_per_trades, risk_tolerances)
         st.success("Trade(s) added successfully!")
 
+    # Convert the "Date" column to datetime format
+    trade_data["Date"] = pd.to_datetime(trade_data["Date"], errors="coerce")
+
     # Calculate and display risk per trade and maximum exposure
     total_risk_capital = calculate_total_risk_capital(trade_data)
     risk_per_trade = (total_risk_capital * risk_per_trades) / 100
@@ -60,19 +62,19 @@ def main():
     st.header("Equity Drawdown")
     st.write(f"Equity Drawdown: {equity_drawdown:.2f}%")
 
-     # Import trades from an Excel file
+    # Import trades from an Excel file
     import_file = st.file_uploader("Import Trade Data (Excel)", type=["xlsx"])
     if import_file is not None:
         try:
             trade_data = pd.read_excel(import_file, engine='openpyxl')
+            # Convert the "Date" column to datetime format
+            trade_data["Date"] = pd.to_datetime(trade_data["Date"], errors="coerce")
             st.success("Trades imported successfully!")
         except Exception as e:
             st.error(f"Error importing trades: {e}")
 
     # Provide a download link for the Excel file
     if not trade_data.empty:
-        # Convert Date column to a string representation
-        trade_data["Date"] = trade_data["Date"].dt.strftime("%Y-%m-%d")
         export_to_excel(trade_data) # Export the trade dataframe to an Excel file
         csv = trade_data.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()  # Convert DataFrame to base64
@@ -82,7 +84,7 @@ def main():
 
 def load_trade_data():
     try:
-        trade_data = pd.read_excel("trades_data.xlsx")
+        trade_data = pd.read_excel("trades_data.xlsx", engine='openpyxl')
     except FileNotFoundError:
         trade_data = pd.DataFrame(columns=["Date", "Currency Pair", "Strategy", "Risk to Reward Ratio",
                                            "Risk per Trade", "Risk Tolerance", "Win"])
