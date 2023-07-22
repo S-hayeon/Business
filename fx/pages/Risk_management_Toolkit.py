@@ -67,6 +67,8 @@ def main():
 
     # Provide a download link for the Excel file
     if not trade_data.empty:
+        # Convert Date column to a string representation
+        trade_data["Date"] = trade_data["Date"].dt.strftime("%Y-%m-%d")
         export_to_excel(trade_data) # Export the trade dataframe to an Excel file
         csv = trade_data.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()  # Convert DataFrame to base64
