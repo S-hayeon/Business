@@ -22,6 +22,9 @@ def main():
         currency_pairs = currency_pairs.split(",")
         strategy_useds = strategy_useds.split(",")
 
+        # Convert risk_to_reward_ratios to a list
+        risk_to_reward_ratios = [risk_to_reward_ratios] * len(trade_dates)
+
         # Add the new trade(s) to the dataframe
         for date, currency_pair, strategy_used, risk_to_reward_ratio in zip(
             trade_dates, currency_pairs, strategy_useds, risk_to_reward_ratios
