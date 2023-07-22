@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import base64
 
 def main():
     st.title("Forex Risk Management Application")
@@ -62,14 +63,21 @@ def main():
     import_file = st.file_uploader("Import Trade Data (Excel)", type=["xlsx"])
     if import_file is not None:
         trade_data = pd.read_excel(import_file)
-        st.success("Data successfully imported")
 
     # Export the trade dataframe to an Excel file
-    df=export_to_excel(trade_data)
+    if st.button("Export Trades"):
+        if not trade_data.empty:
+            export_to_excel(trade_data)
+            st.success("Trades exported to 'trades_data.xlsx'")
+        else:
+            st.warning("Trade data is empty. Please add trades before exporting.")
+
     # Provide a download link for the Excel file
-    st.download_button("Download Trades Data", data=df, file_name="trades_data.xlsx", mime="text/xlsx")
-    #st.download_button("Download Trades Data", data=trade_data.to_csv(index=False), file_name="trades_data.csv", mime="text/csv")
-    st.success("Trades exported to 'trades_data.xlsx'")
+    if not trade_data.empty:
+        csv = trade_data.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()  # Convert DataFrame to base64
+        href = f'<a href="data:file/csv;base64,{b64}" download="trades_data.csv">Download Trades Data</a>'
+        st.markdown(href, unsafe_allow_html=True)
 
 def load_trade_data():
     try:
@@ -91,7 +99,6 @@ def add_trade(trade_data, date, currency_pair, strategy, risk_to_reward_ratio, r
         "Win": win == "Win"
     }
     trade_data.loc[len(trade_data)] = new_trade
-    return trade_data
 
 def calculate_total_risk_capital(trade_data):
     return trade_data["Risk per Trade"].sum()
@@ -114,8 +121,7 @@ def calculate_equity_drawdown(trade_data, total_risk_capital):
     return equity_drawdown
 
 def export_to_excel(trade_data):
-    df=trade_data.to_excel("trades_data.xlsx", index=False)
-    return df
+    trade_data.to_excel("trades_data.xlsx", index=False)
 
 if __name__ == "__main__":
     main()
