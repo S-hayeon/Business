@@ -81,8 +81,8 @@ def main():
                 # Read the Excel file without unzipping
                 bytes_data = import_file.read()
                 trade_data = pd.read_excel(io.BytesIO(bytes_data), engine='openpyxl')
-             except Exception as e:
-                 st.error(f"Error importing trades: {e}")
+            except Exception as e:
+                st.error(f"Error importing trades: {e}")
 
     # Provide a download link for the Excel file
     if not trade_data.empty:
