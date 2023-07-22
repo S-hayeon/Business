@@ -66,6 +66,10 @@ def main():
     import_file = st.file_uploader("Import Trade Data (Excel)", type=["xlsx"])
     if import_file is not None:
         try:
+            extension = import_file.name.split(".")[-1]
+            if extension.lower() not in ["xlsx", "xls"]:
+                raise ValueError("Invalid file format. Please upload an Excel file.")
+            
             trade_data = pd.read_excel(import_file, engine='openpyxl')
             # Convert the "Date" column to datetime format
             trade_data["Date"] = pd.to_datetime(trade_data["Date"], errors="coerce")
@@ -78,7 +82,7 @@ def main():
         export_to_excel(trade_data) # Export the trade dataframe to an Excel file
         csv = trade_data.to_csv(index=False)
         b64 = base64.b64encode(csv.encode()).decode()  # Convert DataFrame to base64
-        href = f'<a href="data:file/csv;base64,{b64}" download="trades_data.csv">Download Trades Data</a>'
+        href = f'<a href="data:file/csv;base64,{b64}" download="trades_data.xlsx">Download Trades Data</a>'
         st.markdown(href, unsafe_allow_html=True)
         st.success("Trades exported to 'trades_data.xlsx'")
 
