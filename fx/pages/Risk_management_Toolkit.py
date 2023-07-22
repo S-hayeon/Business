@@ -60,10 +60,14 @@ def main():
     st.header("Equity Drawdown")
     st.write(f"Equity Drawdown: {equity_drawdown:.2f}%")
 
-    # Import trades from an Excel file
-    import_file = st.file_uploader("Import Trade Data (Excel)",engine='openpyxl')
+     # Import trades from an Excel file
+    import_file = st.file_uploader("Import Trade Data (Excel)", type=["xlsx"])
     if import_file is not None:
-        trade_data = pd.read_excel(import_file)
+        try:
+            trade_data = pd.read_excel(import_file, engine='openpyxl')
+            st.success("Trades imported successfully!")
+        except Exception as e:
+            st.error(f"Error importing trades: {e}")
 
     # Provide a download link for the Excel file
     if not trade_data.empty:
