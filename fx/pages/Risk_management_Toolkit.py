@@ -73,10 +73,9 @@ def load_trade_data():
         trade_data = pd.DataFrame(columns=["Date", "Currency Pair", "Strategy", "Risk to Reward Ratio",
                                            "Risk per Trade", "Risk Tolerance", "Win"])
     return trade_data
-
 def add_trade(trade_data, date, currency_pair, strategy, risk_to_reward_ratio, risk_per_trade, risk_tolerance):
     win = st.radio("Trade Result", ["Win", "Loss"])
-    trade_data = trade_data.append({
+    new_trade = {
         "Date": date,
         "Currency Pair": currency_pair,
         "Strategy": strategy,
@@ -84,8 +83,10 @@ def add_trade(trade_data, date, currency_pair, strategy, risk_to_reward_ratio, r
         "Risk per Trade": risk_per_trade,
         "Risk Tolerance": risk_tolerance,
         "Win": win == "Win"
-    }, ignore_index=True)
+    }
+    trade_data.loc[len(trade_data)] = new_trade
     return trade_data
+
 
 def calculate_total_risk_capital(trade_data):
     return trade_data["Risk per Trade"].sum()
