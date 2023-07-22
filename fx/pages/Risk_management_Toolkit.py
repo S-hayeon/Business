@@ -71,7 +71,7 @@ def main():
             extension = import_file.name.split(".")[-1]
             if extension.lower() not in ["xlsx", "xls"]:
                 raise ValueError("Invalid file format. Please upload an Excel file.")
-            
+            st.write(f" UmeUpload hii {import_file}")
             trade_data = pd.read_excel(import_file)
             #trade_data = pd.read_excel(import_file, engine='openpyxl')
             # Convert the "Date" column to datetime format
