@@ -61,7 +61,7 @@ def main():
     st.write(f"Equity Drawdown: {equity_drawdown:.2f}%")
 
     # Import trades from an Excel file
-    import_file = st.file_uploader("Import Trade Data (Excel)", type=["xlsx"],engine='openpyxl')
+    import_file = st.file_uploader("Import Trade Data (Excel)",engine='openpyxl')
     if import_file is not None:
         trade_data = pd.read_excel(import_file)
 
