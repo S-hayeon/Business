@@ -17,9 +17,14 @@ def main():
     risk_tolerances = st.radio("Risk Tolerance", ["Low", "Medium", "High"], key="risk_tolerance")
 
     if st.button("Add Trade"):
+        # Convert the multi-select inputs to lists
+        trade_dates = list(trade_dates) if isinstance(trade_dates, tuple) else [trade_dates]
+        currency_pairs = currency_pairs.split(",")
+        strategy_useds = strategy_useds.split(",")
+
         # Add the new trade(s) to the dataframe
         for date, currency_pair, strategy_used, risk_to_reward_ratio in zip(
-            trade_dates, currency_pairs.split(","), strategy_useds.split(","), risk_to_reward_ratios
+            trade_dates, currency_pairs, strategy_useds, risk_to_reward_ratios
         ):
             trade_data = add_trade(trade_data, date, currency_pair.strip(), strategy_used.strip(),
                                    risk_to_reward_ratio, risk_per_trades, risk_tolerances)
