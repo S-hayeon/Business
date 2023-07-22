@@ -72,7 +72,8 @@ def main():
             if extension.lower() not in ["xlsx", "xls"]:
                 raise ValueError("Invalid file format. Please upload an Excel file.")
             
-            trade_data = pd.read_excel(import_file, engine='openpyxl')
+            trade_data = pd.read_excel(import_file)
+            #trade_data = pd.read_excel(import_file, engine='openpyxl')
             # Convert the "Date" column to datetime format
             trade_data["Date"] = pd.to_datetime(trade_data["Date"], errors="coerce")
             st.success("Trades imported successfully!")
