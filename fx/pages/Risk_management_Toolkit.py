@@ -74,8 +74,13 @@ def main():
             # Convert the "Date" column to datetime format
             trade_data["Date"] = pd.to_datetime(trade_data["Date"], errors="coerce")
             st.success("Trades imported successfully!")
-        except Exception as e:
-            st.error(f"Error importing trades: {e}")
+        except:
+            try:
+                # Read the Excel file without unzipping
+                bytes_data = import_file.read()
+                trade_data = pd.read_excel(io.BytesIO(bytes_data), engine='openpyxl')
+             except Exception as e:
+                 st.error(f"Error importing trades: {e}")
 
     # Provide a download link for the Excel file
     if not trade_data.empty:
