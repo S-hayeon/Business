@@ -78,6 +78,7 @@ if st.session_state['CurrencyPair'] == '' or st.session_state['CurrencyPair'] is
 else:
     st.write(f"Your selected coin pair for analysis is {st.session_state['CurrencyPair']}")
 
-if df is not None:
-    st.write("Data exported!!")
-    st.dataframe(df)
+if st.button('Visualize Data'):
+    if df is not None:
+        st.write("Data exported!!")
+        st.dataframe(df)
