@@ -71,8 +71,7 @@ if start_date is not None and end_date is not None:
     start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
     end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
     df = get_historical_data(symbol, interval, start_time, end_time)
-    print("Dates ziko sawa")
-    st.write("Dates ziko sawa")
+    st.write(f"The start time: {start_time}")
 
 if st.session_state['CurrencyPair'] == '' or st.session_state['CurrencyPair'] is None:
     st.error("Select coin(s) to proceed!!")
