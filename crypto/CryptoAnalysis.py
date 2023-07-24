@@ -16,7 +16,7 @@ def coin_token_selection():
   # First dropdown for selecting the Token key
   token_selected_key = st.selectbox("Select your Token Category:", [format_key(key) for key in main.crypto_tokens.keys()])
   # Convert the formatted key back to the original key with underscores
-  token_original_key = "_".join(word.lower() for word in coin_selected_key.split())
+  token_original_key = "_".join(word.lower() for word in token_selected_key.split())
   # Second dropdown showing values based on the selected key
   token_selected_value = st.selectbox("Select a Token currency:", main.crypto_tokens[coin_original_key])
   st.write(" Coin Selected Key:", token_original_key)
