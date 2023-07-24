@@ -61,6 +61,7 @@ interval = st.selectbox("Select an interval", intervals) #interval = '1h' select
 #limit = 1000           # The number of data points to retrieve (max 1000)
 start_date = st.date_input("Select the start date:")
 print(f"The start date: {start_date}")
+st.write("The start date: {start_date}")
 end_date = st.date_input("Select the end date:")
 #historical_data = get_historical_data(symbol, interval, limit, start_time, end_time)
 if start_date is not None and end_date is not None:
@@ -71,6 +72,7 @@ if start_date is not None and end_date is not None:
   end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
   df = get_historical_data(symbol, interval, start_time, end_time)
   print("Dates ziko sawa")
+  st.write("Dates ziko sawa")
 # Convert the data into a pandas DataFrame
 #df = pd.DataFrame(historical_data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
 # Drop the unnecessary columns
