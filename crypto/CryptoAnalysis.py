@@ -78,5 +78,4 @@ if st.session_state['CurrencyPair']=='' or st.session_state['CurrencyPair']==Non
   st.error("Select coin(s) to proceed!!")
 else:
   st.write(f"Your selected coin pair for analysis is {st.session_state['CurrencyPair']}")
-if df is not None:
-  st.dataframe(df)
+st.dataframe(df)
