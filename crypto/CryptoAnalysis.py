@@ -68,6 +68,7 @@ end_date = st.date_input("Select the end date:")
 if start_date is not None and end_date is not None:
   # Convert start_date and end_date to datetime.datetime objects
   start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
+  print("Start date: ".format(start_date))
   end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
   start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
   end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
