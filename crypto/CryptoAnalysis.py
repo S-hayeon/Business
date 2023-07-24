@@ -48,10 +48,14 @@ def get_historical_data(symbol, interval, start_time, end_time):
     if not data:
         st.warning("No data available for the selected duration.")
         return None
-    df = pd.DataFrame(data, columns=["Time Stamp", "Open", "High", "Low", "Close", "Volume", "close_time", "quote_asset_volume", "number_of_trades", "taker_buy_base_asset_volume", "taker_buy_quote_asset_volume", "ignore"])
-    df["Time Stamp"] = pd.to_datetime(df["Time Stamp"], unit="ms")
+    # Convert the data into a pandas DataFrame
+    df = pd.DataFrame(historical_data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+    # Drop the unnecessary columns
+    df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+    # Convert the timestamp from milliseconds to a datetime object
+    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
     # Convert OHLCV values to numeric data types
-    df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
+    df[['open', 'high', 'low', 'close', 'volume']] = df[['open', 'high', 'low', 'close', 'volume']].apply(pd.to_numeric)
     return df
 
 # Example usage:
@@ -72,6 +76,7 @@ if start_date is not None and end_date is not None:
     end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
     df = get_historical_data(symbol, interval, start_time, end_time)
     st.write(f"The start time: {start_time}")
+    st.dataframe(df)
 
 if st.session_state['CurrencyPair'] == '' or st.session_state['CurrencyPair'] is None:
     st.error("Select coin(s) to proceed!!")
