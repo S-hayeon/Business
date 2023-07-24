@@ -49,7 +49,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
         st.warning("No data available for the selected duration.")
         return None
     # Convert the data into a pandas DataFrame
-    df = pd.DataFrame(historical_data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+    df = pd.DataFrame(data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
     # Drop the unnecessary columns
     df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
     # Convert the timestamp from milliseconds to a datetime object
