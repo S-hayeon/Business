@@ -49,6 +49,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     df["Time Stamp"] = pd.to_datetime(df["Time Stamp"], unit="ms")
     # Convert OHLCV values to numeric data types
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
+    print("Data frame imekuwa updated")
     return df
 #Example usage:
 coin_token_selection()
@@ -58,6 +59,7 @@ intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.selectbox("Select an interval", intervals) #interval = '1h' select the desired interval: 1m, 5m, 15m, 1h, 1d, etc.
 #limit = 1000           # The number of data points to retrieve (max 1000)
 start_date = st.date_input("Select the start date:")
+print(f"The start date: {start_date}")
 end_date = st.date_input("Select the end date:")
 #historical_data = get_historical_data(symbol, interval, limit, start_time, end_time)
 if start_date is not None and end_date is not None:
@@ -67,6 +69,7 @@ if start_date is not None and end_date is not None:
   start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
   end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
   df = get_historical_data(symbol, interval, start_time, end_time)
+  print("Dates ziko sawa")
 # Convert the data into a pandas DataFrame
 #df = pd.DataFrame(historical_data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
 # Drop the unnecessary columns
