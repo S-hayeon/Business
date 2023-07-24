@@ -61,8 +61,8 @@ intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.selectbox("Select an interval", intervals) #interval = '1h' select the desired interval: 1m, 5m, 15m, 1h, 1d, etc.
 #limit = 1000           # The number of data points to retrieve (max 1000)
 start_date = st.date_input("Select the start date:")
-print(f"The start date: {start_date}")
-st.write("The start date: {start_date}")
+#print(f"The start date: {start_date}")
+st.write(f"The start date: {start_date}")
 end_date = st.date_input("Select the end date:")
 #historical_data = get_historical_data(symbol, interval, limit, start_time, end_time)
 if start_date is not None and end_date is not None:
