@@ -51,6 +51,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Convert OHLCV values to numeric data types
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     print("Data frame imekuwa updated")
+    st.write("Data frame imekuwa updated")
     return df
 #Example usage:
 coin_token_selection()
