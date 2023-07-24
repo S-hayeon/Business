@@ -1,4 +1,5 @@
 #CryptoAnalysis.py
+import datetime  # Add this import statement
 import pandas as pd
 import requests
 import sys
@@ -20,15 +21,15 @@ def coin_token_selection():
   # Second dropdown showing values based on the selected key
   token_selected_value = st.selectbox("Select a Token currency:", main.crypto_tokens[token_selected_key])
   #st.write(" Coin Selected Key:", token_original_key)
-  st.write(" Coin Selected Value:", token_selected_value)
+  #st.write(" Coin Selected Value:", token_selected_value)
   # First dropdown for selecting the Coin key
   coin_selected_key = st.selectbox("Select your Coin Currency:", [format_key(key) for key in main.crypto_coins.keys()])
   # Convert the formatted key back to the original key with underscores
   coin_original_key = "_".join(word.lower() for word in coin_selected_key.split())
   # Second dropdown showing values based on the selected key
   coin_selected_value = st.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
-  st.write(" Coin Selected Key:", coin_original_key)
-  st.write(" Coin Selected Value:", coin_selected_value)
+  #st.write(" Coin Selected Key:", coin_original_key)
+  #st.write(" Coin Selected Value:", coin_selected_value)
   st.session_state["CurrencyPair"]=f"{token_selected_value}{coin_selected_value}"
 def get_historical_data(symbol, interval, start_time, end_time):
     url = f"https://api.binance.com/api/v1/klines"
@@ -60,8 +61,11 @@ start_date = st.date_input("Select the start date:")
 end_date = st.date_input("Select the end date:")
 #historical_data = get_historical_data(symbol, interval, limit, start_time, end_time)
 if start_date is not None and end_date is not None:
-  start_time = int(start_date.timestamp() * 1000)  # Convert to milliseconds
-  end_time = int(end_date.timestamp() * 1000)  # Convert to milliseconds
+  # Convert start_date and end_date to datetime.datetime objects
+  start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
+  end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
+  start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
+  end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
   df = get_historical_data(symbol, interval, start_time, end_time)
 # Convert the data into a pandas DataFrame
 #df = pd.DataFrame(historical_data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
@@ -70,5 +74,9 @@ if start_date is not None and end_date is not None:
 # Convert the timestamp from milliseconds to a datetime object
 #df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 #st.dataframe(df)
+if st.session_state["CurrencyPair"]=='' or st.session_state["CurrencyPair"]==None:
+  st.error("Select coin to proceed")
+else:
+  st.write(f"Your selected coin pair for analysis is { st.session_state["CurrencyPair"]}")
 if df is not None:
   st.dataframe(df)
