@@ -74,8 +74,9 @@ if start_date is not None and end_date is not None:
 # Convert the timestamp from milliseconds to a datetime object
 #df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 #st.dataframe(df)
-if st.session_state['CurrencyPair']=='' or st.session_state['CurrencyPair']==None:
-  st.error("Select coin(s) to proceed!!")
+if st.session_state['CurrencyPair'] == '' or st.session_state['CurrencyPair'] is None:
+    st.error("Select coin(s) to proceed!!")
 else:
-  st.write(f"Your selected coin pair for analysis is {st.session_state['CurrencyPair']}")
-st.dataframe(df)
+    st.write(f"Your selected coin pair for analysis is {st.session_state['CurrencyPair']}")
+if df is not None:
+  st.dataframe(df)
