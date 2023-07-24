@@ -2,9 +2,14 @@ import datetime
 import pandas as pd
 import requests
 import sys
-sys.path.append('/app/business')
+try:
+    sys.path.append('/app/business')
+    from crypto import main
+except:  
+    sys.path.append('/mount/src/business')
+    from crypto import main
 #sys.path.append('/app/business/fx')
-from crypto import main
+
 import streamlit as st
 
 def format_key(key):
