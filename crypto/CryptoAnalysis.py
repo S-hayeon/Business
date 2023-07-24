@@ -30,7 +30,7 @@ def coin_token_selection():
   coin_selected_value = st.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
   #st.write(" Coin Selected Key:", coin_original_key)
   #st.write(" Coin Selected Value:", coin_selected_value)
-  st.session_state["CurrencyPair"]=f"{token_selected_value}{coin_selected_value}"
+  st.session_state['CurrencyPair']=f"{token_selected_value}{coin_selected_value}"
 def get_historical_data(symbol, interval, start_time, end_time):
     url = f"https://api.binance.com/api/v1/klines"
     params = {
@@ -74,9 +74,9 @@ if start_date is not None and end_date is not None:
 # Convert the timestamp from milliseconds to a datetime object
 #df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
 #st.dataframe(df)
-if st.session_state["CurrencyPair"]=='' or st.session_state["CurrencyPair"]==None:
-  st.error("Select coin to proceed")
+if st.session_state['CurrencyPair']=='' or st.session_state['CurrencyPair']==None:
+  st.error("Select coin(s) to proceed!!")
 else:
-  st.write(f"Your selected coin pair for analysis is { st.session_state["CurrencyPair"]}")
+  st.write(f"Your selected coin pair for analysis is {st.session_state['CurrencyPair']}")
 if df is not None:
   st.dataframe(df)
