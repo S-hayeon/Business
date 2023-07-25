@@ -46,10 +46,10 @@ def get_historical_data(symbol, interval, start_time, end_time):
         "interval": interval,
         "startTime": start_time,
         "endTime": end_time,
-        "limit": 1000  # Adjust the limit as per your requirement
+        "limit": 5000  # Adjust the limit as per your requirement
     }
     response = requests.get(url, params=params)
-    st.write(f"Response status code:, {response.status_code}")  # Print the status code of the API response
+    st.sidebar.info(f"Response status {response.status_code}")  # Print the status code of the API response
     data = response.json()
     print("Response data:", data)  # Print the data retrieved from the API
     if not data:
@@ -97,5 +97,5 @@ else:
 
 if st.sidebar.button('Visualize Data'):
     if df is not None:
-        st.write("Data exported!!")
+        st.sidebar.write("Data exported!!")
         st.dataframe(df)
