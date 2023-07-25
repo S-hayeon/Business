@@ -65,7 +65,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
 
 # Example usage:
 coin_token_selection()
-symbol = st.session_state["CurrencyPair"]
+symbol = st.session_state['CurrencyPair']
 # List of intervals to choose from
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.selectbox("Select an interval", intervals)
