@@ -53,6 +53,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
         "limit": 5000  # Adjust the limit as per your requirement
     }
     response = requests.get(url, params=params)
+    st.session_state['response']=response
     data = response.json()
     print("Response data:", data)  # Print the data retrieved from the API
     if not data:
@@ -97,6 +98,7 @@ def visualize_data():
                 fig=mpf.plot(df,type='candle',style='charles')
                 st.pyplot(fig)
                 if not status_displayed:
+                    response=st.session_state['response']
                     st.sidebar.info(f"Response status {response.status_code}")
                     status_displayed = True
 
@@ -142,4 +144,4 @@ if st.sidebar.button('Visualize Data'):
         visualize_data()
         # Run the visualize_data function using st.experimental_streamlit_request
         #st.experimental_streamlit_request(visualize_data())
-
+st.set_option('deprecation.showPyplotGlobalUse', False)
