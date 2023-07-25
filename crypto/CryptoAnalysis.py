@@ -63,7 +63,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Drop the unnecessary columns
     #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
     # Convert the timestamp from milliseconds to a datetime object
-    df['Date'] = pd.to_datetime(df['timestamp'], unit='ms')
+    df['Date'] = pd.to_datetime(df['Date'], unit='ms')
     df.index.name = 'Date'
     # Convert OHLCV values to numeric data types
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
