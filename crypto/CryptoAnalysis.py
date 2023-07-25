@@ -95,8 +95,9 @@ def visualize_data():
                 # Display the dataframe inside the placeholder
                 data_placeholder.dataframe(df)
                 # Display status message only once
-                fig=mpf.plot(df,type='candle',style='charles')
-                st.pyplot(fig)
+                fig=mpf.plot(df,type='candle',volume=True,style='binance')
+                with st.empty: #create a new space container for Candlestick Figure, Avoids multiple charts
+                    st.pyplot(fig)
                 if not status_displayed:
                     response=st.session_state['response']
                     st.sidebar.info(f"Response status {response.status_code}")
