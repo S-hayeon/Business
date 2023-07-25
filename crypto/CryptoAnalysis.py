@@ -50,7 +50,6 @@ def get_historical_data(symbol, interval, start_time, end_time):
         "limit": 5000  # Adjust the limit as per your requirement
     }
     response = requests.get(url, params=params)
-    st.sidebar.info(f"Response status {response.status_code}")  # Print the status code of the API response
     data = response.json()
     print("Response data:", data)  # Print the data retrieved from the API
     if not data:
@@ -76,13 +75,18 @@ def visualize_data():
         start_time = st.session_state['Start_Time']
         end_time = st.session_state['End_Time']
 
+        # Create a placeholder for the dataframe
+        data_placeholder = st.empty()
+        responseinfo_placeholder = st.empty()
         # Continuously update the data by fetching new data from the API
         while True:
             df = get_historical_data(symbol, interval, start_time, end_time)
 
             # If data is not empty, show the data in the frontend
             if df is not None:
-                st.dataframe(df)
+                # Display the dataframe inside the placeholder
+                data_placeholder.dataframe(df)
+                responseinfo_placeholder.sidebar.info(f"Response status {response.status_code}")  # Print the status code of the API response
 
             # Clear the cache to ensure new data is fetched
             #caching.clear_cache()
