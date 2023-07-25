@@ -98,7 +98,7 @@ def visualize_data():
                 # Display the dataframe inside the placeholder
                 data_placeholder.dataframe(df)
                 # Display status message only once
-                chart_pattern=chart_patterns.Patterns(data=df)
+                chart_pattern=chart_patterns.Pattern(data=df)
                 support_resistance_lines=list(chart_pattern.support_resistance())
                 fig=mpf.plot(df,type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
                 candlestickfigure_placeholder.pyplot(fig)
