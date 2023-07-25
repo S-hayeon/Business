@@ -2,7 +2,7 @@
 import datetime
 import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
-import mpl_finance as mpf
+import mplfinance as mpf
 import pandas as pd
 import requests
 #from streamlit import caching
