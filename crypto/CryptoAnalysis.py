@@ -70,6 +70,7 @@ coin_token_selection()
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.selectbox("Select an interval", intervals)
 st.session_state['Interval']=interval
+st.write(f"The Interval: {st.session_state['Interval']}")
 start_date = st.date_input("Select the start date:")
 st.write(f"The start date: {start_date}")
 end_date = st.date_input("Select the end date:")
@@ -84,6 +85,7 @@ if start_date is not None and end_date is not None:
     st.session_state['End_Time']=end_time
     df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
     st.write(f"The start time: {start_time}")
+    st.write(f"The end time: {end_time}")
     st.dataframe(df)
 
 if st.session_state['CurrencyPair'] == '' or st.session_state['CurrencyPair'] is None:
