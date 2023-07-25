@@ -20,7 +20,7 @@ def coin_token_selection():
     # Coin, Token dictionary containing the keys and values for the dropdowns
     st.title("Crypto Analysis App")
     # First dropdown for selecting the Token key
-    token_selected_key = st.selectbox("Select your Token Category:", [main.crypto_tokens.keys()])
+    token_selected_key = st.selectbox("Select your Token Category:", list(main.crypto_tokens.keys()))
     #token_selected_key = st.selectbox("Select your Token Category:", [format_key(key) for key in main.crypto_tokens.keys()])
     # Convert the formatted key back to the original key with underscores
     # token_original_key = "_".join(word.lower() for word in token_selected_key.split())
