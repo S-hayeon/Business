@@ -65,10 +65,11 @@ def get_historical_data(symbol, interval, start_time, end_time):
 
 # Example usage:
 coin_token_selection()
-symbol = st.session_state['CurrencyPair']
+#symbol = st.session_state['CurrencyPair']
 # List of intervals to choose from
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.selectbox("Select an interval", intervals)
+st.session_state['Interval']=interval
 start_date = st.date_input("Select the start date:")
 st.write(f"The start date: {start_date}")
 end_date = st.date_input("Select the end date:")
@@ -78,8 +79,10 @@ if start_date is not None and end_date is not None:
     start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
     end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
     start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
+    st.session_state['Start_Time']=start_time
     end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
-    df = get_historical_data(symbol, interval, start_time, end_time)
+    st.session_state['End_Time']=end_time
+    df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
     st.write(f"The start time: {start_time}")
     st.dataframe(df)
 
