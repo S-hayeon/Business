@@ -1,6 +1,9 @@
+# Import the necessary libraries
 import datetime
 import pandas as pd
 import requests
+from streamlit import caching
+import streamlit as st
 import sys
 try:
     sys.path.append('/app/business')
@@ -9,8 +12,6 @@ except:
     sys.path.append('/mount/src/business')
     from crypto import main
 #sys.path.append('/app/business/fx')
-
-import streamlit as st
 
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
