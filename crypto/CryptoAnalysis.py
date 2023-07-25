@@ -2,7 +2,7 @@
 import datetime
 import pandas as pd
 import requests
-from streamlit import caching
+#from streamlit import caching
 import streamlit as st
 import sys
 try:
@@ -85,7 +85,7 @@ def visualize_data():
                 st.dataframe(df)
 
             # Clear the cache to ensure new data is fetched
-            caching.clear_cache()
+            #caching.clear_cache()
 
             # Sleep for a few seconds before fetching new data again
             time.sleep(5)
