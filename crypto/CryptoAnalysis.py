@@ -38,7 +38,7 @@ def coin_token_selection():
     st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
 
 def get_historical_data(symbol, interval, start_time, end_time):
-    url = f"https://api.binance.com/api/v3/klines"
+    url = f"https://api.binance.us/api/v3/klines"
     params = {
         "symbol": symbol,
         "interval": interval,
