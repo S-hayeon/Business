@@ -64,7 +64,30 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Convert OHLCV values to numeric data types
     df[['open', 'high', 'low', 'close', 'volume']] = df[['open', 'high', 'low', 'close', 'volume']].apply(pd.to_numeric)
     return df
+def visualize_data():
+    # Get the current selected coin pair and interval
+    symbol = st.session_state['CurrencyPair']
+    interval = st.session_state['Interval']
 
+    # Check if the current coin pair and interval are not empty and not None
+    if symbol and interval:
+        # Get the current start and end time
+        start_time = st.session_state['Start_Time']
+        end_time = st.session_state['End_Time']
+
+        # Continuously update the data by fetching new data from the API
+        while True:
+            df = get_historical_data(symbol, interval, start_time, end_time)
+
+            # If data is not empty, show the data in the frontend
+            if df is not None:
+                st.dataframe(df)
+
+            # Clear the cache to ensure new data is fetched
+            caching.clear_cache()
+
+            # Sleep for a few seconds before fetching new data again
+            time.sleep(5)
 # Example usage:
 coin_token_selection()
 #symbol = st.session_state['CurrencyPair']
@@ -99,3 +122,5 @@ if st.sidebar.button('Visualize Data'):
     if df is not None:
         st.sidebar.write("Data exported!!")
         st.dataframe(df)
+        # Run the visualize_data function using st.experimental_streamlit_request
+        st.experimental_streamlit_request(visualize_data())
