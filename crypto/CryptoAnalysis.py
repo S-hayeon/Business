@@ -20,20 +20,20 @@ def coin_token_selection():
     # Coin, Token dictionary containing the keys and values for the dropdowns
     st.title("Crypto Analysis App")
     # First dropdown for selecting the Token key
-    token_selected_key = st.selectbox("Select your Token Category:", list(main.crypto_tokens.keys()))
+    token_selected_key = st.sidebar.selectbox("Select your Token Category:", list(main.crypto_tokens.keys()))
     #token_selected_key = st.selectbox("Select your Token Category:", [format_key(key) for key in main.crypto_tokens.keys()])
     # Convert the formatted key back to the original key with underscores
     # token_original_key = "_".join(word.lower() for word in token_selected_key.split())
     # Second dropdown showing values based on the selected key
-    token_selected_value = st.selectbox("Select a Token currency:", main.crypto_tokens[token_selected_key])
+    token_selected_value = st.sidebar.selectbox("Select a Token currency:", main.crypto_tokens[token_selected_key])
     # st.write(" Coin Selected Key:", token_original_key)
     # st.write(" Coin Selected Value:", token_selected_value)
     # First dropdown for selecting the Coin key
-    coin_selected_key = st.selectbox("Select your Coin Currency:", [format_key(key) for key in main.crypto_coins.keys()])
+    coin_selected_key = st.sidebar.selectbox("Select your Coin Currency:", [format_key(key) for key in main.crypto_coins.keys()])
     # Convert the formatted key back to the original key with underscores
     coin_original_key = "_".join(word.lower() for word in coin_selected_key.split())
     # Second dropdown showing values based on the selected key
-    coin_selected_value = st.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
+    coin_selected_value = st.sidebar.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
     # st.write(" Coin Selected Key:", coin_original_key)
     # st.write(" Coin Selected Value:", coin_selected_value)
     st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
@@ -70,12 +70,12 @@ coin_token_selection()
 #symbol = st.session_state['CurrencyPair']
 # List of intervals to choose from
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
-interval = st.selectbox("Select an interval", intervals)
+interval = st.sidebar.selectbox("Select an interval", intervals)
 st.session_state['Interval']=interval
-st.write(f"The Interval: {st.session_state['Interval']}")
-start_date = st.date_input("Select the start date:")
-st.write(f"The start date: {start_date}")
-end_date = st.date_input("Select the end date:")
+#st.write(f"The Interval: {st.session_state['Interval']}")
+start_date = st.sidebar.date_input("Select the start date:")
+#st.write(f"The start date: {start_date}")
+end_date = st.sidebar.date_input("Select the end date:")
 
 if start_date is not None and end_date is not None:
     # Convert start_date and end_date to datetime.datetime objects
@@ -86,16 +86,16 @@ if start_date is not None and end_date is not None:
     end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
     st.session_state['End_Time']=end_time
     df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
-    st.write(f"The start time: {start_time}")
-    st.write(f"The end time: {end_time}")
-    st.dataframe(df)
+    #st.write(f"The start time: {start_time}")
+    #st.write(f"The end time: {end_time}")
+    #st.dataframe(df)
 
 if st.session_state['CurrencyPair'] == '' or st.session_state['CurrencyPair'] is None:
     st.error("Select coin(s) to proceed!!")
 else:
     st.write(f"Your selected coin pair for analysis is {st.session_state['CurrencyPair']}")
 
-if st.button('Visualize Data'):
+if st.sidebar.button('Visualize Data'):
     if df is not None:
         st.write("Data exported!!")
         st.dataframe(df)
