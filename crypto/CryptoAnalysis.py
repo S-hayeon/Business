@@ -1,5 +1,8 @@
 # Import the necessary libraries
 import datetime
+import matplotlib.pyplot as plt
+from mpl_finance import candlestick_ohlc
+from mpl_finance as mpf
 import pandas as pd
 import requests
 #from streamlit import caching
@@ -56,18 +59,21 @@ def get_historical_data(symbol, interval, start_time, end_time):
         st.warning("No data available for the selected duration.")
         return None
     # Convert the data into a pandas DataFrame
-    df = pd.DataFrame(data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+    df = pd.DataFrame(data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
     # Drop the unnecessary columns
-    df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+    #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
     # Convert the timestamp from milliseconds to a datetime object
-    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+    df['Date'] = pd.to_datetime(df['timestamp'], unit='ms')
+    df.index.name = 'Date'
     # Convert OHLCV values to numeric data types
-    df[['open', 'high', 'low', 'close', 'volume']] = df[['open', 'high', 'low', 'close', 'volume']].apply(pd.to_numeric)
+    df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
 def visualize_data():
     # Get the current selected coin pair and interval
     symbol = st.session_state['CurrencyPair']
     interval = st.session_state['Interval']
+    #fig=plt.style.use('ggplot')
+
 
     # Check if the current coin pair and interval are not empty and not None
     if symbol and interval:
@@ -77,7 +83,7 @@ def visualize_data():
 
         # Create a placeholder for the dataframe
         data_placeholder = st.empty()
-        responseinfo_placeholder = st.empty()
+        status_displayed = False  # Flag to track whether status message has been displayed
         # Continuously update the data by fetching new data from the API
         while True:
             df = get_historical_data(symbol, interval, start_time, end_time)
@@ -86,13 +92,18 @@ def visualize_data():
             if df is not None:
                 # Display the dataframe inside the placeholder
                 data_placeholder.dataframe(df)
-                responseinfo_placeholder.sidebar.info(f"Response status {response.status_code}")  # Print the status code of the API response
+                # Display status message only once
+                fig=mpf.plot(df,type='candle',style='charles')
+                st.pyplot(fig)
+                if not status_displayed:
+                    st.sidebar.info(f"Response status {response.status_code}")
+                    status_displayed = True
 
             # Clear the cache to ensure new data is fetched
             #caching.clear_cache()
 
-            # Sleep for a few seconds before fetching new data again
-            time.sleep(5)
+            # Sleep for 60 seconds before fetching new data again
+            time.sleep(60)
 # Example usage:
 coin_token_selection()
 #symbol = st.session_state['CurrencyPair']
