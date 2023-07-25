@@ -120,7 +120,9 @@ else:
 
 if st.sidebar.button('Visualize Data'):
     if df is not None:
-        st.sidebar.write("Data exported!!")
-        st.dataframe(df)
+        st.sidebar.write("Streaming started!!")
+        #st.dataframe(df)
+        visualize_data()
         # Run the visualize_data function using st.experimental_streamlit_request
-        st.experimental_streamlit_request(visualize_data())
+        #st.experimental_streamlit_request(visualize_data())
+
