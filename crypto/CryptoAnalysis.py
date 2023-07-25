@@ -47,7 +47,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
         "limit": 1000  # Adjust the limit as per your requirement
     }
     response = requests.get(url, params=params)
-    print("Response status code:", response.status_code)  # Print the status code of the API response
+    st.write(f"Response status code:, {response.status_code}")  # Print the status code of the API response
     data = response.json()
     print("Response data:", data)  # Print the data retrieved from the API
     if not data:
