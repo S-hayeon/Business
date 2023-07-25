@@ -11,9 +11,11 @@ import sys
 try:
     sys.path.append('/app/business')
     from crypto import main
+    from Technical_Analysis import chart_patterns
 except:  
     sys.path.append('/mount/src/business')
     from crypto import main
+    from Technical_Analysis import chart_patterns
 #sys.path.append('/app/business/fx')
 import time
 def format_key(key):
@@ -96,7 +98,9 @@ def visualize_data():
                 # Display the dataframe inside the placeholder
                 data_placeholder.dataframe(df)
                 # Display status message only once
-                fig=mpf.plot(df,type='candle',volume=True,style='binance')
+                chart_pattern=chart_patterns.Patterns(data=df)
+                support_resistance_lines=list(chart_pattern.support_resistance())
+                fig=mpf.plot(df,type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
                 candlestickfigure_placeholder.pyplot(fig)
                 if not status_displayed:
                     response=st.session_state['response']
