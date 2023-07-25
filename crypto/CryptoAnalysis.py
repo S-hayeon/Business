@@ -85,6 +85,7 @@ def visualize_data():
 
         # Create a placeholder for the dataframe
         data_placeholder = st.empty()
+        candlestickfigure_placeholder = st.empty()
         status_displayed = False  # Flag to track whether status message has been displayed
         # Continuously update the data by fetching new data from the API
         while True:
@@ -96,8 +97,7 @@ def visualize_data():
                 data_placeholder.dataframe(df)
                 # Display status message only once
                 fig=mpf.plot(df,type='candle',volume=True,style='binance')
-                with st.empty(): #create a new space container for Candlestick Figure, Avoids multiple charts
-                    st.pyplot(fig)
+                candlestickfigure_placeholder.pyplot(fig)
                 if not status_displayed:
                     response=st.session_state['response']
                     st.sidebar.info(f"Response status {response.status_code}")
