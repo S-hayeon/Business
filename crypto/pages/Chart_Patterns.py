@@ -35,6 +35,6 @@ try:
         st.set_option('deprecation.showPyplotGlobalUse', False)
     else:
         st.warning("Choose your desired coin from the CryptoAnalysis page to proceed!!")
-except as e:
+except Exception as e:
     st.info(f"System encountered {e}")
 
