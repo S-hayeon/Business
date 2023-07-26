@@ -139,17 +139,14 @@ if start_date is not None and end_date is not None:
     #st.write(f"The start time: {start_time}")
     #st.write(f"The end time: {end_time}")
     #st.dataframe(df)
-
-if st.session_state['CurrencyPair'] == '' or st.session_state['CurrencyPair'] is None:
-    st.error("Select coin(s) to proceed!!")
-else:
-    st.write(f"Your selected coin pair for analysis is {st.session_state['CurrencyPair']}")
-
-if st.sidebar.button('Visualize Data'):
-    if df is not None:
+if st.sidebar.button('Start Analysis'):
+    if st.session_state['CurrencyPair'] is not None:
         st.sidebar.write("Streaming started!!")
         #st.dataframe(df)
         visualize_data()
         # Run the visualize_data function using st.experimental_streamlit_request
         #st.experimental_streamlit_request(visualize_data())
+    else:
+        st.error("Choose a Coin")
 st.set_option('deprecation.showPyplotGlobalUse', False)
+st.sidebar.write(f"Selected coin pair is {st.session_state['CurrencyPair']}")
