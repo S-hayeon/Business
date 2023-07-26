@@ -24,7 +24,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         candlestickfigure_placeholder = st.empty()
         status_displayed = False  # Flag to track whether status message has been displayed
         # Continuously update the data by fetching new data from the API
-        lookback=st.slider(label="Sensitivity in Percentage %", min_value=1, max_value=100, value=15, step=1)
+        lookback=st.slider(label="Sensitivity in Percentage %", min_value=1, max_value=100, value=25, step=1)
         while True:
             data_placeholder.dataframe(st.session_state['DataFrame'])
             # Display status message only once
