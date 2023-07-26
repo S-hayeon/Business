@@ -11,8 +11,8 @@ class TIndicators:
     length1 = 12; # default = 12
     length2 = 26; # default = 26
     length3= 9;
-    macd = ta.macd(self.data, length1, length2)
-    signal_line = ta.ema(self.data,length3)
+    macd_array = ta.macd(self.data, length1, length2)
+    signal_line_array = ta.ema(self.data,length3)
     # plt.plot(macd, label='MACD Line')
     # plt.plot(signal_line, label='Signal Line')
     # plt.xlabel('Time')
@@ -25,8 +25,8 @@ class TIndicators:
     fig, ax = plt.subplots()
 
     # Plot MACD Line and Signal Line on the same axis
-    ax.plot(macd, label='MACD Line')
-    ax.plot(signal_line, label='Signal Line')
+    ax.plot(macd_array, label='MACD Line')
+    ax.plot(signal_line_array, label='Signal Line')
 
     # Set axis labels and title
     ax.set_xlabel('Time')
@@ -39,6 +39,10 @@ class TIndicators:
     # Show the plot
     plt.show()
     st.pyplot(fig)
+    # Convert the MACD array into a pandas Series
+    macd = pd.Series(macd_array)
+    # Convert the signal line array into a pandas Series
+    signal_line = pd.Series(signal_line_array)
     # Find the index of the all time the MACD line crosses above the signal line, to find first time add [0]
     macd_cross_above_signal = macd.index[macd > signal_line]
     # Find theindex of the all time the MACD line crosses below the signal line
@@ -47,4 +51,4 @@ class TIndicators:
     st.write(f'The MACD line crossed above the signal line on {df.loc[macd_cross_above_signal].name}')
     # Print the date of the first MACD crossover
     st.write(f'The MACD line crossed below the signal line on {df.loc[macd_cross_below_signal].name}')
-    return macd,signal_line
+    return macd_array,signal_line_array
