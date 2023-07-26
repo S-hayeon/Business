@@ -48,7 +48,7 @@ try:
         st.warning("Choose your desired coin from the CryptoAnalysis page to proceed!!")
         pass
 
-except:
-    st.warning("No data available for selected coin pair or duration")
+except Exception as e:
+    st.warning(e)
 
 
