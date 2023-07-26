@@ -100,7 +100,6 @@ def visualize_data():
                 # Display the dataframe inside the placeholder
                 data_placeholder.dataframe(st.session_state['DataFrame'])
                 # Display status message only once
-                chart_pattern=chart_patterns.Pattern(data=st.session_state['DataFrame'])
                 fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
                 if not status_displayed:
