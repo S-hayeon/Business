@@ -37,6 +37,8 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.header(":green[Support] and :red[Resistance] Levels")
     support_Resistance()
+    st.write(f"Support Level in Green: {st.session_state.support_resistance_lines[0]}")
+    st.write(f"Resistance Level in Red: {st.session_state.support_resistance_lines[1]}")
     with st.expander("More info on Support and Resistance"):
         st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
         # Access support_resistance_lines from st.session_state
