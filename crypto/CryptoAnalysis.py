@@ -11,13 +11,14 @@ import sys
 try:
     sys.path.append('/app/business')
     from crypto import main
-    from Technical_Analysis import chart_patterns
 except:  
     sys.path.append('/mount/src/business')
     from crypto import main
-    from Technical_Analysis import chart_patterns
 #sys.path.append('/app/business/fx')
 import time
+refresh_interval=60 # Refresh in 60 seconds
+st.session_state['CurrencyPair']=None
+st.session_state['DataFrame']=None
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
@@ -92,26 +93,28 @@ def visualize_data():
         # Continuously update the data by fetching new data from the API
         while True:
             df = get_historical_data(symbol, interval, start_time, end_time)
+            st.session_state['DataFrame']=df
 
             # If data is not empty, show the data in the frontend
             if df is not None:
                 # Display the dataframe inside the placeholder
-                data_placeholder.dataframe(df)
+                data_placeholder.dataframe(st.session_state['DataFrame'])
                 # Display status message only once
-                chart_pattern=chart_patterns.Pattern(data=df)
-                support_resistance_lines=list(chart_pattern.support_resistance())
-                fig=mpf.plot(df,type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
+                chart_pattern=chart_patterns.Pattern(data=st.session_state['DataFrame'])
+                fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
                 if not status_displayed:
                     response=st.session_state['response']
                     st.sidebar.info(f"Response status {response.status_code}")
                     status_displayed = True
-
-            # Clear the cache to ensure new data is fetched
-            #caching.clear_cache()
+            remaining_time = refresh_interval
+            while remaining_time > 0:
+                st.info(f"For accuracy, data will refresh in {remaining_time} seconds")
+                remaining_time -= 1
+                time.sleep(1)  # Wait for 1 second
 
             # Sleep for 60 seconds before fetching new data again
-            time.sleep(60)
+            #time.sleep(60)
 # Example usage:
 coin_token_selection()
 #symbol = st.session_state['CurrencyPair']
@@ -132,7 +135,7 @@ if start_date is not None and end_date is not None:
     st.session_state['Start_Time']=start_time
     end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
     st.session_state['End_Time']=end_time
-    df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
+    #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
     #st.write(f"The start time: {start_time}")
     #st.write(f"The end time: {end_time}")
     #st.dataframe(df)
