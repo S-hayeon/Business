@@ -29,12 +29,12 @@ try:
                 # Display status message only once
                 chart_pattern=chart_patterns.Pattern(data=st.session_state['DataFrame'])
                 support_resistance_lines=list(chart_pattern.support_resistance())
-                fig=mpf.plot(df,type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
+                fig=mpf.plot(st.session_state['DataFrame'],type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
                 candlestickfigure_placeholder.pyplot(fig)
         support_Resistance()
         st.set_option('deprecation.showPyplotGlobalUse', False)
     else:
         st.warning("Choose your desired coin from the CryptoAnalysis page to proceed!!")
 except Exception as e:
-    st.info(f"System encountered {e}")
+    st.info(f"System encountered this issue: {e}")
 
