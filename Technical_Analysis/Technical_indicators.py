@@ -6,7 +6,7 @@ class TIndicators:
   def __init__(self,data):
     self.data=data['Close']
     pass
-  def MACD():
+  def MACD(self):
     #c=np.random.randn(100)
     length1 = 12; # default = 12
     length2 = 26; # default = 26
