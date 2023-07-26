@@ -40,8 +40,10 @@ try:
         with st.expander("More info on Support and Resistance"):
             st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
             # Access support_resistance_lines from st.session_state
-            st.markdown(f":green[Support Level in Green color] is: {st.session_state.support_resistance_lines[0]}")
-            st.markdown(f"red[Resistance Level in Red color] is: {st.session_state.support_resistance_lines[1]}")
+            support_level = st.session_state.support_resistance_lines[0]
+            resistance_level = st.session_state.support_resistance_lines[1]
+            st.markdown(f"**Support Level** is: {support_level}", unsafe_allow_html=True)
+            st.markdown(f"**Resistance Level** is: {resistance_level}", unsafe_allow_html=True)
     else:
         st.warning("Choose your desired coin from the CryptoAnalysis page to proceed!!")
         pass
