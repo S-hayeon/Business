@@ -38,7 +38,7 @@ try:
         st.header(":green[Support] and :red[Resistance] Levels")
         support_Resistance()
         with st.expander("More info on Support and Resistance"):
-            st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
+            #st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
             # Access support_resistance_lines from st.session_state
             support_level = st.session_state.support_resistance_lines[0]
             resistance_level = st.session_state.support_resistance_lines[1]
