@@ -32,7 +32,7 @@ try:
                 #support_resistance_lines=list(chart_pattern.support_resistance(int(lookback)))
                 fig=mpf.plot(st.session_state['DataFrame'],type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
                 candlestickfigure_placeholder.pyplot(fig)
-                time.sleep(1)
+                #time.sleep(1)
                 break
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.header(":green[Support] and :red[Resistance] Levels")
@@ -40,13 +40,13 @@ try:
         with st.expander("More info on Support and Resistance"):
             st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
             # Access support_resistance_lines from st.session_state
-            st.write(f"Support Level in Green: {st.session_state.support_resistance_lines[0]}")
-            st.write(f"Resistance Level in Red: {st.session_state.support_resistance_lines[1]}")
+            st.markdown(f":green[Support Level in Green color] is: {st.session_state.support_resistance_lines[0]}")
+            st.markdown(f"red[Resistance Level in Red color] is: {st.session_state.support_resistance_lines[1]}")
     else:
         st.warning("Choose your desired coin from the CryptoAnalysis page to proceed!!")
         pass
 
 except:
-    st.warning("No data available for selected coin pair")
+    st.warning("No data available for selected coin pair or duration")
 
 
