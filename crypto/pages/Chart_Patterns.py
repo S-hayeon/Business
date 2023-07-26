@@ -43,8 +43,9 @@ try:
             # Access support_resistance_lines from st.session_state
             support_level = st.session_state.support_resistance_lines[0]
             resistance_level = st.session_state.support_resistance_lines[1]
-            st.markdown(f"**Support Level** is: {support_level}", unsafe_allow_html=True)
-            st.markdown(f"**Resistance Level** is: {resistance_level}", unsafe_allow_html=True)
+            #st.markdown(f"**Support Level** is: {support_level}", unsafe_allow_html=True)
+            st.markdown(f":green[Support Level] is: {support_level}", unsafe_allow_html=True)
+            st.markdown(f":red[Resistance Level] is: {resistance_level}", unsafe_allow_html=True)
     else:
         st.warning("Choose your desired coin from the CryptoAnalysis page to proceed!!")
         pass
