@@ -5,6 +5,7 @@ import talib
 import ta_py as ta
 class TIndicators:
   def __init__(self,data):
+    self.df=data
     self.data=data['Close']
     pass
   def MACD(self):
@@ -47,7 +48,7 @@ class TIndicators:
     sma_200 = talib.SMA(self.data, timeperiod=200)
     rsi = talib.RSI(self.data)
     macd, signal, _ = talib.MACD(self.data)
-    adx = talib.ADX(self.data)
+    adx = talib.ADX(self.df['High'],self.df['Low'],self.data,timeperiod=14)
  # Determine the state
     if sma_50[-1] > sma_200[-1] and rsi[-1] > 70 and macd[-1] > signal[-1] and adx[-1] > 25:
         return "Strong Bullish"
