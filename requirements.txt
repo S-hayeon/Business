@@ -2,6 +2,7 @@ matplotlib
 mplfinance
 openpyxl
 pandas
+pip>=23.2.1
 python-binance
 requests
 streamlit
