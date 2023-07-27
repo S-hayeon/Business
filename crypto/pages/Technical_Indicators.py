@@ -10,3 +10,5 @@ except:
     from Technical_Analysis import Technical_indicators
 technicalIndicators=Technical_indicators.TIndicators(data=st.session_state['DataFrame'])
 macd=technicalIndicators.MACD()
+bull_bear=technicalIndicators.BullBearish_state()
+st.write("The market trend is: ",bull_bear)
