@@ -6,5 +6,6 @@ python-binance
 requests
 streamlit
 ta_py
+TA-Lib
 world_bank_data
 yfinance
