@@ -40,7 +40,7 @@ class TIndicators:
     # st.write(f'The MACD line crossed above the signal line on {df.loc[macd_cross_above_signal].name}')
     # # Print the date of the first MACD crossover
     # st.write(f'The MACD line crossed below the signal line on {df.loc[macd_cross_below_signal].name}')
-    #return macd_array,signal_line_array
+    return macd_array,signal_line_array
   def BullBearish_state(self):
     # Calculate technical indicators
     sma_50 = talib.SMA(self.data, timeperiod=50)
