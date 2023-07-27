@@ -6,7 +6,8 @@ python-binance
 requests
 streamlit
 ta_py
-ta-lib==0.4.25
+ta-lib==0.4.0
+#ta-lib==0.4.25
 #TA-Lib
 world_bank_data
 yfinance
