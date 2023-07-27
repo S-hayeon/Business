@@ -6,8 +6,9 @@ pip>=23.2.1
 python-binance
 requests
 streamlit
+TA-Lib-Precompiled
 ta_py
-./libs/TA_Lib-0.4.24-cp310-cp310-win_amd64.whl
-ta-lib==0.4.24
+#./libs/TA_Lib-0.4.24-cp310-cp310-win_amd64.whl
+#ta-lib==0.4.24
 world_bank_data
 yfinance
