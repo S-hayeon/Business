@@ -44,7 +44,8 @@ def coin_token_selection():
     # st.write(" Coin Selected Key:", coin_original_key)
     # st.write(" Coin Selected Value:", coin_selected_value)
     st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
-
+    st.sidebar.write(f"Selected coin pair is {st.session_state['CurrencyPair']}")
+@st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
     #url = f"https://api.binance.us/api/v3/klines"
     url = f"https://data.binance.com/api/v3/klines"
@@ -73,6 +74,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Convert OHLCV values to numeric data types
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
+@st.cache_resource
 def visualize_data():
     # Get the current selected coin pair and interval
     symbol = st.session_state['CurrencyPair']
@@ -90,6 +92,7 @@ def visualize_data():
         data_placeholder = st.empty()
         candlestickfigure_placeholder = st.empty()
         status_displayed = False  # Flag to track whether status message has been displayed
+        response_placeholder = st.empty()
         # Continuously update the data by fetching new data from the API
         while True:
             df = get_historical_data(symbol, interval, start_time, end_time)
@@ -108,7 +111,7 @@ def visualize_data():
                     status_displayed = True
             remaining_time = refresh_interval
             while remaining_time > 0:
-                st.info(f"For accuracy, data will refresh in {remaining_time} seconds")
+                response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
                 remaining_time -= 1
                 time.sleep(1)  # Wait for 1 second
 
@@ -148,4 +151,4 @@ if st.sidebar.button('Start Analysis'):
     else:
         st.error("Choose a Coin")
 st.set_option('deprecation.showPyplotGlobalUse', False)
-st.sidebar.write(f"Selected coin pair is {st.session_state['CurrencyPair']}")
+
