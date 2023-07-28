@@ -6,10 +6,12 @@ try:
   #from ta import trend
   #sys.path.append('/app/business/fx')
   sys.path.append('/app/business')
+  from fx import main
 except:
   import sys
   sys.path.append('/mount/src/business')
-from fx import main
+  from fx import main
+
 from technical_analysis import TIndicators
 #c=np.random.randn(100)
 #macd=trend.MACD(close=c,window_slow=26,window_fast=12,window_sign=9)
