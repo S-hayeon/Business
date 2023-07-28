@@ -8,7 +8,7 @@ try:
   sys.path.append('/app/business')
 except:
   import sys
-  sys.path.append('/mount/src/business/')
+  sys.path.append('/mount/src/business')
 from fx import main
 from technical_analysis import TIndicators
 #c=np.random.randn(100)
