@@ -57,68 +57,68 @@ class TIndicators:
     # # Print the date of the first MACD crossover
     # st.write(f'The MACD line crossed below the signal line on {df.loc[macd_cross_below_signal].name}')
     return macd_array,signal_line_array
-def BullBearish_state(self):
-    # Calculate technical indicators
-    if len(self.data)>=250:
-      self.sma_50 = talib.SMA(self.data, timeperiod=50)
-      self.sma_200 = talib.SMA(self.data, timeperiod=200)
-      self.rsi = talib.RSI(self.data)
-      self.macd, self.signal, _ = talib.MACD(self.data)
-      self.adx = talib.ADX(self.df['High'],self.df['Low'],self.data,timeperiod=14)
-      # Splitting each condition into separate boolean variables
-      self.sma_50_greater_than_sma_200 = sma_50.tail().all() > sma_200.tail().all()
-      self.rsi_above_70 = rsi.tail().all() > 70
-      self.macd_above_signal = macd.tail().all() > signal.tail().all()
-      self.adx_above_25 = adx.tail().all() > 25
-      self.rsi_below_30 = rsi.tail().all() < 30
-      self.macd_below_signal = macd.tail().all() < signal.tail().all()
-      self.rsi_below_20 = rsi.tail().all() < 20
-  
-      if self.sma_50_greater_than_sma_200:
-          st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
-      else:
-          st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
-  
-      if self.rsi_above_70:
-          st.write(f"RSI is above 70: {self.rsi_above_70}")
-      else:
-          st.write(f"RSI is above 70: {self.rsi_above_70}")
-  
-      if self.macd_above_signal:
-          st.write(f"MACD is above Signal: {self.macd_above_signal}")
-      else:
-          st.write(f"MACD is above Signal: {self.macd_above_signal}")
-  
-      if self.adx_above_25:
-          st.write(f"ADX is above 25: {self.adx_above_25}")
-      else:
-          st.write(f"ADX is above 25: {self.adx_above_25}")
-  
-      if self.rsi_below_30:
-          st.write(f"RSI is below 30: {self.rsi_below_30}")
-      else:
-          st.write(f"RSI is below 30: {self.rsi_below_30}")
-  
-      if self.macd_below_signal:
-          st.write(f"MACD is below Signal: {self.macd_below_signal}")
-      else:
-          st.write(f"MACD is below Signal: {self.macd_below_signal}")
-  
-      if self.rsi_below_20:
-          st.write(f"RSI is below 20: {self.rsi_below_20}")
-      else:
-          st.write(f"RSI is below 20: {self.rsi_below_20}")
-  
-      # Return the trend classification
-      if self.sma_50_greater_than_sma_200 or self.rsi_above_70 or self.macd_above_signal or self.adx_above_25:
-          return "Strong Bullish"
-      elif self.sma_50_greater_than_sma_200 or self.rsi_below_30 or self.macd_below_signal or self.adx_above_25:
-          return "Strong Bearish"
-      elif self.sma_50_greater_than_sma_200 or self.rsi_above_70 or self.macd_above_signal:
-          return "Weak Bullish"
-      elif self.sma_50_greater_than_sma_200 or self.rsi_below_20 or self.macd_below_signal:
-          return "Weak Bearish"
-      else:
-          return "Neutral"
+  def BullBearish_state(self):
+      # Calculate technical indicators
+      if len(self.data)>=250:
+        self.sma_50 = talib.SMA(self.data, timeperiod=50)
+        self.sma_200 = talib.SMA(self.data, timeperiod=200)
+        self.rsi = talib.RSI(self.data)
+        self.macd, self.signal, _ = talib.MACD(self.data)
+        self.adx = talib.ADX(self.df['High'],self.df['Low'],self.data,timeperiod=14)
+        # Splitting each condition into separate boolean variables
+        self.sma_50_greater_than_sma_200 = sma_50.tail().all() > sma_200.tail().all()
+        self.rsi_above_70 = rsi.tail().all() > 70
+        self.macd_above_signal = macd.tail().all() > signal.tail().all()
+        self.adx_above_25 = adx.tail().all() > 25
+        self.rsi_below_30 = rsi.tail().all() < 30
+        self.macd_below_signal = macd.tail().all() < signal.tail().all()
+        self.rsi_below_20 = rsi.tail().all() < 20
+    
+        if self.sma_50_greater_than_sma_200:
+            st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
+        else:
+            st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
+    
+        if self.rsi_above_70:
+            st.write(f"RSI is above 70: {self.rsi_above_70}")
+        else:
+            st.write(f"RSI is above 70: {self.rsi_above_70}")
+    
+        if self.macd_above_signal:
+            st.write(f"MACD is above Signal: {self.macd_above_signal}")
+        else:
+            st.write(f"MACD is above Signal: {self.macd_above_signal}")
+    
+        if self.adx_above_25:
+            st.write(f"ADX is above 25: {self.adx_above_25}")
+        else:
+            st.write(f"ADX is above 25: {self.adx_above_25}")
+    
+        if self.rsi_below_30:
+            st.write(f"RSI is below 30: {self.rsi_below_30}")
+        else:
+            st.write(f"RSI is below 30: {self.rsi_below_30}")
+    
+        if self.macd_below_signal:
+            st.write(f"MACD is below Signal: {self.macd_below_signal}")
+        else:
+            st.write(f"MACD is below Signal: {self.macd_below_signal}")
+    
+        if self.rsi_below_20:
+            st.write(f"RSI is below 20: {self.rsi_below_20}")
+        else:
+            st.write(f"RSI is below 20: {self.rsi_below_20}")
+    
+        # Return the trend classification
+        if self.sma_50_greater_than_sma_200 or self.rsi_above_70 or self.macd_above_signal or self.adx_above_25:
+            return "Strong Bullish"
+        elif self.sma_50_greater_than_sma_200 or self.rsi_below_30 or self.macd_below_signal or self.adx_above_25:
+            return "Strong Bearish"
+        elif self.sma_50_greater_than_sma_200 or self.rsi_above_70 or self.macd_above_signal:
+            return "Weak Bullish"
+        elif self.sma_50_greater_than_sma_200 or self.rsi_below_20 or self.macd_below_signal:
+            return "Weak Bearish"
+        else:
+            return "Neutral"
       
 
