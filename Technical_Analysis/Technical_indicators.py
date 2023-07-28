@@ -66,19 +66,17 @@ class TIndicators:
         self.macd, self.signal, _ = talib.MACD(self.data)
         self.adx = talib.ADX(self.df['High'],self.df['Low'],self.data,timeperiod=14)
         # Splitting each condition into separate boolean variables
-        self.sma_50_greater_than_sma_200 = sma_50.tail().all() > sma_200.tail().all()
-        self.rsi_above_70 = rsi.tail().all() > 70
-        self.macd_above_signal = macd.tail().all() > signal.tail().all()
-        self.adx_above_25 = adx.tail().all() > 25
-        self.rsi_below_30 = rsi.tail().all() < 30
-        self.macd_below_signal = macd.tail().all() < signal.tail().all()
-        self.rsi_below_20 = rsi.tail().all() < 20
-    
+        self.sma_50_greater_than_sma_200 = self.sma_50.tail().all() > self.sma_200.tail().all()
+        self.rsi_above_70 = self.rsi.tail().all() > 70
+        self.macd_above_signal = self.macd.tail().all() > self.signal.tail().all()
+        self.adx_above_25 = self.adx.tail().all() > 25
+        self.rsi_below_30 = self.rsi.tail().all() < 30
+        self.macd_below_signal = self.macd.tail().all() < self.signal.tail().all()
+        self.rsi_below_20 = self.rsi.tail().all() < 20
         if self.sma_50_greater_than_sma_200:
             st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
         else:
             st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
-    
         if self.rsi_above_70:
             st.write(f"RSI is above 70: {self.rsi_above_70}")
         else:
