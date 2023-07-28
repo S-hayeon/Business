@@ -7,8 +7,16 @@ class TIndicators:
   def __init__(self,data):
     self.df=data
     self.data=data['Close']
-    self.sma_50,self.sma_200,self.rsi,self.macd,self.signal,self.adx = 0
-    self.sma_50_greater_than_sma_200,self.rsi_above_70,self.macd_above_signal,self.adx_above_25,self.rsi_below_30,self.macd_below_signal,self.rsi_below_20=None # State variables
+    self.sma_50, self.sma_200, self.rsi, self.macd, self.signal, self.adx = [0, 0, 0, 0, 0, 0]
+    # State variables
+    self.sma_50_greater_than_sma_200 = None
+    self.rsi_above_70 = None
+    self.macd_above_signal = None
+    self.adx_above_25 = None
+    self.rsi_below_30 = None
+    self.macd_below_signal = None
+    self.rsi_below_20 = None
+
   def MACD(self):
     length1 = 12; # default = 12
     length2 = 26; # default = 26
