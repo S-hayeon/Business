@@ -64,7 +64,8 @@ class TIndicators:
         self.sma_50 = talib.SMA(self.data, timeperiod=50).tail().all()
         self.sma_200 = talib.SMA(self.data, timeperiod=200).tail().all()
         self.rsi = talib.RSI(self.data).tail().all()
-        self.macd, self.signal, _ = talib.MACD(self.data).tail().all()
+        self.macd, self.signal= talib.MACD(self.data).tail().all()
+        #self.macd, self.signal, _ = talib.MACD(self.data).tail().all()
         self.adx = talib.ADX(self.df['High'],self.df['Low'],self.data,timeperiod=14).tail().all()
         @st.cache_data
         # Storing the trend data
