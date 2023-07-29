@@ -35,7 +35,8 @@ try:
                 candlestickfigure_placeholder.pyplot(fig)
                 #time.sleep(1)
                 break
-        st.set_option('deprecation.showPyplotGlobalUse', False)
+        #st.set_option('deprecation.showPyplotGlobalUse', False)
+        st.title('Chart Patterns :chart:')
         st.header(":green[Support] and :red[Resistance] Levels")
         support_Resistance()
         with st.expander("More info on Support and Resistance"):
