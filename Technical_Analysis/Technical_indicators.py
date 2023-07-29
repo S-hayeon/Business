@@ -48,6 +48,7 @@ class TIndicators:
   def BullBearish_state(self):
       # Calculate technical indicators
       if len(self.data)>=250:
+        st.header("Bullish/Bearish Trend Strength")
         # Calculate the Simple Moving Average (SMA) with a time period of 50
         self.sma_50 = talib.SMA(data, timeperiod=50).tail() # The tail() method returns the last 5 elements of the Series
         # Calculate the Simple Moving Average (SMA) with a time period of 200
