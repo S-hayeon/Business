@@ -48,19 +48,19 @@ class TIndicators:
   def BullBearish_state(self):
       # Calculate technical indicators
       if len(self.data)>=250:
-        st.header("Bullish/Bearish Trend Strength")
+        st.markdown(f"{st.session_state['CurrencyPair']} Bullish :chart_with_upwards_trend: Bearish :chart_with_downwards_trend: Trend :chart: Strength")
         # Calculate the Simple Moving Average (SMA) with a time period of 50
-        self.sma_50 = talib.SMA(data, timeperiod=50).tail() # The tail() method returns the last 5 elements of the Series
+        self.sma_50 = talib.SMA(self.data, timeperiod=50).tail() # The tail() method returns the last 5 elements of the Series
         # Calculate the Simple Moving Average (SMA) with a time period of 200
-        self.sma_200 = talib.SMA(data, timeperiod=200).tail()
+        self.sma_200 = talib.SMA(self.data, timeperiod=200).tail()
         # Calculate the Relative Strength Index (RSI)
-        self.rsi = talib.RSI(data).tail()
+        self.rsi = talib.RSI(self.data).tail()
         # Calculate the Moving Average Convergence Divergence (MACD) and Signal line
-        macd, signal, _ = talib.MACD(data)  # Unpack the tuple and remove the third element (histogram)
+        macd, signal, _ = talib.MACD(self.data)  # Unpack the tuple and remove the third element (histogram)
         self.macd = macd.tail()
         self.signal = signal.tail()
         # Calculate the Average Directional Index (ADX)
-        self.adx = talib.ADX(df['High'], df['Low'], data, timeperiod=14).tail()
+        self.adx = talib.ADX(self.df['High'], df['Low'], self.data, timeperiod=14).tail()
         @st.cache_data
         # Storing the trend data
         def trendData():
