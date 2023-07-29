@@ -48,7 +48,7 @@ class TIndicators:
   def BullBearish_state(self):
       # Calculate technical indicators
       if len(self.data)>=250:
-        st.markdown(f"{st.session_state['CurrencyPair']}:chart_with_upwards_trend: :chart_with_downwards_trend: Trend :chart: Strength")
+        st.title(f"{st.session_state['CurrencyPair']}:chart_with_upwards_trend: :chart_with_downwards_trend: Trend :chart: Strength")
         # Calculate the Simple Moving Average (SMA) with a time period of 50
         self.sma_50 = talib.SMA(self.data, timeperiod=50).tail() # The tail() method returns the last 5 elements of the Series
         # Calculate the Simple Moving Average (SMA) with a time period of 200
@@ -72,16 +72,19 @@ class TIndicators:
             trendDF['Signal']=self.signal
             trendDF['ADX']=self.adx
             trendDF.reset_index(drop=True, inplace=True)
+            # Shift the index by adding 1 to each index value to start from 1 instead of 0
+            trendDF.index += 1
             return trendDF
+        st.header("Table with the 5 recent values")
         st.dataframe(trendData())
         # Splitting each condition into separate boolean variables
-        self.sma_50_greater_than_sma_200 = self.sma_50.all() > self.sma_200.all()
-        self.rsi_above_70 = self.rsi.all() > 70
-        self.macd_above_signal = self.macd.all() > self.signal.all()
-        self.adx_above_25 = self.adx.all() > 25
-        self.rsi_below_30 = self.rsi.all() < 30
-        self.macd_below_signal = self.macd.all() < self.signal.all()
-        self.rsi_below_20 = self.rsi.all() < 20
+        self.sma_50_greater_than_sma_200 = self.sma_50.mean() > self.sma_200.all()
+        self.rsi_above_70 = self.rsi.mean() > 70
+        self.macd_above_signal = self.macd.mean() > self.signal.mean()
+        self.adx_above_25 = self.adx.mean() > 25
+        self.rsi_below_30 = self.rsi.mean() < 30
+        self.macd_below_signal = self.macd.mean() < self.signal.mean()
+        self.rsi_below_20 = self.rsi.mean() < 20
         if self.sma_50_greater_than_sma_200:
           st.markdown(f":green[SMA 50 is greater than SMA 200] is: {self.sma_50_greater_than_sma_200}")
           #st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
@@ -95,25 +98,25 @@ class TIndicators:
             st.markdown(f":red[RSI is above 70] is: {self.rsi_above_70}")
             #st.write(f"RSI is above 70: {self.rsi_above_70}")
         if self.macd_above_signal:
-            st.markdown(f"MACD is above Signal: {self.macd_above_signal}")
+            st.markdown(f"green[MACD is above Signal] is: {self.macd_above_signal}")
         else:
-            st.markdown(f"MACD is above Signal: {self.macd_above_signal}")
+            st.markdown(f"red[MACD is above Signal] is: {self.macd_above_signal}")
         if self.adx_above_25:
-            st.markdown(f"ADX is above 25: {self.adx_above_25}")
+            st.markdown(f"green[ADX is above 25] is: {self.adx_above_25}")
         else:
-            st.markdown(f"ADX is above 25: {self.adx_above_25}")
+            st.markdown(f"red[ADX is above 25] is: {self.adx_above_25}")
         if self.rsi_below_30:
-            st.markdown(f"RSI is below 30: {self.rsi_below_30}")
+            st.markdown(f"green[RSI is below 30] is: {self.rsi_below_30}")
         else:
-            st.markdown(f"RSI is below 30: {self.rsi_below_30}")
+            st.markdown(f"red[RSI is below 30] is: {self.rsi_below_30}")
         if self.macd_below_signal:
-            st.markdown(f"MACD is below Signal: {self.macd_below_signal}")
+            st.markdown(f"green[MACD is below Signal] is: {self.macd_below_signal}")
         else:
-            st.markdown(f"MACD is below Signal: {self.macd_below_signal}")
+            st.markdown(f"red[MACD is below Signal] is: {self.macd_below_signal}")
         if self.rsi_below_20:
-            st.markdown(f"RSI is below 20: {self.rsi_below_20}")
+            st.markdown(f"red[RSI is below 20] is: {self.rsi_below_20}")
         else:
-            st.markdown(f"RSI is below 20: {self.rsi_below_20}")
+            st.markdown(f"red[RSI is below 20] is: {self.rsi_below_20}")
         # Return the trend classification
         if self.sma_50_greater_than_sma_200 or self.rsi_above_70 or self.macd_above_signal or self.adx_above_25:
             return "Strong Bullish"
