@@ -44,29 +44,22 @@ class TIndicators:
     # Show the plot
     plt.show()
     st.pyplot(fig)
-  
-    # Convert the MACD array into a pandas Series
-    # macd = pd.Series(macd_array)
-    # # Convert the signal line array into a pandas Series
-    # signal_line = pd.Series(signal_line_array)
-    # # Find the index of the all time the MACD line crosses above the signal line, to find first time add [0]
-    # macd_cross_above_signal = macd.index[macd > signal_line]
-    # # Find theindex of the all time the MACD line crosses below the signal line
-    # macd_cross_below_signal = macd.index[macd < signal_line]
-    # # Print the date of the first MACD crossover
-    # st.write(f'The MACD line crossed above the signal line on {df.loc[macd_cross_above_signal].name}')
-    # # Print the date of the first MACD crossover
-    # st.write(f'The MACD line crossed below the signal line on {df.loc[macd_cross_below_signal].name}')
     return macd_array,signal_line_array
   def BullBearish_state(self):
       # Calculate technical indicators
       if len(self.data)>=250:
-        self.sma_50 = talib.SMA(self.data, timeperiod=50).tail().all()
-        self.sma_200 = talib.SMA(self.data, timeperiod=200).tail().all()
-        self.rsi = talib.RSI(self.data).tail().all()
-        self.macd, self.signal= talib.MACD(self.data).tail().all()
-        #self.macd, self.signal, _ = talib.MACD(self.data).tail().all()
-        self.adx = talib.ADX(self.df['High'],self.df['Low'],self.data,timeperiod=14).tail().all()
+        # Calculate the Simple Moving Average (SMA) with a time period of 50
+        self.sma_50 = talib.SMA(data, timeperiod=50).tail() # The tail() method returns the last 5 elements of the Series
+        # Calculate the Simple Moving Average (SMA) with a time period of 200
+        self.sma_200 = talib.SMA(data, timeperiod=200).tail()
+        # Calculate the Relative Strength Index (RSI)
+        self.rsi = talib.RSI(data).tail()
+        # Calculate the Moving Average Convergence Divergence (MACD) and Signal line
+        macd, signal, _ = talib.MACD(data)  # Unpack the tuple and remove the third element (histogram)
+        self.macd = macd.tail()
+        self.signal = signal.tail()
+        # Calculate the Average Directional Index (ADX)
+        self.adx = talib.ADX(df['High'], df['Low'], data, timeperiod=14).tail()
         @st.cache_data
         # Storing the trend data
         def trendData():
@@ -81,13 +74,13 @@ class TIndicators:
             return trendDF
         st.dataframe(trendData())
         # Splitting each condition into separate boolean variables
-        self.sma_50_greater_than_sma_200 = self.sma_50 > self.sma_200
-        self.rsi_above_70 = self.rsi > 70
-        self.macd_above_signal = self.macd > self.signal
-        self.adx_above_25 = self.adx > 25
-        self.rsi_below_30 = self.rsi < 30
-        self.macd_below_signal = self.macd < self.signal
-        self.rsi_below_20 = self.rsi < 20
+        self.sma_50_greater_than_sma_200 = self.sma_50.all() > self.sma_200.all()
+        self.rsi_above_70 = self.rsi.all() > 70
+        self.macd_above_signal = self.macd.all() > self.signal.all()
+        self.adx_above_25 = self.adx.all() > 25
+        self.rsi_below_30 = self.rsi.all() < 30
+        self.macd_below_signal = self.macd.all() < self.signal.all()
+        self.rsi_below_20 = self.rsi.all() < 20
         if self.sma_50_greater_than_sma_200:
           st.markdown(f":green[SMA 50 is greater than SMA 200] is: {self.sma_50_greater_than_sma_200}")
           #st.write(f"SMA 50 is greater than SMA 200: {self.sma_50_greater_than_sma_200}")
