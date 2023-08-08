@@ -10,5 +10,5 @@ def on_message(ws,message):
   text_placeholder.info("Data stream inaFlow")
   text_placeholder.write(f"Kuna hii data:{message}")
 
-ws=websocket.WebsocketApp(SOCKET,on_open=on_open,on_close=on_close,on_message=on_message)
+ws=websocket.WebSocketApp(SOCKET,on_open=on_open,on_close=on_close,on_message=on_message)
 ws.run_forever() #Loop the streaming functionality
