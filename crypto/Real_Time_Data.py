@@ -14,8 +14,8 @@ def on_close(ws):
     info_placeholder.info("Nimefunga data stream")
 
 def on_message(ws, message):
-    info_placeholder.info("Data stream sasa inaFlow")
-    text_placeholder.text(message)
+    st.info("Data stream sasa inaFlow")
+    st.text(message)
 
 st.title("Crypto Live Datastream")
 
