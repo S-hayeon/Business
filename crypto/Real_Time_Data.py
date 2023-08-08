@@ -1,12 +1,9 @@
+import json
 import streamlit as st
 import websocket
-import json
 
 # Streamlit configuration
 st.set_page_config(page_title="Binance WebSocket App", layout="wide")
-
-# Binance WebSocket endpoint
-BINANCE_WS_ENDPOINT = "wss://stream.binance.com:9443/ws/btcusdt@trade"
 
 # Initialize Streamlit components
 st.title("Binance WebSocket App")
@@ -25,10 +22,8 @@ binance_ws_endpoint = f"wss://stream.binance.com:9443/ws/{symbol}@trade"
 if symbol:
     st.sidebar.write("WebSocket URL:", binance_ws_endpoint)
     ws = websocket.WebSocketApp(binance_ws_endpoint, on_message=on_message)
-    st.sidebar.write("WebSocket status:", ws.sock.connected)
 
-    if not ws.sock.connected:
-        st.sidebar.error("WebSocket connection failed.")
-    else:
+    def run_ws():
         ws.run_forever()
 
+    st.sidebar.button("Connect", on_click=run_ws)
