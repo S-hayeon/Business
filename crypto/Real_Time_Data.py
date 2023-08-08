@@ -10,9 +10,6 @@ ws = None  # Initialize the WebSocket instance
 def on_open(ws):
     info_placeholder.info("Nimefungua data stream")
 
-def on_error(ws, error):
-    error_placeholder.error(error)
-
 def on_close(ws):
     info_placeholder.info("Nimefunga data stream")
 
@@ -25,6 +22,5 @@ st.title("Crypto Live Datastream")
 # Create a button to start the WebSocket connection
 if st.button("Start Data Stream"):
     ws = websocket.WebSocketApp(
-        SOCKET, on_open=on_open, on_close=on_close, on_message=on_message, on_error=on_error
-    )
+        SOCKET, on_open=on_open, on_close=on_close, on_message=on_message)
     ws.run_forever()
