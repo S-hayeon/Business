@@ -10,7 +10,7 @@ def on_close(ws):
   error_placeholder.error("Nimefunga data stream")
 def on_message(ws,message):
   st.info("Data stream inaFlow")
-  st.write(f"Kuna hii data:{message}")
+  print(f"Kuna hii data:{message}")
 
 st.info("Running the Crypto Data stream")
 ws=websocket.WebSocketApp(SOCKET,on_open=on_open,on_close=on_close,on_message=on_message)
