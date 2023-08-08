@@ -1,4 +1,5 @@
 import streamlit as st
+import threading 
 import websocket
 info_placeholder=st.empty()
 error_placeholder=st.empty()
@@ -15,5 +16,9 @@ def on_message(ws,message):
   text_placeholder.text(message)
 
 st.title("Crypto Live Datastream")
-ws=websocket.WebSocketApp(SOCKET,on_open=on_open,on_close=on_close,on_message=on_message)
-ws.run_forever() #Loop the streaming functionality
+def run_websocket():
+  ws=websocket.WebSocketApp(SOCKET,on_open=on_open,on_close=on_close,on_message=on_message)
+  ws.run_forever() #Loop the streaming functionality
+websocket_thread=threading.Thread(target=run_websocket)
+websocket_thread.start()
+
