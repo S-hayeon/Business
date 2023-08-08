@@ -1,4 +1,4 @@
-json
+#json
 matplotlib
 mplfinance
 openpyxl
