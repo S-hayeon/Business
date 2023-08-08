@@ -11,7 +11,7 @@ TA-Lib-Precompiled
 ta_py
 #./libs/TA_Lib-0.4.24-cp310-cp310-win_amd64.whl
 #ta-lib==0.4.24
-threading
+#threading
 websocket_client
 world_bank_data
 yfinance
