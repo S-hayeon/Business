@@ -17,7 +17,7 @@ def on_message(ws, message):
 # Streamlit UI
 st.sidebar.header("Settings")
 symbol = st.sidebar.text_input("Enter Symbol (e.g., btcusdt)", "btcusdt")
-binance_ws_endpoint = f"wss://stream.binance.com:9443/ws/{symbol}@trade"
+binance_ws_endpoint = f"wss://stream.binance.com:9443/ws/{symbol}@kline_1s"
 
 if symbol:
     st.sidebar.write("WebSocket URL:", binance_ws_endpoint)
