@@ -103,7 +103,7 @@ def visualize_data():
                 status_displayed = True
         remaining_time = refresh_interval
         # Display the dataframe inside the placeholder
-        with st.expander("Data Statistics"):
+        with expander_placeholder.expander("Data Statistics"):
             st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
             st.table(df.describe())
         while remaining_time > 0:
