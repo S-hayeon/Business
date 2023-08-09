@@ -113,6 +113,10 @@ def visualize_data():
                     st.sidebar.info(f"Response status {response.status_code}")
                     status_displayed = True
             remaining_time = refresh_interval
+            expander_placeholder = st.empty()
+            with st.expander("Data Statistics"):
+                st.write("The descriptive statistics of OHLCV values are as follows")
+                expander_placeholder.table(st.session_state['DataFrame'].describe())
             while remaining_time > 0:
                 response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
                 remaining_time -= 1
@@ -148,11 +152,8 @@ if st.sidebar.button('Start Analysis'):
     if st.session_state['CurrencyPair'] is not None:
         st.sidebar.write("Streaming started!!")
         visualize_data()
-        expander_placeholder = st.empty()
-        st.write("Visualize data iko sawa")
-        with st.expander("Data Statistics"):
-            st.write("Expander container iko sawa")
-            expander_placeholder.table(st.session_state['DataFrame'].describe())
+        
+        
     else:
         st.error("Choose a Coin")
 st.set_option('deprecation.showPyplotGlobalUse', False)
