@@ -108,15 +108,15 @@ def visualize_data():
                 # Display status message only once
                 fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
-                # Display the dataframe inside the placeholder
-                with st.expander("Data Statistics"):
-                    st.write("The descriptive statistics of OHLCV values are as follows")
-                    expander_placeholder.table(df.describe())
                 if not status_displayed:
                     response=st.session_state['response']
                     st.sidebar.info(f"Response status {response.status_code}")
                     status_displayed = True
             remaining_time = refresh_interval            
+            # Display the dataframe inside the placeholder
+            with st.expander("Data Statistics"):
+                st.write("The descriptive statistics of OHLCV values are as follows")
+                expander_placeholder.table(df.describe())
             while remaining_time > 0:
                 response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
                 remaining_time -= 1
