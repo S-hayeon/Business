@@ -114,7 +114,9 @@ def visualize_data():
         
         # Sleep for 60 seconds before fetching new data again
         #time.sleep(60)
-# List of intervals to choose from
+
+# Main loop
+coin_token_selection()
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.sidebar.selectbox("Select an interval", intervals)
 #st.write(f"The Interval: {st.session_state['Interval']}")
@@ -133,7 +135,6 @@ if start_date is not None and end_date is not None:
     #st.write(f"The end time: {end_time}")
     #st.dataframe(df)
 if st.sidebar.button('Start Analysis'):
-    coin_token_selection()
     st.session_state['CurrencyPair']=st.session_state['CoinPair']
     st.session_state['Interval']=interval
     st.session_state['Start_Time']=start_time
