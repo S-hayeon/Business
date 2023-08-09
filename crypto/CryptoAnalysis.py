@@ -90,9 +90,10 @@ def visualize_data():
         start_time = st.session_state['Start_Time']
         end_time = st.session_state['End_Time']
 
-        # Create a placeholder for the dataframe
-        data_placeholder = st.empty()
+        # Create  placeholders
         candlestickfigure_placeholder = st.empty()
+        data_placeholder = st.empty()
+        expander_placeholder = st.empty()
         status_displayed = False  # Flag to track whether status message has been displayed
         response_placeholder = st.empty()
 
@@ -108,15 +109,14 @@ def visualize_data():
                 fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
                 # Display the dataframe inside the placeholder
+                with st.expander("Data Statistics"):
+                    st.write("The descriptive statistics of OHLCV values are as follows")
+                    expander_placeholder.table(df.describe())
                 if not status_displayed:
                     response=st.session_state['response']
                     st.sidebar.info(f"Response status {response.status_code}")
                     status_displayed = True
-            remaining_time = refresh_interval
-            expander_placeholder = st.empty()
-            with st.expander("Data Statistics"):
-                st.write("The descriptive statistics of OHLCV values are as follows")
-                expander_placeholder.table(st.session_state['DataFrame'].describe())
+            remaining_time = refresh_interval            
             while remaining_time > 0:
                 response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
                 remaining_time -= 1
