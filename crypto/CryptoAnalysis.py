@@ -44,8 +44,10 @@ def coin_token_selection():
     coin_selected_value = st.sidebar.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
     # st.write(" Coin Selected Key:", coin_original_key)
     # st.write(" Coin Selected Value:", coin_selected_value)
-    st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
-    st.sidebar.info(f"Selected coin pair is {st.session_state['CurrencyPair']}")
+    #st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
+    symbol= f"{token_selected_value}{coin_selected_value}"
+    st.sidebar.success(f"Coin pair is: {symbol} ",icon="✅")
+    return symbol
     
 @st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
@@ -78,59 +80,44 @@ def get_historical_data(symbol, interval, start_time, end_time):
     return df
 @st.cache_data
 def visualize_data():
-    # Get the current selected coin pair and interval
-    symbol = st.session_state['CurrencyPair']
-    interval = st.session_state['Interval']
-    #fig=plt.style.use('ggplot')
-
-
-    # Check if the current coin pair and interval are not empty and not None
-    if symbol and interval:
-        # Get the current start and end time
-        start_time = st.session_state['Start_Time']
-        end_time = st.session_state['End_Time']
-
-        # Create  placeholders
-        candlestickfigure_placeholder = st.empty()
-        data_placeholder = st.empty()
-        expander_placeholder = st.empty()
-        status_displayed = False  # Flag to track whether status message has been displayed
-        response_placeholder = st.empty()
-
-        # Continuously update the data by fetching new data from the API
-        while True:
-            df = get_historical_data(symbol, interval, start_time, end_time)
-
-            # If data is not empty, show the data in the frontend
-            if df is not None:
-                st.session_state['DataFrame']=df
-                title_placeholder.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
-                # Display status message only once
-                fig=mpf.plot(df,type='candle',volume=True,style='charles')
-                candlestickfigure_placeholder.pyplot(fig)
-                if not status_displayed:
-                    response=st.session_state['response']
-                    st.sidebar.info(f"Response status {response.status_code}")
-                    status_displayed = True
-            remaining_time = refresh_interval            
-            # Display the dataframe inside the placeholder
-            with st.expander("Data Statistics"):
-                st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
-                st.table(df.describe())
-            while remaining_time > 0:
-                response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
-                remaining_time -= 1
-                time.sleep(1)  # Wait for 1 second
-
-            # Sleep for 60 seconds before fetching new data again
-            #time.sleep(60)
-# Example usage:
-coin_token_selection()
-#symbol = st.session_state['CurrencyPair']
+    start_time = st.session_state['Start_Time']
+    end_time = st.session_state['End_Time']
+    # Create  placeholders
+    candlestickfigure_placeholder = st.empty()
+    data_placeholder = st.empty()
+    expander_placeholder = st.empty()
+    status_displayed = False  # Flag to track whether status message has been displayed
+    response_placeholder = st.empty()
+    # Continuously update the data by fetching new data from the API
+    while True:
+        df = get_historical_data(symbol, interval, start_time, end_time)
+        # If data is not empty, show the data in the frontend
+        if df is not None:
+            st.session_state['DataFrame']=df
+            title_placeholder.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
+            # Display status message only once
+            fig=mpf.plot(df,type='candle',volume=True,style='charles')
+            candlestickfigure_placeholder.pyplot(fig)
+            if not status_displayed:
+                response=st.session_state['response']
+                st.sidebar.info(f"Response status {response.status_code}")
+                status_displayed = True
+        remaining_time = refresh_interval
+        # Display the dataframe inside the placeholder
+        with st.expander("Data Statistics"):
+            st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
+            st.table(df.describe())
+        while remaining_time > 0:
+            response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
+            remaining_time -= 1
+            time.sleep(1)  # Wait for 1 second
+        st.cache_data.clear()
+        
+        # Sleep for 60 seconds before fetching new data again
+        #time.sleep(60)
 # List of intervals to choose from
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.sidebar.selectbox("Select an interval", intervals)
-st.session_state['Interval']=interval
 #st.write(f"The Interval: {st.session_state['Interval']}")
 start_date = st.sidebar.date_input("Select the start date:")
 #st.write(f"The start date: {start_date}")
@@ -141,19 +128,20 @@ if start_date is not None and end_date is not None:
     start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
     end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
     start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
-    st.session_state['Start_Time']=start_time
     end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
-    st.session_state['End_Time']=end_time
     #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
     #st.write(f"The start time: {start_time}")
     #st.write(f"The end time: {end_time}")
     #st.dataframe(df)
 if st.sidebar.button('Start Analysis'):
+    symbol=coin_token_selection()
+    st.session_state['CurrencyPair']=symbol
+    st.session_state['Interval']=interval
+    st.session_state['Start_Time']=start_time
+    st.session_state['End_Time']=end_time
     if st.session_state['CurrencyPair'] is not None:
         st.sidebar.write("Streaming started!!")
         visualize_data()
-        
-        
     else:
         st.error("Choose a Coin")
 st.set_option('deprecation.showPyplotGlobalUse', False)
