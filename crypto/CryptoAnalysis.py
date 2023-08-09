@@ -140,7 +140,7 @@ if st.sidebar.button('Start Analysis'):
     st.session_state['Start_Time']=start_time
     st.session_state['End_Time']=end_time
     if st.session_state['CurrencyPair'] is not None:
-        st.sidebar.baloons("Streaming started!!")
+        st.sidebar.toast("Streaming started",icon='😍')
         visualize_data()
     else:
         st.error("Choose a Coin")
