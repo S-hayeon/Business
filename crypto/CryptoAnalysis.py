@@ -149,7 +149,9 @@ if st.sidebar.button('Start Analysis'):
         st.sidebar.write("Streaming started!!")
         visualize_data()
         expander_placeholder = st.empty()
+        st.write("Visualize data iko sawa")
         with st.expander("Data Statistics"):
+            st.write("Expander container iko sawa")
             expander_placeholder.table(st.session_state['DataFrame'].describe())
     else:
         st.error("Choose a Coin")
