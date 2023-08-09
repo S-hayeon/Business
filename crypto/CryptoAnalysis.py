@@ -46,7 +46,7 @@ def coin_token_selection():
     # st.write(" Coin Selected Value:", coin_selected_value)
     st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
     st.sidebar.info(f"Selected coin pair is {st.session_state['CurrencyPair']}")
-    title_placeholder.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
+    
 @st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
     #url = f"https://api.binance.us/api/v3/klines"
@@ -104,12 +104,14 @@ def visualize_data():
             # If data is not empty, show the data in the frontend
             if df is not None:
                 st.session_state['DataFrame']=df
+                title_placeholder.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
                 # Display status message only once
                 fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
                 # Display the dataframe inside the placeholder
                 with st.expander("See the Data Table"):
-                    data_placeholder.dataframe(st.session_state['DataFrame'])
+                    #data_placeholder.dataframe(st.session_state['DataFrame'])
+                    st.write("Coming soon- see Data stats instead")
                 with st.expander("Data Statistics"):
                     expander_placeholder.table(st.session_state['DataFrame'].describe())
                 if not status_displayed:
