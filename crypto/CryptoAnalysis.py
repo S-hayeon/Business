@@ -76,7 +76,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Convert OHLCV values to numeric data types
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
-#@st.cache_resource
+@st.cache_data
 def visualize_data():
     # Get the current selected coin pair and interval
     symbol = st.session_state['CurrencyPair']
@@ -115,7 +115,7 @@ def visualize_data():
             remaining_time = refresh_interval            
             # Display the dataframe inside the placeholder
             with st.expander("Data Statistics"):
-                st.write("The descriptive statistics of OHLCV values are as follows")
+                st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
                 st.table(df.describe())
             while remaining_time > 0:
                 response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
