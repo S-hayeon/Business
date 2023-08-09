@@ -91,8 +91,10 @@ def visualize_data():
         # Create a placeholder for the dataframe
         data_placeholder = st.empty()
         candlestickfigure_placeholder = st.empty()
+        expander_placeholder = st.empty()
         status_displayed = False  # Flag to track whether status message has been displayed
         response_placeholder = st.empty()
+
         # Continuously update the data by fetching new data from the API
         while True:
             df = get_historical_data(symbol, interval, start_time, end_time)
@@ -104,10 +106,10 @@ def visualize_data():
                 fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
                 # Display the dataframe inside the placeholder
-                with st.expander("See the Data Table"):
-                    data_placeholder.dataframe(st.session_state['DataFrame'])
+                #with st.expander("See the Data Table"):
+                    #data_placeholder.dataframe(st.session_state['DataFrame'])
                 with st.expander("Data Statistics"):
-                    st.table(st.session_state['DataFrame'].describe())
+                    expander_placeholder.table(st.session_state['DataFrame'].describe())
                 if not status_displayed:
                     response=st.session_state['response']
                     st.sidebar.info(f"Response status {response.status_code}")
