@@ -89,7 +89,7 @@ def visualize_data():
     response_placeholder = st.empty()
     # Continuously update the data by fetching new data from the API
     while True:
-        df = get_historical_data(symbol, interval, start_time, end_time)
+        df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
         # If data is not empty, show the data in the frontend
         if df is not None:
             st.session_state['DataFrame']=df
