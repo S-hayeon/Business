@@ -17,6 +17,7 @@ except:
 import time
 try:
     if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
+        @st.cache_resource
         def support_Resistance():
             # Create a placeholder for the dataframe
             data_placeholder = st.empty()
