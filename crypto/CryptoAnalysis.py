@@ -45,9 +45,8 @@ def coin_token_selection():
     # st.write(" Coin Selected Key:", coin_original_key)
     # st.write(" Coin Selected Value:", coin_selected_value)
     #st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
-    symbol= f"{token_selected_value}{coin_selected_value}"
-    st.sidebar.success(f"Coin pair is: {symbol} ",icon="✅")
-    return symbol
+    st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
+    st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
     
 @st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
@@ -134,8 +133,8 @@ if start_date is not None and end_date is not None:
     #st.write(f"The end time: {end_time}")
     #st.dataframe(df)
 if st.sidebar.button('Start Analysis'):
-    symbol=coin_token_selection()
-    st.session_state['CurrencyPair']=symbol
+    coin_token_selection()
+    st.session_state['CurrencyPair']=st.session_state['CoinPair']
     st.session_state['Interval']=interval
     st.session_state['Start_Time']=start_time
     st.session_state['End_Time']=end_time
