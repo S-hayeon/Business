@@ -108,8 +108,8 @@ def visualize_data():
                 fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
                 # Display the dataframe inside the placeholder
-                #with st.expander("See the Data Table"):
-                    #data_placeholder.dataframe(st.session_state['DataFrame'])
+                with st.expander("See the Data Table"):
+                    data_placeholder.dataframe(st.session_state['DataFrame'])
                 with st.expander("Data Statistics"):
                     expander_placeholder.table(st.session_state['DataFrame'].describe())
                 if not status_displayed:
