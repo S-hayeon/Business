@@ -19,13 +19,14 @@ import time
 refresh_interval=60 # Refresh in 60 seconds
 st.session_state['CurrencyPair']=None
 st.session_state['DataFrame']=None
+title_placeholder=st.empty()
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
 
 def coin_token_selection():
+    title_placeholder.title("Crypto Analysis App")
     # Coin, Token dictionary containing the keys and values for the dropdowns
-    st.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
     # First dropdown for selecting the Token key
     token_selected_key = st.sidebar.selectbox("Select your Token Category:", list(main.crypto_tokens.keys()))
     #token_selected_key = st.selectbox("Select your Token Category:", [format_key(key) for key in main.crypto_tokens.keys()])
@@ -45,6 +46,7 @@ def coin_token_selection():
     # st.write(" Coin Selected Value:", coin_selected_value)
     st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
     st.sidebar.info(f"Selected coin pair is {st.session_state['CurrencyPair']}")
+    title_placeholder.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
 @st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
     #url = f"https://api.binance.us/api/v3/klines"
