@@ -96,10 +96,10 @@ def visualize_data():
         # Continuously update the data by fetching new data from the API
         while True:
             df = get_historical_data(symbol, interval, start_time, end_time)
-            st.session_state['DataFrame']=df
 
             # If data is not empty, show the data in the frontend
             if df is not None:
+                st.session_state['DataFrame']=df
                 # Display status message only once
                 fig=mpf.plot(df,type='candle',volume=True,style='charles')
                 candlestickfigure_placeholder.pyplot(fig)
