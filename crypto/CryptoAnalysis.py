@@ -24,7 +24,6 @@ def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
 def coin_token_selection():
-    title_placeholder.title("Crypto Analysis App")
     # Coin, Token dictionary containing the keys and values for the dropdowns
     # First dropdown for selecting the Token key
     token_selected_key = st.sidebar.selectbox("Select your Token Category:", list(main.crypto_tokens.keys()))
@@ -81,6 +80,7 @@ def visualize_data():
     # Create  placeholders
     candlestickfigure_placeholder = st.empty()
     data_placeholder = st.empty()
+    df_expander_placeholder = st.empty()
     expander_placeholder = st.empty()
     status_displayed = False  # Flag to track whether status message has been displayed
     response_placeholder = st.empty()
@@ -90,7 +90,9 @@ def visualize_data():
         # If data is not empty, show the data in the frontend
         if df is not None:
             st.session_state['DataFrame']=df
-            title_placeholder.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
+            title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
+            with df_expander_placeholder.expander("View the data"):
+                data_placeholder.dataframe(df)
             # Display status message only once
             fig=mpf.plot(df,type='candle',volume=True,style='charles')
             candlestickfigure_placeholder.pyplot(fig)
@@ -137,6 +139,7 @@ def popularCoinPrices():
 
 if __name__=='__main__':
     with st.container():
+        st.title("Crypto Analysis App")
         popularCoinPrices()
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
