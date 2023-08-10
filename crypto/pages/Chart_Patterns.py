@@ -17,7 +17,7 @@ except:
 import time
 try:
     if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
-        @st.cache_resource
+        #@st.cache_resource
         def support_Resistance():
             # Create a placeholder for the dataframe
             data_placeholder = st.empty()
@@ -35,7 +35,7 @@ try:
                 fig=mpf.plot(st.session_state['DataFrame'],type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
                 candlestickfigure_placeholder.pyplot(fig)
                 #time.sleep(1)
-                break
+                #break
         #st.set_option('deprecation.showPyplotGlobalUse', False)
         st.title('Chart Patterns :chart:')
         st.header(":green[Support] and :red[Resistance] Levels")
