@@ -9,7 +9,8 @@ class Pattern:
         dataframeLength=len(self.data)
         if lookback is None:
             lookback = 25
-        lookbackPeriod=(lookback/100)*dataframeLength
+        #lookbackPeriod=(lookback/100)*dataframeLength
+        lookbackPeriod=dataframeLength
         # Calculate support and resistance levels using ta-py module
         recent_low = ta.recent_low(self.data['Low'], lookbackPeriod)
         recent_high = ta.recent_high(self.data['High'],lookbackPeriod)
