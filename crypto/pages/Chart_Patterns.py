@@ -35,13 +35,14 @@ try:
                 st.session_state['support_resistance_lines'] = support_resistance_lines
                 fig=mpf.plot(st.session_state['DataFrame'],type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
                 st.session_state['SupportResistance_Figure']=fig
-                if st.session_state['SupportResistance_Figure'] is not None:
-                    candlestickfigure_placeholder.pyplot(st.session_state['SupportResistance_Figure'])
-                    break
+                time.sleep(2)  # Wait for 1 second
+                break
         #st.set_option('deprecation.showPyplotGlobalUse', False)
         st.title('Chart Patterns :chart:')
         st.header(":green[Support] and :red[Resistance] Levels")
         support_Resistance()
+        if st.session_state['SupportResistance_Figure'] is not None:
+            candlestickfigure_placeholder.pyplot(st.session_state['SupportResistance_Figure'])
         with st.expander("More info on Support and Resistance"):
             #st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
             # Access support_resistance_lines from st.session_state
