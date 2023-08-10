@@ -128,7 +128,7 @@ cryptolist=['BTCBUSD','BTCUSDT','ETHBUSD','ETHUSDT','BNBUSDT','BNBBUSD','XRPBUSD
 for symbol in cryptolist:
     crypto_df=popularcoinDF[popularcoinDF.symbol==symbol]
     crypto_price=round_value(crypto_df.weightedAvgPrice)
-    crypto_percent=f'float(crypto_df.priceChangePercent)}%'
+    crypto_percent=f'float(crypto_df.priceChangePercent):.2f}%' # the :.2f specifies the floating point number to 2 decimal places
     st.metric(symbol,crypto_price, crypto_percent)
 coin_token_selection()
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
