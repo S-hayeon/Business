@@ -17,9 +17,9 @@ except:
 import time
 st.session_state['SupportResistance_Figure']=None
 candlestickfigure_placeholder = st.empty()
-st.title('Chart Patterns :chart:')
-st.header(":green[Support] and :red[Resistance] Levels")
 try:
+    st.title('Chart Patterns :chart:')
+    st.header(":green[Support] and :red[Resistance] Levels")
     if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
         def support_Resistance():
             # Create a placeholder for the dataframe
