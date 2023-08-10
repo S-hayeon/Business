@@ -18,8 +18,7 @@ import time
 st.session_state['SupportResistance_Figure']=None
 candlestickfigure_placeholder = st.empty()
 try:
-    st.title('Chart Patterns :chart:')
-    st.header(":green[Support] and :red[Resistance] Levels")
+    
     if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
         def support_Resistance():
             # Create a placeholder for the dataframe
@@ -37,7 +36,10 @@ try:
             candlestickfigure_placeholder.pyplot(fig)
             time.sleep(2)  # Wait for 2 seconds
         #st.set_option('deprecation.showPyplotGlobalUse', False)
-        support_Resistance()
+        with st.container():
+            st.title('Chart Patterns :chart:')
+            st.header(":green[Support] and :red[Resistance] Levels")
+            support_Resistance()
         with st.expander("More info on Support and Resistance"):
             #st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
             # Access support_resistance_lines from st.session_state
