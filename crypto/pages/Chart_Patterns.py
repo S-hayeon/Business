@@ -16,7 +16,6 @@ except:
 #sys.path.append('/app/business/fx')
 import time
 st.session_state['SupportResistance_Figure']=None
-candlestickfigure_placeholder = st.empty()
 try:
     
     if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
@@ -39,6 +38,7 @@ try:
         with st.container():
             st.title('Chart Patterns :chart:')
             st.header(":green[Support] and :red[Resistance] Levels")
+            candlestickfigure_placeholder = st.empty()
             support_Resistance()
         with st.expander("More info on Support and Resistance"):
             #st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
