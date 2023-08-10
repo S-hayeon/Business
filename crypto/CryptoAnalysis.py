@@ -116,6 +116,20 @@ def visualize_data():
         #time.sleep(60)
 
 # Main loop
+def round_value(input_value):
+    if input_value>1:
+        a=round(input_value,3) # Round values above 1 to 3 decimal places
+    else:
+        a=round(input_value,8) # Round values less than 1 to 8 decimal places
+    return a
+popularcoinDF=pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
+cryptolist=['BTCBUSD','BTCUSDT','ETHBUSD','ETHUSDT','BNBUSDT',,'BNBBUSD','XRPBUSD','XRPUSDT','ADABUSD','ADAUSDT','MATICBUSD','MATICUSDT','SHIBBUSD','SHIBUSDT','DOGEBUSD','DOGEUSDT']
+
+for symbol in cryptolist:
+    crypto_df=popularcoinDF[popularcoinDF.symbol==symbol]
+    crypto_price=round_value(crypto_df.weightedAvgPrice)
+    crypto_percent=f'float(crypto_df.priceChangePercent)}%'
+    st.metric(symbol,crypto_price, crypto_percent)
 coin_token_selection()
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.sidebar.selectbox("Select an interval", intervals)
