@@ -8,7 +8,6 @@ import requests
 #from streamlit import caching
 import streamlit as st
 import sys
-import threading
 try:
     sys.path.append('/app/business')
     from crypto import main
@@ -115,61 +114,56 @@ def round_value(input_value):
     return a
 def popularCoinPrices():
     # Fetch data from the API
-    while True:
-        url='https://data.binance.com/api/v3/ticker/24hr'
-        popularcoinDF = pd.DataFrame(requests.get(url).json())
-        
-        cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
-                      'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
-        
-        col1,col2,col3 =st.columns(3)
-        for index, symbol in enumerate(cryptolist):
-            crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
-            crypto_price = round_value(float(crypto_df.weightedAvgPrice))
-            crypto_percent = f'{float(crypto_df.priceChangePercent)}%'  # the :.2f specifies the floating point number to 2 decimal places
-            #print("{} {} {}".format(symbol, crypto_price, crypto_percent))
-            if index % 3 == 0:
-                col=col1
-            elif index%3==1:
-                col=col2
-            else:
-                col=col3
-            with col:
-                st.metric(symbol,crypto_price, crypto_percent)
-        time.sleep(60) # Wait every 60 seconds then update
-@st.cache_data
-def realtime_prices():
-    realtime_prices=threading.Thread(target=popularCoinPrices)
-    realtime_prices.start()
+    url='https://data.binance.com/api/v3/ticker/24hr'
+    popularcoinDF = pd.DataFrame(requests.get(url).json())
+    
+    cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
+                  'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
+    
+    col1,col2,col3 =st.columns(3)
+    for index, symbol in enumerate(cryptolist):
+        crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
+        crypto_price = round_value(float(crypto_df.weightedAvgPrice))
+        crypto_percent = f'{float(crypto_df.priceChangePercent)}%'  # the :.2f specifies the floating point number to 2 decimal places
+        #print("{} {} {}".format(symbol, crypto_price, crypto_percent))
+        if index % 3 == 0:
+            col=col1
+        elif index%3==1:
+            col=col2
+        else:
+            col=col3
+        with col:
+            st.metric(symbol,crypto_price, crypto_percent)
 
 if __name__=='__main__':
-    realtime_prices()
-    coin_token_selection()
-    intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
-    interval = st.sidebar.selectbox("Select an interval", intervals)
-    #st.write(f"The Interval: {st.session_state['Interval']}")
-    start_date = st.sidebar.date_input("Select the start date:")
-    #st.write(f"The start date: {start_date}")
-    end_date = st.sidebar.date_input("Select the end date:")
+    with st.container():
+        popularCoinPrices()
+        coin_token_selection()
+        intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
+        interval = st.sidebar.selectbox("Select an interval", intervals)
+        #st.write(f"The Interval: {st.session_state['Interval']}")
+        start_date = st.sidebar.date_input("Select the start date:")
+        #st.write(f"The start date: {start_date}")
+        end_date = st.sidebar.date_input("Select the end date:")
 
-    if start_date is not None and end_date is not None:
-        # Convert start_date and end_date to datetime.datetime objects
-        start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
-        end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
-        start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
-        end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
-        #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
-        #st.write(f"The start time: {start_time}")
-        #st.write(f"The end time: {end_time}")
-        #st.dataframe(df)
-    if st.sidebar.button('Start Analysis'):
-        st.session_state['CurrencyPair']=st.session_state['CoinPair']
-        st.session_state['Interval']=interval
-        st.session_state['Start_Time']=start_time
-        st.session_state['End_Time']=end_time
-        if st.session_state['CurrencyPair'] is not None:
-            st.toast("Streaming started",icon='😍')
-            visualize_data()
-        else:
-            st.error("Choose a Coin")
-    st.set_option('deprecation.showPyplotGlobalUse', False)
+        if start_date is not None and end_date is not None:
+            # Convert start_date and end_date to datetime.datetime objects
+            start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
+            end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
+            start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
+            end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
+            #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
+            #st.write(f"The start time: {start_time}")
+            #st.write(f"The end time: {end_time}")
+            #st.dataframe(df)
+        if st.sidebar.button('Start Analysis'):
+            st.session_state['CurrencyPair']=st.session_state['CoinPair']
+            st.session_state['Interval']=interval
+            st.session_state['Start_Time']=start_time
+            st.session_state['End_Time']=end_time
+            if st.session_state['CurrencyPair'] is not None:
+                st.toast("Streaming started",icon='😍')
+                visualize_data()
+            else:
+                st.error("Choose a Coin")
+        st.set_option('deprecation.showPyplotGlobalUse', False)
