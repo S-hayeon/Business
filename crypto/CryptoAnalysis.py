@@ -122,15 +122,18 @@ def round_value(input_value):
     else:
         a=round(input_value,8) # Round values less than 1 to 8 decimal places
     return a
-#popularcoinDF=pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
-popularcoinDF=pd.read_json('https://data.binance.com/api/v3/ticker/24hr')
-cryptolist=['BTCBUSD','BTCUSDT','ETHBUSD','ETHUSDT','BNBUSDT','BNBBUSD','XRPBUSD','XRPUSDT','ADABUSD','ADAUSDT','MATICBUSD','MATICUSDT','SHIBBUSD','SHIBUSDT','DOGEBUSD','DOGEUSDT']
+# Fetch data from the API
+url='https://data.binance.com/api/v3/ticker/24hr'
+popularcoinDF = pd.DataFrame(requests.get(url).json())
+
+cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
+              'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
 
 for symbol in cryptolist:
-    crypto_df=popularcoinDF[popularcoinDF.symbol==symbol]
-    crypto_price=round_value(crypto_df.weightedAvgPrice)
-    #crypto_percent=f'{float(crypto_df.priceChangePercent):.2f}%' # the :.2f specifies the floating point number to 2 decimal places
-    crypto_percent=f'{float(crypto_df.priceChangePercent)}%' # the :.2f specifies the floating point number to 2 decimal places
+    crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
+    crypto_price = round_value(float(crypto_df.weightedAvgPrice))
+    crypto_percent = f'{float(crypto_df.priceChangePercent)}%'  # the :.2f specifies the floating point number to 2 decimal places
+    #print("{} {} {}".format(symbol, crypto_price, crypto_percent))
     st.metric(symbol,crypto_price, crypto_percent)
 coin_token_selection()
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
