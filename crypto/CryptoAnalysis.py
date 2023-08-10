@@ -122,7 +122,8 @@ def round_value(input_value):
     else:
         a=round(input_value,8) # Round values less than 1 to 8 decimal places
     return a
-popularcoinDF=pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
+#popularcoinDF=pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
+popularcoinDF=pd.read_json('https://data.binance.com/api/v3/ticker/24hr')
 cryptolist=['BTCBUSD','BTCUSDT','ETHBUSD','ETHUSDT','BNBUSDT','BNBBUSD','XRPBUSD','XRPUSDT','ADABUSD','ADAUSDT','MATICBUSD','MATICUSDT','SHIBBUSD','SHIBUSDT','DOGEBUSD','DOGEUSDT']
 
 for symbol in cryptolist:
