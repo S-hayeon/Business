@@ -8,6 +8,7 @@ import requests
 #from streamlit import caching
 import streamlit as st
 import sys
+import threading
 try:
     sys.path.append('/app/business')
     from crypto import main
@@ -122,19 +123,32 @@ def round_value(input_value):
     else:
         a=round(input_value,8) # Round values less than 1 to 8 decimal places
     return a
-# Fetch data from the API
-url='https://data.binance.com/api/v3/ticker/24hr'
-popularcoinDF = pd.DataFrame(requests.get(url).json())
-
-cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
-              'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
-
-for symbol in cryptolist:
-    crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
-    crypto_price = round_value(float(crypto_df.weightedAvgPrice))
-    crypto_percent = f'{float(crypto_df.priceChangePercent)}%'  # the :.2f specifies the floating point number to 2 decimal places
-    #print("{} {} {}".format(symbol, crypto_price, crypto_percent))
-    st.metric(symbol,crypto_price, crypto_percent)
+def popularCoinPrices():
+    # Fetch data from the API
+    while True:
+        url='https://data.binance.com/api/v3/ticker/24hr'
+        popularcoinDF = pd.DataFrame(requests.get(url).json())
+        
+        cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
+                      'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
+        
+        col1,col2,col3 =st.columns(3)
+        for index, symbol in enumerate(cryptolist):
+            crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
+            crypto_price = round_value(float(crypto_df.weightedAvgPrice))
+            crypto_percent = f'{float(crypto_df.priceChangePercent)}%'  # the :.2f specifies the floating point number to 2 decimal places
+            #print("{} {} {}".format(symbol, crypto_price, crypto_percent))
+            if index % 3 == 0:
+                col=col1
+            elif index%3==1:
+                col=col2
+            else:
+                col=col3
+            with col:
+                st.metric(symbol,crypto_price, crypto_percent)
+        time.sleep(60) # Wait every 60 seconds then update
+realtime_prices=threading.Thread(target=popularCoinPrices)
+realtime_prices.start()
 coin_token_selection()
 intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
 interval = st.sidebar.selectbox("Select an interval", intervals)
