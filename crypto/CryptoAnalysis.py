@@ -1,112 +1,114 @@
-# Import the necessary libraries
-import datetime
-import matplotlib.pyplot as plt
-#from mpl_finance import candlestick_ohlc
-import mplfinance as mpf
-import pandas as pd
-import requests
-#from streamlit import caching
-import streamlit as st
-import sys
-import threading
-try:
-    sys.path.append('/app/business')
-    from crypto import main
-except:  
-    sys.path.append('/mount/src/business')
-    from crypto import main
-#sys.path.append('/app/business/fx')
-import time
-refresh_interval=60 # Refresh in 60 seconds
-st.session_state['CurrencyPair']=None
-st.session_state['DataFrame']=None
-title_placeholder=st.empty()
-def format_key(key):
-    # Split the key by underscores, capitalize each word, and join them with a space
-    return " ".join(word.capitalize() for word in key.split('_'))
+Skip to content
+Dre-AsiliVentures
+/
+Business
 
-def coin_token_selection():
-    title_placeholder.title("Crypto Analysis App")
-    # Coin, Token dictionary containing the keys and values for the dropdowns
-    # First dropdown for selecting the Token key
-    token_selected_key = st.sidebar.selectbox("Select your Token Category:", list(main.crypto_tokens.keys()))
-    #token_selected_key = st.selectbox("Select your Token Category:", [format_key(key) for key in main.crypto_tokens.keys()])
-    # Convert the formatted key back to the original key with underscores
-    # token_original_key = "_".join(word.lower() for word in token_selected_key.split())
-    # Second dropdown showing values based on the selected key
-    token_selected_value = st.sidebar.selectbox("Select a Token currency:", main.crypto_tokens[token_selected_key])
-    # st.write(" Coin Selected Key:", token_original_key)
-    # st.write(" Coin Selected Value:", token_selected_value)
-    # First dropdown for selecting the Coin key
-    coin_selected_key = st.sidebar.selectbox("Select your Coin Currency:", [format_key(key) for key in main.crypto_coins.keys()])
-    # Convert the formatted key back to the original key with underscores
-    coin_original_key = "_".join(word.lower() for word in coin_selected_key.split())
-    # Second dropdown showing values based on the selected key
-    coin_selected_value = st.sidebar.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
-    # st.write(" Coin Selected Key:", coin_original_key)
-    # st.write(" Coin Selected Value:", coin_selected_value)
-    #st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
-    st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
-    st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
-    
-@st.cache_data
-def get_historical_data(symbol, interval, start_time, end_time):
-    #url = f"https://api.binance.us/api/v3/klines"
-    url = f"https://data.binance.com/api/v3/klines"
-    params = {
-        "symbol": symbol,
-        "interval": interval,
-        "startTime": start_time,
-        "endTime": end_time,
-        "limit": 5000  # Adjust the limit as per your requirement
-    }
-    response = requests.get(url, params=params)
-    st.session_state['response']=response
-    data = response.json()
-    print("Response data:", data)  # Print the data retrieved from the API
-    if not data:
-        st.warning("No data available for the selected duration.")
-        return None
-    # Convert the data into a pandas DataFrame
-    df = pd.DataFrame(data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-    # Drop the unnecessary columns
-    #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
-    # Convert the timestamp from milliseconds to a datetime object
-    df['Date'] = pd.to_datetime(df['Date'], unit='ms')
-    #df.index.name = 'Date'
-    df.set_index('Date',inplace=True)
-    # Convert OHLCV values to numeric data types
-    df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
-    return df
-@st.cache_data
-def visualize_data():
-    start_time = st.session_state['Start_Time']
-    end_time = st.session_state['End_Time']
-    # Create  placeholders
-    candlestickfigure_placeholder = st.empty()
-    data_placeholder = st.empty()
-    expander_placeholder = st.empty()
-    status_displayed = False  # Flag to track whether status message has been displayed
-    response_placeholder = st.empty()
-    # Continuously update the data by fetching new data from the API
-    while True:
-        df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
-        # If data is not empty, show the data in the frontend
-        if df is not None:
-            st.session_state['DataFrame']=df
-            title_placeholder.title(f"{st.session_state['CurrencyPair']} Crypto Analysis App")
-            # Display status message only once
-            fig=mpf.plot(df,type='candle',volume=True,style='charles')
-            candlestickfigure_placeholder.pyplot(fig)
-            if not status_displayed:
-                response=st.session_state['response']
-                st.sidebar.info(f"Response status {response.status_code}")
-                status_displayed = True
-        remaining_time = refresh_interval
-        # Display the dataframe inside the placeholder
-        with expander_placeholder.expander("Data Statistics"):
-            st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
-            st.table(df.describe())
+Type / to search
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+BreadcrumbsBusiness/crypto
+/
+CryptoAnalysis.py
+in
+main
+
+Edit
+
+Preview
+Indent mode
+
+Spaces
+Indent size
+
+4
+Line wrap mode
+
+No wrap
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
         while remaining_time > 0:
             response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
             remaining_time -= 1
@@ -147,35 +149,40 @@ def popularCoinPrices():
             with col:
                 st.metric(symbol,crypto_price, crypto_percent)
         time.sleep(60) # Wait every 60 seconds then update
-realtime_prices=threading.Thread(target=popularCoinPrices)
-realtime_prices.start()
-coin_token_selection()
-intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
-interval = st.sidebar.selectbox("Select an interval", intervals)
-#st.write(f"The Interval: {st.session_state['Interval']}")
-start_date = st.sidebar.date_input("Select the start date:")
-#st.write(f"The start date: {start_date}")
-end_date = st.sidebar.date_input("Select the end date:")
+@st.cache_data
+def realtime_prices():
+    realtime_prices=threading.Thread(target=popularCoinPrices)
+    realtime_prices.start()
+if __name__=='__main__':
+    realtime_prices()
+    coin_token_selection()
+    intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
+    interval = st.sidebar.selectbox("Select an interval", intervals)
+    #st.write(f"The Interval: {st.session_state['Interval']}")
+    start_date = st.sidebar.date_input("Select the start date:")
+    #st.write(f"The start date: {start_date}")
+    end_date = st.sidebar.date_input("Select the end date:")
+    
+    if start_date is not None and end_date is not None:
+        # Convert start_date and end_date to datetime.datetime objects
+        start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
+        end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
+        start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
+        end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
+        #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
+        #st.write(f"The start time: {start_time}")
+        #st.write(f"The end time: {end_time}")
+        #st.dataframe(df)
+    if st.sidebar.button('Start Analysis'):
+        st.session_state['CurrencyPair']=st.session_state['CoinPair']
+        st.session_state['Interval']=interval
+        st.session_state['Start_Time']=start_time
+        st.session_state['End_Time']=end_time
+        if st.session_state['CurrencyPair'] is not None:
+            st.toast("Streaming started",icon='😍')
+            visualize_data()
+        else:
+            st.error("Choose a Coin")
+    st.set_option('deprecation.showPyplotGlobalUse', False)
 
-if start_date is not None and end_date is not None:
-    # Convert start_date and end_date to datetime.datetime objects
-    start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
-    end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
-    start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
-    end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
-    #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
-    #st.write(f"The start time: {start_time}")
-    #st.write(f"The end time: {end_time}")
-    #st.dataframe(df)
-if st.sidebar.button('Start Analysis'):
-    st.session_state['CurrencyPair']=st.session_state['CoinPair']
-    st.session_state['Interval']=interval
-    st.session_state['Start_Time']=start_time
-    st.session_state['End_Time']=end_time
-    if st.session_state['CurrencyPair'] is not None:
-        st.toast("Streaming started",icon='😍')
-        visualize_data()
-    else:
-        st.error("Choose a Coin")
-st.set_option('deprecation.showPyplotGlobalUse', False)
 
