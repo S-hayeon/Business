@@ -126,7 +126,7 @@ def popularCoinPrices():
     for index, symbol in enumerate(cryptolist):
         crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
         crypto_price = round_value(float(crypto_df.weightedAvgPrice))
-        crypto_percent = f'{float(crypto_df.priceChangePercent)}%'  # the :.2f specifies the floating point number to 2 decimal places
+        crypto_percent = '{:.2f}%'.format(float(crypto_df.priceChangePercent.iloc[0]))
         #print("{} {} {}".format(symbol, crypto_price, crypto_percent))
         if index % 3 == 0:
             col=col1
@@ -165,7 +165,7 @@ if __name__=='__main__':
             st.session_state['Start_Time']=start_time
             st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
-                st.toast("Streaming started",icon='😍')
+                st.toast("Successful Data Refresh",icon='😍')
                 visualize_data()
             else:
                 st.error("Choose a Coin")
