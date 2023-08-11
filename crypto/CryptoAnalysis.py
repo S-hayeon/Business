@@ -125,7 +125,7 @@ def popularCoinPrices():
     col1,col2,col3 =st.columns(3)
     for index, symbol in enumerate(cryptolist):
         crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
-        crypto_price = round_value(float(crypto_df.weightedAvgPrice))
+        crypto_price = round_value(float(crypto_df.weightedAvgPrice.iloc[0]))
         crypto_percent = '{:.2f}%'.format(float(crypto_df.priceChangePercent.iloc[0]))
         #print("{} {} {}".format(symbol, crypto_price, crypto_percent))
         if index % 3 == 0:
