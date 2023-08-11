@@ -18,5 +18,5 @@ class Pattern:
         self.support = ta.support(self.data['Low'], recent_low)
         self.resistance = ta.resistance(self.data['High'], recent_high)
 
-        return self.support['lowest'], self.resistance['highest']
-        #return self.support['calculate'](len(self.data)-self.support['index']), self.resistance['calculate'](len(self.data)-self.resistance['index'])
+        #return self.support['lowest'], self.resistance['highest']
+        return self.support['calculate'](len(self.data)-self.support['index']), self.resistance['calculate'](len(self.data)-self.resistance['index'])
