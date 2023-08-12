@@ -54,10 +54,11 @@ try:
             candlestickDF=pd.DataFrame(columns=['Date', 'Pattern','Trend'])
             for dfindex in range(len(st.session_state['DataFrame'])):
                 patternsID=candlestickID.candlestick_Pattern(dfindex)
-                candlestickDF.at[dfindex,'Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
+                #candlestickDF.at[dfindex,'Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
                 candlestickDF.at[dfindex,'Pattern']=patternsID[0]
                 candlestickDF.at[dfindex,'Trend']=patternsID[1]
             candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
+            st.write(=st.session_state['DataFrame'].columns)
             with st.expander("View Candlestick Patterns"):
                 candlestickpatterns_placeholder.dataframe(candlestickDF)
     else:
