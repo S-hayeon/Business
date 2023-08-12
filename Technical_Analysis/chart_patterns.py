@@ -1,5 +1,6 @@
 
 import ta_py as ta
+import talib
 class Pattern:
     def __init__(self, data):
         self.data = data
