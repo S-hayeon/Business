@@ -69,5 +69,5 @@ class Pattern:
             #self.max_pattern = pattern_at_index[0]
             #print(self.max_pattern)
             self.max_value = pattern_at_index[self.max_pattern] #Strength of the respective candlestick pattern. Positive: 100, Negative:-100, Uncertain:0
-            return [max_pattern,max_value]
+            return [self.max_pattern,self.max_value]
             #return self.max_pattern
