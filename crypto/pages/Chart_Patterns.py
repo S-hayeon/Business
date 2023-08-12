@@ -53,7 +53,7 @@ try:
             st.session_state['DataFrame']
             candlestickDF=pd.DataFrame(columns=['Date', 'Pattern'])
             for dfindex in range(len(st.session_state['DataFrame'])):
-                patternsID=candlestickID.candlestick_Pattern()
+                patternsID=candlestickID.candlestick_Pattern(dfindex)
                 candlestickDF['Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
                 candlestickDF.at[dfindex,'Pattern']=patternsID
             candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
