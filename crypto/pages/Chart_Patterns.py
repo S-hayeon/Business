@@ -51,11 +51,12 @@ try:
             st.markdown(f":red[Resistance Level] is: {resistance_level}", unsafe_allow_html=True)
             candlestickID=chart_patterns.Pattern(data=st.session_state['DataFrame'])
             st.session_state['DataFrame']
-            candlestickDF=pd.DataFrame(columns=['Date', 'Pattern'])
+            candlestickDF=pd.DataFrame(columns=['Date', 'Pattern','Trend'])
             for dfindex in range(len(st.session_state['DataFrame'])):
                 patternsID=candlestickID.candlestick_Pattern(dfindex)
-                candlestickDF['Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
-                candlestickDF.at[dfindex,'Pattern']=patternsID
+                candlestickDF.at[dfindex,'Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
+                candlestickDF.at[dfindex,'Pattern']=patternsID[0]
+                candlestickDF.at[dfindex,'Trend']=patternsID[1]
             candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
             with st.expander("View Candlestick Patterns"):
                 candlestickpatterns_placeholder.dataframe(candlestickDF)
