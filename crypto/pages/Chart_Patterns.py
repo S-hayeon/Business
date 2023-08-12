@@ -50,8 +50,9 @@ try:
             st.markdown(f":green[Support Level] is: {support_level}", unsafe_allow_html=True)
             st.markdown(f":red[Resistance Level] is: {resistance_level}", unsafe_allow_html=True)
             candlestickID=chart_patterns.Pattern(data=st.session_state['DataFrame'])
-            st.write(f'The last candlestick is {candlestickID.candlestick_Pattern(len(st.session_state['DataFrame'])-1[0]}')
-            st.write(f'The last candlestick trend pattern is {candlestickID.candlestick_Pattern(len(st.session_state['DataFrame'])-1[1]}')
+            st.write(f"The last candlestick is {candlestickID.candlestick_Pattern(len(st.session_state['DataFrame'])-1)[0]}")
+            st.write(f"The last candlestick trend pattern is {candlestickID.candlestick_Pattern(len(st.session_state['DataFrame'])-1)[1]}")
+
             # st.session_state['DataFrame']
             # candlestickDF=pd.DataFrame(columns=['Date', 'Pattern','Trend'])
             # for dfindex in range(len(st.session_state['DataFrame'])):
