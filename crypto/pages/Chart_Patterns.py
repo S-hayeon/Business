@@ -31,7 +31,8 @@ try:
             #support_resistance_lines=list(chart_pattern.support_resistance(int(lookback)))
             st.session_state['support_resistance_lines'] = support_resistance_lines
             fig=mpf.plot(st.session_state['DataFrame'],type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
-            candlestickfigure_placeholder.pyplot(fig)
+            #candlestickfigure_placeholder.pyplot(fig)
+            st.pyplot(fig)
             time.sleep(2)  # Wait for 2 seconds
         #st.set_option('deprecation.showPyplotGlobalUse', False)
         with st.container():
