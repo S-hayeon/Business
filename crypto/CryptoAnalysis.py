@@ -94,8 +94,8 @@ def visualize_data():
             with df_expander_placeholder.expander("View the data"):
                 data_placeholder.dataframe(df)
             # Display status message only once
-            fig=mpf.plot(df,type='candle',volume=True,style='charles')
-            candlestickfigure_placeholder.pyplot(fig)
+            # fig=mpf.plot(df,type='candle',volume=True,style='charles')
+            # candlestickfigure_placeholder.pyplot(fig)
             if not status_displayed:
                 response=st.session_state['response']
                 st.sidebar.info(f"Response status {response.status_code}")
