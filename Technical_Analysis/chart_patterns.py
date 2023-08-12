@@ -4,6 +4,7 @@ import talib
 class Pattern:
     def __init__(self, data):
         self.data = data
+        self.max_pattern=None
 
     def support_resistance(self, lookback=None):
         # If lookback is None, use the default value of 15
