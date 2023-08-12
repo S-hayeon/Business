@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
 import mplfinance as mpf
+import pandas as pd
 #from streamlit import caching
 import streamlit as st
 import sys
@@ -47,6 +48,16 @@ try:
             #st.markdown(f"**Support Level** is: {support_level}", unsafe_allow_html=True)
             st.markdown(f":green[Support Level] is: {support_level}", unsafe_allow_html=True)
             st.markdown(f":red[Resistance Level] is: {resistance_level}", unsafe_allow_html=True)
+            candlestickID=chart_patterns.Pattern(data=st.session_state['DataFrame'])
+            st.session_state['DataFrame']
+            candlestickDF=pd.DataFrame(columns=['Date', 'Pattern'])
+            for dfindex in range(len(st.session_state['DataFrame'])):
+                patternsID=candlestickID.candlestick_Pattern()
+                candlestickDF['Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
+                candlestickDF.at[dfindex,'Pattern']=patternsID
+            candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
+            with st.expander("View Candlestick Patterns"):
+                candlestickpatterns_placeholder.dataframe(candlestickDF)
     else:
         st.warning("Choose your desired coin from the CryptoAnalysis page to proceed!!")
         pass
