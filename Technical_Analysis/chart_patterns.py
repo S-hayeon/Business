@@ -1,3 +1,4 @@
+
 import ta_py as ta
 import talib
 class Pattern:
@@ -69,7 +70,7 @@ class Pattern:
             #print(self.max_pattern)
             self.max_value = pattern_at_index[self.max_pattern] #Strength of the respective candlestick pattern. Positive: 100, Negative:-100, Uncertain:0
             if self.max_value==100:
-            self.trend="Bullish"
+                self.trend="Bullish"
             elif self.max_value==-100:
                 self.trend= "Bearish"
             elif self.max_value==0:
@@ -79,5 +80,3 @@ class Pattern:
         return [self.max_pattern,self.max_value,self.trend]
             #return [self.max_pattern,self.max_value]
             #return self.max_pattern
-
-            
