@@ -73,7 +73,7 @@ maj_forex_pairs = [
     "USDCAD",
     "NZDUSD"
 ]
-intervals = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
+intervals = ['1h','1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
 labels = ['1 Day', '5 Days', '1 Month', '3 Months', '6 Months','1 Year','2 Years','5 Years','10 Years','YTD','Max']
 import pandas as pd
 import yfinance as yf
