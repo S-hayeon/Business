@@ -6,14 +6,14 @@ import pandas as pd
 #from streamlit import caching
 import streamlit as st
 import sys
-try:
-    sys.path.append('/app/business')
-    from Technical_Analysis import chart_patterns
-    from crypto import main
-except:  
-    sys.path.append('/mount/src/business')
-    from Technical_Analysis import chart_patterns
-    from crypto import main
+# try:
+#     sys.path.append('/app/business')
+#     from Technical_Analysis import chart_patterns
+#     from crypto import main
+# except:  
+sys.path.append('/mount/src/business')
+from Technical_Analysis import chart_patterns
+from crypto import main
 #sys.path.append('/app/business/fx')
 import time
 st.session_state['SupportResistance_Figure']=None
