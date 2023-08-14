@@ -1,9 +1,10 @@
 # Fred https://github.com/mortada/fredapi
 import pandas as pd
 import world_bank_data as wb
+from fredapi import Fred
 class Economic:
   def __init__(self):
-    pass
+    self.key=None
   def interest(self,Country):
     #Appproach 1: FRED Daily Latest data https://fred.stlouisfed.org/series/REAINTRATREARAT1YE
     #Appproach 2:Indicator: FR.INR.RINR
@@ -42,5 +43,10 @@ class Economic:
     # Sort the DataFrame in descending order based on the "Year" column
     inflationDF = inflationDF.sort_values(by='Year', ascending=False)
     return inflationDF
+  def fred_Data(self):
+    fred = Fred(api_key=self.key)
+    data = fred.get_series_latest_release('GDP')
+    return data
+  
       
       
