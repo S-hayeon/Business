@@ -66,4 +66,4 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         candlestickDF.at[dfindex,'Trend']=patternsID[2]
     candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
     with candlestickpatterns_placeholder.expander("View Candlestick Patterns"):
-        st.dataframe(candlestickDF.dropna())
+        st.dataframe(candlestickDF.dropna().reset_index())
