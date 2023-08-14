@@ -1,3 +1,4 @@
+fredapi
 #json
 matplotlib
 mplfinance
