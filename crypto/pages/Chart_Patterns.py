@@ -56,8 +56,10 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
     for dfindex in range(len(st.session_state['DataFrame'])):
         patternsID=candlestickID.candlestick_Pattern(dfindex)
         #candlestickDF.at[dfindex,'Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
-        candlestickDF.at[dfindex,'Pattern']=patternsID[0]
-        candlestickDF.at[dfindex,'Trend']=patternsID[1]
+        candlestickDF.at[dfindex,'Pattern']=patternsID.max_pattern
+        #candlestickDF.at[dfindex,'Pattern']=patternsID[0]
+        #candlestickDF.at[dfindex,'Value']=patternsID.max_value
+        candlestickDF.at[dfindex,'Trend']=patternsID.trend
         candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
     with st.expander("View Candlestick Patterns"):
             candlestickpatterns_placeholder.dataframe(candlestickDF)
