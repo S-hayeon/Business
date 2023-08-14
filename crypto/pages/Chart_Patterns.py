@@ -1,4 +1,6 @@
 # Import the necessary libraries
+from Technical_Analysis import chart_patterns
+from crypto import main
 import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
 import mplfinance as mpf
@@ -11,9 +13,8 @@ import sys
 #     from Technical_Analysis import chart_patterns
 #     from crypto import main
 # except:  
-sys.path.append('/mount/src/business')
-from Technical_Analysis import chart_patterns
-from crypto import main
+#sys.path.append('/mount/src/business')
+
 #sys.path.append('/app/business/fx')
 import time
 st.session_state['SupportResistance_Figure']=None
