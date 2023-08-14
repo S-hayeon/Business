@@ -31,6 +31,8 @@ try:
                 countries_with_eur.append(country)
 
     return country1, currency1, country2, currency2, countries_with_eur
+  data=Economic.fred_Data(st.secrets["FREDAPI"])
+  st.dataframe(data)
   country1, currency1, country2, currency2, countries_with_eur = get_country_and_currency_from_pair(st.session_state["CurrencyPair"])
   economic=Economic()
   interest1=economic.interest(country1)
