@@ -45,7 +45,8 @@ class Economic:
     return inflationDF
   def fred_Data(self):
     fred = Fred(api_key=self.key)
-    data = fred.get_series_latest_release('GDP')
+    #data = fred.get_series_latest_release('GDP')
+    data = fred.get_series_latest_release('REAINTRATREARAT10Y') #https://fred.stlouisfed.org/series/REAINTRATREARAT10Y 
     return data
   
       
