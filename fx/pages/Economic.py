@@ -31,8 +31,12 @@ def get_country_and_currency_from_pair(currency_pair):
               countries_with_eur.append(country)
 
   return country1, currency1, country2, currency2, countries_with_eur
-economic=Economic()
-data=economic.fred_Data(st.secrets["FREDAPI"])
+# Create an instance of the Economic class
+economic = Economic()
+# Set the API key using the secret
+economic.key = st.secrets["FREDAPI"]
+# Call the fred_Data method without passing any arguments
+data = economic.fred_Data()
 st.dataframe(data)
 country1, currency1, country2, currency2, countries_with_eur = get_country_and_currency_from_pair(st.session_state["CurrencyPair"])
 interest1=economic.interest(country1)
