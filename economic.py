@@ -1,3 +1,4 @@
+# Fred https://github.com/mortada/fredapi
 import pandas as pd
 import world_bank_data as wb
 class Economic:
