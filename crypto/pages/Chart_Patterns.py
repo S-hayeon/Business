@@ -6,13 +6,13 @@ import pandas as pd
 #from streamlit import caching
 import streamlit as st
 import sys
-# try:
-#     sys.path.append('/app/business')
-#     from Technical_Analysis import chart_patterns
-#     from crypto import main
-# except: 
-#     sys.path.append('/mount/src/business')
-#     from Technical_Analysis import chart_patterns
+try:
+    sys.path.append('/app/business')
+    from Technical_Analysis import chart_patterns
+    from crypto import main
+except: 
+    sys.path.append('/mount/src/business')
+    from Technical_Analysis import chart_patterns
     #from crypto import main
 
 #sys.path.append('/app/business/fx')
@@ -26,8 +26,6 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         #lookback=st.slider(label="Sensitivity in Percentage %", min_value=1, max_value=100, value=25, step=1)
         data_placeholder.dataframe(st.session_state['DataFrame'].describe())
         # Display status message only once
-        sys.path.append('/mount/src/business')
-        from Technical_Analysis import chart_patterns
         chart_pattern=chart_patterns.Pattern(data=st.session_state['DataFrame'])
         support_resistance_lines=list(chart_pattern.support_resistance())
         #support_resistance_lines=list(chart_pattern.support_resistance(int(lookback)))
