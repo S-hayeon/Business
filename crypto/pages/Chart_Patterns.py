@@ -54,7 +54,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         #st.write(f"The last candlestick trend pattern is {candlestickID.candlestick_Pattern(len(st.session_state['DataFrame'])-1)[1]}")
         # st.session_state['DataFrame']
     candlestickDF=pd.DataFrame(columns=['Date', 'Pattern','Trend'])
-    for dfindex in range(len(st.session_state['DataFrame'])):
+    for dfindex in range(len(st.session_state['DataFrame'])-1):
         patternsID=candlestickID.candlestick_Pattern(dfindex)
         candlestickDF.at[dfindex,'Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
         #candlestickDF.at[dfindex,'Pattern']=patternsID.max_pattern
