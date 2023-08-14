@@ -10,12 +10,10 @@ try:
     sys.path.append('/app/business')
     from Technical_Analysis import chart_patterns
     from crypto import main
-    pass
 except:  
     sys.path.append('/mount/src/business')
     from Technical_Analysis import chart_patterns
     from crypto import main
-    pass
 #sys.path.append('/app/business/fx')
 import time
 st.session_state['SupportResistance_Figure']=None
