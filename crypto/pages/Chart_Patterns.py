@@ -8,13 +8,13 @@ import streamlit as st
 import sys
 try:
     sys.path.append('/app/business')
-    from crypto import main
     from Technical_Analysis import chart_patterns
+    from crypto import main
     pass
 except:  
     sys.path.append('/mount/src/business')
-    from crypto import main
     from Technical_Analysis import chart_patterns
+    from crypto import main
     pass
 #sys.path.append('/app/business/fx')
 import time
