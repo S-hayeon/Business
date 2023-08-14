@@ -49,12 +49,12 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         #st.markdown(f"**Support Level** is: {support_level}", unsafe_allow_html=True)
         st.markdown(f":green[Support Level] is: {support_level}", unsafe_allow_html=True)
         st.markdown(f":red[Resistance Level] is: {resistance_level}", unsafe_allow_html=True)
-        candlestickID=chart_patterns.Pattern(data=st.session_state['DataFrame'])
         #st.write(f"The last candlestick is {candlestickID.candlestick_Pattern(len(st.session_state['DataFrame'])-1)[0]}")
         #st.write(f"The last candlestick trend pattern is {candlestickID.candlestick_Pattern(len(st.session_state['DataFrame'])-1)[1]}")
         # st.session_state['DataFrame']
+    candlestickID=chart_patterns.Pattern(data=st.session_state['DataFrame'])
     candlestickDF=pd.DataFrame(columns=['Date', 'Pattern','Trend'])
-    for dfindex in range(len(st.session_state['DataFrame'])-1):
+    for dfindex in range(len(st.session_state['DataFrame'])):
         patternsID=candlestickID.candlestick_Pattern(dfindex)
         #candlestickDF.at[dfindex,'Date']=st.session_state['DataFrame'].iloc[dfindex]['Date']
         candlestickDF.at[dfindex,'Date']=st.session_state['DataFrame'].index[dfindex]
@@ -66,4 +66,4 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         candlestickDF.at[dfindex,'Trend']=patternsID[2]
     candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
     with st.expander("View Candlestick Patterns"):
-        candlestickpatterns_placeholder.dataframe(candlestickDF)
+        candlestickpatterns_placeholder.dataframe(candlestickDF[100:])
