@@ -1,6 +1,7 @@
 fredapi
 #json
 matplotlib
+MetaTrader5
 mplfinance
 openpyxl
 pandas
