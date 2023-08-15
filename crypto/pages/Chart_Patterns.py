@@ -36,8 +36,8 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
     #st.set_option('deprecation.showPyplotGlobalUse', False)
     with st.container():
         st.title('Chart Patterns :chart:')
-        data_placeholder = st.empty() # Create a placeholder for the dataframe descriptive stats
         df_placeholder = st.empty() # Create a placeholder for the dataframe
+        data_placeholder = st.empty() # Create a placeholder for the dataframe descriptive stats
         with df_placeholder.expander("View Candlestick Data"):
             st.dataframe(st.session_state['DataFrame'])
         with data_placeholder.expander("Descriptive Statistics"):
