@@ -3,7 +3,8 @@ import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-os.system("bash /app/path/to/setup.sh")
+#/home/adminuser/venv/bin/python -m pip install --upgrade pip
+os.system("bash /mount/src/business/fx/setup.sh")
 import MetaTrader5 as mt5
 import pandas as pd
 import streamlit as st
