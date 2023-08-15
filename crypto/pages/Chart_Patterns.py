@@ -24,7 +24,6 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         status_displayed = False  # Flag to track whether status message has been displayed
         # Continuously update the data by fetching new data from the API
         #lookback=st.slider(label="Sensitivity in Percentage %", min_value=1, max_value=100, value=25, step=1)
-        data_placeholder.dataframe(st.session_state['DataFrame'].describe())
         # Display status message only once
         chart_pattern=chart_patterns.Pattern(data=st.session_state['DataFrame'])
         support_resistance_lines=list(chart_pattern.support_resistance())
@@ -37,8 +36,13 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
     #st.set_option('deprecation.showPyplotGlobalUse', False)
     with st.container():
         st.title('Chart Patterns :chart:')
+        data_placeholder = st.empty() # Create a placeholder for the dataframe descriptive stats
+        df_placeholder = st.empty() # Create a placeholder for the dataframe
+        with df_placeholder.expander("View Candlestick Data"):
+            st.dataframe(st.session_state['DataFrame'])
+        with data_placeholder.expander("Descriptive Statistics"):
+            st.dataframe(st.session_state['DataFrame'].describe())
         st.header(":green[Support] and :red[Resistance] Levels")
-        data_placeholder = st.empty() # Create a placeholder for the dataframe
         candlestickfigure_placeholder = st.empty() # Create a placeholder for the candlestickfigure
         support_Resistance()
     with st.expander("More info on Support and Resistance"):
