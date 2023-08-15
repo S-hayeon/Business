@@ -3,6 +3,8 @@ import datetime
 import matplotlib.pyplot as plt
 import MetaTrader5 as mt5
 import numpy as np
+import os
+os.system("bash /app/path/to/setup.sh")
 import pandas as pd
 import streamlit as st
 try:
