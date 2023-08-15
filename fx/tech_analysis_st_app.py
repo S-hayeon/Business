@@ -1,3 +1,4 @@
+!pip install --upgrade pip
 import datetime
 import matplotlib.pyplot as plt
 import MetaTrader5 as mt5
