@@ -64,6 +64,7 @@ def get_forex_change(symbol):
     previous_close = history['Close'][-2]
     current_close = history['Close'][-1]
     change = ((current_close - previous_close) / previous_close) * 100
+    current_close=round(current_close,7)
     return [current_close,change]
 forex_pairs = [
         "EURUSD=X",  # Euro to US Dollar
