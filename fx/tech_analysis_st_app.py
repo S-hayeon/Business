@@ -66,12 +66,12 @@ st.write(f"Investment yako ya {currencypair} inabamba enyewe")
 if st.session_state["StartDate"] is not '' and st.session_state["EndDate"] is not '' :
   tickerData_expander=st.empty()
   with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
-    data=ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"])
-    #data=data.reset_index() # Reset Datetime index
-    #data=data[data['Open','High','Low','Close']]
+    data=pd.DataFrame(ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"]))
+    data=data.reset_index() # Reset Datetime index
+    data=data[data['Open','High','Low','Close']]
     timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
     data=data.index.tz_convert(timezone)
-    st.write(f'The columns are: {data.columns}')
+    #st.write(f'The columns are: {data.columns}')
     st.dataframe(data)
 #ta=TIndicators(data['Open'])
 #results=ta.MACD()
