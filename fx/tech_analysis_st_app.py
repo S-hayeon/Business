@@ -42,8 +42,9 @@ selected_value = main.intervals[main.labels.index(selected_interval)]
 st.session_state["Interval"]=selected_value
 #data = main.collect_forex_data(f"{currencypair}=X",selected_value)
 tickerInfo=pd.DataFrame(ticker.info.items(),columns=['Parameter','Value'])
-tickerInfo[tickerInfo['Value']!=0] # Drop values where Value Column is equal to 0
-with st.expander("FX Asset Information"):
+tickerInfo[tickerInfo['Value']!=0].dropna() # Drop values where Value Column is equal to 0 then drop Nan/None values
+tickerInfo_expander=st.empty()
+with tickerInfo_expander.expander("FX Asset Information"):
   st.dataframe(tickerInfo)
 st.write(f"Investment yako ya {currencypair} inabamba enyewe")
 #ta=TIndicators(data['Open'])
