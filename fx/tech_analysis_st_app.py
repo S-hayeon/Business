@@ -76,7 +76,7 @@ forex_pairs = [
     ]
 col1, col2, col3 = st.columns(3)
 forex_pairs = ["EURUSD=X", "GBPUSD=X", "USDJPY=X", "AUDUSD=X", "USDCAD=X", "NZDUSD=X"]
-for index in enumerate(forex_pairs):
+for index,currency in enumerate(forex_pairs):
     if index % 3 == 0:
         col = col1
     elif index % 3 == 1:
