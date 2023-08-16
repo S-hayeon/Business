@@ -64,7 +64,7 @@ st.write(f"Investment yako ya {currencypair} inabamba enyewe")
 ################ Historical and Real Time Data Table ###############################################################################################################
 data=ticker.history(interval=st.session_state["Interval"],start=start_date, end=end_date)
 data=data.reset_index() # Reset Datetime index
-data=data[data['Open','High','Low','Close']]
+#data=data[data['Open','High','Low','Close']]
 timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
 data=data.index=data.index.tz_convert(timezone)
 tickerData_expander=st.empty()
