@@ -73,8 +73,8 @@ maj_forex_pairs = [
     "USDCAD",
     "NZDUSD"
 ]
-intervals = ['1h','1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
-labels = ['1 Hour','1 Day', '5 Days', '1 Month', '3 Months', '6 Months','1 Year','2 Years','5 Years','10 Years','YTD','Max']
+intervals=['1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo']
+labels = ['1 Minute','2 Minute', '5 Minute', '15 Minute', '30 Minutes', '60 Minute','90 Minutes','1 Hour','1 Day','5 Day','1 Week','1 Month','3 Months']
 import pandas as pd
 import pytz
 timezones=pytz.common_timezones
