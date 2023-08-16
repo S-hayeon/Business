@@ -25,14 +25,16 @@ import yfinance as yf
 ################ Session State Variables ###############################################################################################################
 if "CurrencyPair" not in st.session_state:
   st.session_state["CurrencyPair"]=""
-if "Symbol" not in st.session_state:
-  st.session_state["Symbol"]=""
+if "EndDate" not in st.session_state:
+  st.session_state["EndDate"]=""
 if "Interval" not in st.session_state:
   st.session_state["Interval"]=""
 if "StartDate" not in st.session_state:
   st.session_state["StartDate"]=""
-if "EndDate" not in st.session_state:
-  st.session_state["EndDate"]=""
+if "Symbol" not in st.session_state:
+  st.session_state["Symbol"]=""
+if "Timezone" not in st.session_state:
+  st.session_state["Timezone"]=""
 
 ################ Sidebar ###############################################################################################################
 currencypair=st.sidebar.selectbox("Select you investment currency pair: ",main.maj_forex_pairs)
@@ -52,6 +54,7 @@ start_date = st.sidebar.date_input("Start Date", pd.to_datetime("2023-01-01"))
 st.session_state["StartDate"]=start_date
 end_date = st.sidebar.date_input("End Date", pd.to_datetime("2023-08-01"))
 st.session_state["EndDate"]=end_date
+timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
 ##########################################################################################################################################
 
 ################ Ticker Information ###############################################################################################################
@@ -63,15 +66,14 @@ if st.session_state["Symbol"] != '':
     st.dataframe(tickerInfo)
 st.write(f"Investment yako ya {currencypair} inabamba enyewe")
 ################ Historical and Real Time Data Table ###############################################################################################################
-if st.session_state["StartDate"] !=  '' and st.session_state["EndDate"] !=  '' :
+if st.session_state["StartDate"] !=  '' and st.session_state["EndDate"] !=  '' and st.session_state["Timezone"] !=  '' :
   tickerData_expander=st.empty()
   with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
     data=pd.DataFrame(ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"]))
-    #data=data.reset_index() # Reset Datetime index
-    data=data[data['Open','High','Low','Close']]
-    timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
+    data=data.reset_index() # Reset Datetime index
+    #data=data[data['Open','High','Low','Close']]
     data.index=data.index.tz_convert(timezone)
-    #st.write(f'The columns are: {data.columns}')
+    st.write(f'The columns are: {data.columns}')
     st.dataframe(data)
 #ta=TIndicators(data['Open'])
 #results=ta.MACD()
