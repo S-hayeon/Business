@@ -3,7 +3,7 @@ fredapi
 #json
 #./libs/MetaTrader5-5.0.45-cp311-cp311-win_amd64.whl
 matplotlib
-#MetaTrader5
+MetaTrader5
 mplfinance
 openpyxl
 pandas
