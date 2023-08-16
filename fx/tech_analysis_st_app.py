@@ -5,7 +5,8 @@ import numpy as np
 import os
 #/home/adminuser/venv/bin/python -m pip install --upgrade pip
 os.system("bash /mount/src/business/fx/setup.sh")
-import MetaTrader5 as mt5
+#import MetaTrader5 as mt5
+import mt5
 import pandas as pd
 import streamlit as st
 try:
