@@ -18,7 +18,7 @@ except:
 #sys.path.append('/app/business/fx')
 import time
 st.session_state['SupportResistance_Figure']=None
-
+st.set_option('deprecation.showPyplotGlobalUse', False) # Set in place of sub-plots() function.
 if st.session_state['DataFrame'] is not None:
     def support_Resistance():
         status_displayed = False  # Flag to track whether status message has been displayed
@@ -69,4 +69,3 @@ if st.session_state['DataFrame'] is not None:
     candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
     with candlestickpatterns_placeholder.expander("View Candlestick Patterns"):
         st.dataframe(candlestickDF.dropna().reset_index().drop(columns=['index']))
-st.set_option('deprecation.showPyplotGlobalUse', False) # Set in place of sub-plots() function.
