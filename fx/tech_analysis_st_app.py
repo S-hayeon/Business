@@ -66,7 +66,7 @@ data=ticker.history(interval=st.session_state["Interval"],start=start_date, end=
 data=data.reset_index() # Reset Datetime index
 #data=data[data['Open','High','Low','Close']]
 timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
-data=data.index=data.index.tz_convert(timezone)
+data=data.index.tz_convert(timezone)
 tickerData_expander=st.empty()
 with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
   st.dataframe(data)
