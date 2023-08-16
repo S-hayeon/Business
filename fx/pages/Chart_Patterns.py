@@ -69,3 +69,4 @@ if st.session_state['DataFrame'] is not None:
     candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
     with candlestickpatterns_placeholder.expander("View Candlestick Patterns"):
         st.dataframe(candlestickDF.dropna().reset_index().drop(columns=['index']))
+st.set_option('deprecation.showPyplotGlobalUse', False) # Set in place of sub-plots() function.
