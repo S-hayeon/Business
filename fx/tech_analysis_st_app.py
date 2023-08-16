@@ -104,8 +104,12 @@ tickerData_expander=st.empty()
 with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
   data=pd.DataFrame(ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"]))
   #data.index=data.index.tz_convert(timezone)
-  data=data.reset_index() # Reset Datetime index
+  #data=data.reset_index() # Reset Datetime index
   data = data.loc[:, (data != 0).any(axis=0)] # Drop columns with all zero values
+  # Add a 'Datetime' column from the index
+  data['Datetime'] = data.index
+  # Set 'Datetime' column as the index
+  data.set_index('Datetime', inplace=True)
   #st.write(f'The columns are: {data.columns}')
   st.session_state["DataFrame"]=data
   st.dataframe(data)
