@@ -74,18 +74,19 @@ forex_pairs = [
         "USDCAD=X",  # US Dollar to Canadian Dollar
         "NZDUSD=X",  # New Zealand Dollar to US Dollar
     ]
-col1,col2,col3 =st.columns(3)
+col1, col2, col3 = st.columns(3)
+forex_pairs = ["EURUSD=X", "GBPUSD=X", "USDJPY=X", "AUDUSD=X", "USDCAD=X", "NZDUSD=X"]
 for index in enumerate(forex_pairs):
-  if index % 3 == 0:
-    col=col1
-  elif index%3==1:
-    col=col2
-  else:
-    col=col3
-  with col:
-    for currency in forex_pairs:
-      currency_value=get_forex_change(currency)
-      st.metric(label=currency.replace("=X", ""),value=currency_value[0],delta=currency_value[1])
+    if index % 3 == 0:
+        col = col1
+    elif index % 3 == 1:
+        col = col2
+    else:
+        col = col3
+    with col:
+        currency_value = get_forex_change(currency)  # Assuming you have a function to get forex values
+        st.metric(label=currency.replace("=X", ""), value=currency_value[0], delta=currency_value[1])
+
 ################ Ticker Information ###############################################################################################################
 tickerInfo=pd.DataFrame(ticker.info.items(),columns=['Parameter','Value'])
 tickerInfo[tickerInfo['Value']!=0].dropna() # Drop values where Value Column is equal to 0 then drop Nan/None values
