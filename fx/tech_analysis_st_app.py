@@ -21,48 +21,28 @@ except:
   from fx import main
 
 from technical_analysis import TIndicators
-mt5.initialize()
+import time
 #c=np.random.randn(100)
 #macd=trend.MACD(close=c,window_slow=26,window_fast=12,window_sign=9)
 if "CurrencyPair" not in st.session_state:
   st.session_state["CurrencyPair"]=""
 currencypair=st.selectbox("Select you investment currency pair: ",main.maj_forex_pairs)
 st.session_state["CurrencyPair"]=currencypair
-years = [2001, 2002, 2003, 2004, 2005,
-        2006, 2007, 2008, 2009, 2010,
-        2011, 2012, 2013, 2014, 2015,
-        2016, 2017, 2018, 2019, 2020,
-        2021]
-
-months = [1, 2, 3, 4, 5, 6,
-         7, 8, 9, 10, 11, 12]
-
-timeframes = {
-    'W1' : 1  | 0x8000,
-    'MN1': 1  | 0xC000
-}        
-
-    
-for year in years:
-    for month in months:
-        for timeframe in timeframes:
-            # request tick data
-            if month != 12:
-                ticks = mt5.copy_rates_range(
-                    'WIN$N', 
-                    timeframes[timeframe], 
-                    datetime(year, month, 1), 
-                    datetime(year, month + timedelta(month=1), 1)
-                )
-                ticks = pd.DataFrame(ticks)
-            else:
-                ticks = mt5.copy_rates_range(
-                    'WIN$N', 
-                    timeframes[timeframe], 
-                    datetime(year, month, 1), 
-                    datetime(year, month, calendar.monthrange(ano,mes)[1])
-                )
-                ticks = pd.DataFrame(ticks)
+import mt5
+# Create a connection to the MT5 server
+mt5.initialize()
+fetchDataMode=st.selectbox("Select Data Fetch: ",['Historical','Real-Time'])
+if fetchDataMode=='Historical':
+  ticks = mt5.copy_ticks_from(currencypair, mt5.TIMEFRAME_D1, datetime(2023, 1, 1), datetime(2023, 7, 31)) # Get the historical tick data for the EURUSD symbol from 2023-01-01 to 2023-07-31
+elif fetchDataMode=='Real-Time':
+  #ticks=mt5.subscribe_to_market_data(currencypair) # Subscribe to the real time ticks data for the EURUSD symbol
+  # Get the latest tick data
+  ticks = mt5.get_last_tick("EURUSD")
+  # Print the tick data
+  #time.sleep(1)
+else:
+  pass
+ticks=pd.DataFrame(ticks)
 st.dataframe(ticks)
 #st.write(results)
 #selected_interval = st.slider('Select an interval:', 0, len(main.intervals)-1, format_func=lambda i: main.labels[i])
