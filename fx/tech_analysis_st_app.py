@@ -71,7 +71,7 @@ if st.session_state["StartDate"] is not '' and st.session_state["EndDate"] is no
     #data=data[data['Open','High','Low','Close']]
     timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
     data=data.index.tz_convert(timezone)
-    st.write(f'The columns are:'data.columns)
+    st.write(f'The columns are:'{data.columns})
     st.dataframe(data)
 #ta=TIndicators(data['Open'])
 #results=ta.MACD()
