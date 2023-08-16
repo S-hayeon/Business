@@ -54,7 +54,7 @@ start_date = st.sidebar.date_input("Start Date", pd.to_datetime("2023-01-01"))
 st.session_state["StartDate"]=start_date
 end_date = st.sidebar.date_input("End Date", pd.to_datetime("2023-08-01"))
 st.session_state["EndDate"]=end_date
-timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
+#timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
 ##########################################################################################################################################
 def get_forex_change(symbol):
     forex_pair = yf.Ticker(symbol)
@@ -101,7 +101,7 @@ st.write(f"Investment yako ya {currencypair} inabamba enyewe")
 tickerData_expander=st.empty()
 with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
   data=pd.DataFrame(ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"]))
-  data.index=data.index.tz_convert(timezone)
+  #data.index=data.index.tz_convert(timezone)
   data=data.reset_index() # Reset Datetime index
   data = data.loc[:, (data != 0).any(axis=0)] # Drop columns with all zero values
   #st.write(f'The columns are: {data.columns}')
