@@ -72,8 +72,8 @@ with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
   data=pd.DataFrame(ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"]))
   data.index=data.index.tz_convert(timezone)
   data=data.reset_index() # Reset Datetime index
-  #data=data[data['Open','High','Low','Close']]
-  st.write(f'The columns are: {data.columns}')
+  data=data[data['Date','Open','High','Low','Close']]
+  #st.write(f'The columns are: {data.columns}')
   st.dataframe(data)
 #ta=TIndicators(data['Open'])
 #results=ta.MACD()
