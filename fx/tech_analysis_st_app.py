@@ -25,6 +25,8 @@ import yfinance as yf
 ################ Session State Variables ###############################################################################################################
 if "CurrencyPair" not in st.session_state:
   st.session_state["CurrencyPair"]=""
+if "DataFrame" not in st.session_state:
+  st.session_state["DataFrame"]=""
 if "EndDate" not in st.session_state:
   st.session_state["EndDate"]=""
 if "Interval" not in st.session_state:
@@ -105,6 +107,7 @@ with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
   data=data.reset_index() # Reset Datetime index
   data = data.loc[:, (data != 0).any(axis=0)] # Drop columns with all zero values
   #st.write(f'The columns are: {data.columns}')
+  st.session_state["DataFrame"]=data
   st.dataframe(data)
 #ta=TIndicators(data['Open'])
 #results=ta.MACD()
