@@ -1,7 +1,7 @@
-pip>=23.2.1
+pip==23.2.1
 fredapi
 #json
-./libs/MetaTrader5-5.0.45-cp311-cp311-win_amd64.whl
+#./libs/MetaTrader5-5.0.45-cp311-cp311-win_amd64.whl
 matplotlib
 #MetaTrader5
 mplfinance
