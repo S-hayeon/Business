@@ -57,19 +57,21 @@ st.session_state["EndDate"]=end_date
 ################ Ticker Information ###############################################################################################################
 tickerInfo=pd.DataFrame(ticker.info.items(),columns=['Parameter','Value'])
 tickerInfo[tickerInfo['Value']!=0].dropna() # Drop values where Value Column is equal to 0 then drop Nan/None values
-tickerInfo_expander=st.empty()
-with tickerInfo_expander.expander("FX Asset Information"):
-  st.dataframe(tickerInfo)
+if st.session_state["Symbol"] is not '':
+  tickerInfo_expander=st.empty()
+  with tickerInfo_expander.expander("FX Asset Information"):
+    st.dataframe(tickerInfo)
 st.write(f"Investment yako ya {currencypair} inabamba enyewe")
 ################ Historical and Real Time Data Table ###############################################################################################################
-data=ticker.history(interval=st.session_state["Interval"],start=start_date, end=end_date)
-#data=data.reset_index() # Reset Datetime index
-#data=data[data['Open','High','Low','Close']]
-timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
-data=data.index.tz_convert(timezone)
-tickerData_expander=st.empty()
-with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
-  st.dataframe(data)
+if st.session_state["StartDate"] is not '' and st.session_state["EndDate"] is not '' :
+  tickerData_expander=st.empty()
+  with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
+    data=ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"])
+    #data=data.reset_index() # Reset Datetime index
+    #data=data[data['Open','High','Low','Close']]
+    timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
+    data=data.index.tz_convert(timezone)
+    st.dataframe(data)
 #ta=TIndicators(data['Open'])
 #results=ta.MACD()
 #st.write(results)
