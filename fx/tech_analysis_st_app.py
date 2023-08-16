@@ -56,7 +56,27 @@ end_date = st.sidebar.date_input("End Date", pd.to_datetime("2023-08-01"))
 st.session_state["EndDate"]=end_date
 timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
 ##########################################################################################################################################
-
+def get_forex_change(symbol):
+    forex_pair = yf.Ticker(symbol)
+    history = forex_pair.history(interval='1d')
+    if len(history) < 2:
+        return None
+    previous_close = history['Close'][-2]
+    current_close = history['Close'][-1]
+    change = ((current_close - previous_close) / previous_close) * 100
+    return [current_close,change]
+forex_pairs = [
+        "EURUSD=X",  # Euro to US Dollar
+        "USDJPY=X",  # US Dollar to Japanese Yen
+        "GBPUSD=X",  # British Pound to US Dollar
+        "USDCHF=X",  # US Dollar to Swiss Franc
+        "AUDUSD=X",  # Australian Dollar to US Dollar
+        "USDCAD=X",  # US Dollar to Canadian Dollar
+        "NZDUSD=X",  # New Zealand Dollar to US Dollar
+    ]
+for currency in forex_pairs:
+    currency_value=get_forex_change(currency)
+    st.metric(label=currency,value=currency_value[0],delta=currency_value[1])  
 ################ Ticker Information ###############################################################################################################
 tickerInfo=pd.DataFrame(ticker.info.items(),columns=['Parameter','Value'])
 tickerInfo[tickerInfo['Value']!=0].dropna() # Drop values where Value Column is equal to 0 then drop Nan/None values
