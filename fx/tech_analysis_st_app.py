@@ -49,9 +49,9 @@ selected_value = main.intervals[main.labels.index(selected_interval)]
 st.session_state["Interval"]=selected_value
 #data = main.collect_forex_data(f"{currencypair}=X",selected_value)
 start_date = st.sidebar.date_input("Start Date", pd.to_datetime("2023-01-01"))
-st.session_state("StartDate")=start_date
+st.session_state["StartDate"]=start_date
 end_date = st.sidebar.date_input("End Date", pd.to_datetime("2023-08-01"))
-st.session_state("EndDate")=end_date
+st.session_state["EndDate"]=end_date
 ##########################################################################################################################################
 
 ################ Ticker Information ###############################################################################################################
