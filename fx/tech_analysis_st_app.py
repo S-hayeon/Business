@@ -67,7 +67,7 @@ if st.session_state["StartDate"] !=  '' and st.session_state["EndDate"] !=  '' :
   tickerData_expander=st.empty()
   with tickerData_expander.expander(" OHLC Candlestick Fx Data"):
     data=pd.DataFrame(ticker.history(interval=st.session_state["Interval"],start=st.session_state["StartDate"], end=st.session_state["EndDate"]))
-    data=data.reset_index() # Reset Datetime index
+    #data=data.reset_index() # Reset Datetime index
     data=data[data['Open','High','Low','Close']]
     timezone=st.sidebar.selectbox("Select your Timezone: ",main.timezones)
     data.index=data.index.tz_convert(timezone)
