@@ -77,7 +77,7 @@ intervals = ['1h','1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd
 labels = ['1 Hour','1 Day', '5 Days', '1 Month', '3 Months', '6 Months','1 Year','2 Years','5 Years','10 Years','YTD','Max']
 import pandas as pd
 import pytz
-timezones=pytz.commonzones
+timezones=pytz.common_timezones
 import yfinance as yf
 def collect_forex_data(currency_pair,duration):
     # Create a ticker object for the currency pair
