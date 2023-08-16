@@ -41,7 +41,7 @@ selected_interval = st.select_slider('Select an interval:', options=main.labels)
 selected_value = main.intervals[main.labels.index(selected_interval)]
 st.session_state["Interval"]=selected_value
 #data = main.collect_forex_data(f"{currencypair}=X",selected_value)
-tickerInfo=pd.DataFrame(ticker.info)
+tickerInfo=pd.DataFrame(ticker.info.items(),columns=['Parameter','Value'])
 st.dataframe(tickerInfo)
 st.write(f"Investment yako ya {currencypair} inabamba enyewe")
 #ta=TIndicators(data['Open'])
