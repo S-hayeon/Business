@@ -97,7 +97,7 @@ if st.session_state["Symbol"] != '':
   tickerInfo_expander=st.empty()
   with tickerInfo_expander.expander("FX Asset Information"):
     st.dataframe(tickerInfo)
-st.write(f"Investment yako ya {currencypair} inabamba enyewe")
+st.write(f":blue[Investment yako ya {currencypair} inabamba enyewe]")
 ################ Historical and Real Time Data Table ###############################################################################################################
 #if st.session_state["StartDate"] !=  '' and st.session_state["EndDate"] !=  '' and st.session_state["Timezone"] !=  '' :
 tickerData_expander=st.empty()
