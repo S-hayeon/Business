@@ -17,7 +17,7 @@ class MyStrategy(Strategy):
 cash=st.sidebar.slider("Enter you available cash",0,10000,step=10)
 if st.sidebar.button("Test my strategy"):
   if st.session_state["DataFrame"] is not None:
-    bt=Backtest(st.session_state["DataFrame"],MyStrategy)
+    bt=Backtest(st.session_state["DataFrame"],MyStrategy,cash)
     strategyStats=bt.run()
     strategyStatsDF=pd.DataFrame(strategyStats)
     strategyTradesDF=pd.DataFrame(strategyStats['_trades'])
