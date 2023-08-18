@@ -20,13 +20,14 @@ if st.sidebar.button("Test my strategy"):
     bt=Backtest(st.session_state["DataFrame"],MyStrategy,cash=10000)
     strategyStats=bt.run()
     strategyStatsDF=pd.DataFrame(strategyStats)
-    strategyTradesDF=pd.DataFrame(strategyStats['_trades'])
+    #strategyTradesDF=pd.DataFrame(strategyStats['_trades'])
     with st.container():
       strategyStats_placeholder=st.empty()
       strategyTrades_placeholder=st.empty()
       with strategyStats_placeholder.expander("View Stategy Statistics"):
         st.dataframe(strategyStatsDF)
       with strategyTrades_placeholder.expander("View Strategy Trades"):
-        st.dataframe(strategyTradesDF)
+        #st.dataframe(strategyTradesDF)
+        st.dataframe(strategyStats['_trades'])
       
       
