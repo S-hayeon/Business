@@ -3,7 +3,7 @@ from backtesting.lib import crossover,plot_heatmaps
 import pandas as pd
 import streamlit as st
 import talib
-selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX']
+selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
 class MyStrategy(Strategy):
   upper_bound = st.sidebar.slider("Enter the Indicator Upper Limit", 0, 100)
   lower_bound = st.sidebar.slider("Enter the Indicator Lower Limit", 0, 100)
