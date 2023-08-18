@@ -50,7 +50,7 @@ class MyStrategy(Strategy):
 # Separate the indicator-specific sidebar inputs into their own blocks
 for indicator_name in selected_indicators:
     if indicator_name == 'ADX':
-        range_value_choice=st.selectbox("Do you want one ADX value or range?",['One Value','Range'])
+        range_value_choice=st.sidebar.selectbox("Do you want one ADX value or range?",['One Value','Range'])
         if range_value_choice=='One Value':
             MyStrategy.adx_upper_bound=None
             MyStrategy.adx_lower_bound = st.sidebar.slider("Enter the ADX Value", 0, 40, step=1)
