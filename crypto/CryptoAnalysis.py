@@ -19,7 +19,6 @@ import time
 refresh_interval=60 # Refresh in 60 seconds
 st.session_state['CurrencyPair']=None
 st.session_state['DataFrame']=None
-title_placeholder=st.empty()
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
@@ -142,6 +141,7 @@ if __name__=='__main__':
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
         popularCoinPrices()
+        title_placeholder=st.empty()
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
         interval = st.sidebar.selectbox("Select an interval", intervals)
