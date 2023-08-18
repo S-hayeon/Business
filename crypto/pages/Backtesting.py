@@ -7,8 +7,11 @@ import time
 selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
 
 class MyStrategy(Strategy):
+    
     def init(self):
         self.indicators = {}
+        self.should_buy=False
+        self.should_sell=False
         if 'RSI' in selected_indicators:
             self.indicators['RSI'] = self.I(talib.RSI, self.data.Close, self.time_period)
         if 'SMA' in selected_indicators:
@@ -22,46 +25,43 @@ class MyStrategy(Strategy):
         for indicator_name, indicator_values in self.indicators.items():
             last_value = indicator_values[-1]
             if indicator_name == 'RSI':
-                if last_value > self.upper_bound:
-                    self.position.close()
-                elif last_value < self.lower_bound:
-                     self.buy()
+                self.should_buy = self.should_buy and (self.lower_bound<self.last_value<self.upper_bound)
+                self.should_sell =self.should_sell and (last_value<self.lower_bound)
             elif indicator_name == 'EMA':
-                if last_value<self.time_period:
-                    self.position.close()
-                elif last_value>self.time_period:
-                    self.buy()
+                self.should_buy =self.should_buy and (last_value>self.data.Close[-1])
+                self.should_sell =self.should_sell and (last_value<self.data.Close[-1])
             elif indicator_name == 'ADX':
-                if last_value > self.time_period:
-                    self.position.close()
-                elif last_value > self.time_period:
-                    self.buy()
+                self.should_buy =self.should_buy and(last_value>self.time_period)
+                self.should_sell =self.should_sell and (last_value>self.time_period)
+        if self.should_sell:
+            self.position.close()
+        elif self.should_buy:
+            self.buy()
 
 # Streamlit app
-st.title("Backtesting")
+st.title(f"Backtesting the {st.session_state['CurrencyPair']} Coin Pair")
 
 ###################################################### Sidebar inputs ##############################
 if 'ADX' in selected_indicators:
     MyStrategy.upper_bound = None
     MyStrategy.lower_bound = None
-    MyStrategy.time_period = st.sidebar.number_input("The ADX Indicator Time Period",min_value=1,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period",min_value=1,step=1)
     st.toast("Strategy buys and sells when the last close is above the ADX")
     time.sleep(2)
 elif 'EMA' in selected_indicators:
     MyStrategy.upper_bound = None
     MyStrategy.lower_bound = None
-    MyStrategy.time_period = st.sidebar.number_input("The EMA Indicator Time Period", min_value=1,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("Enter the EMAIndicator Time Period", min_value=1,step=1)
     st.toast("Strategy buys when the last close is above the EMA")
     time.sleep(2)
 elif 'RSI' in selected_indicators:
     MyStrategy.upper_bound=st.sidebar.slider("Enter the RSI Upper Limit",0,100,step=1)
     MyStrategy.lower_bound=st.sidebar.slider("Enter the RSI Lower Limit",0,100,step=1)
-    MyStrategy.time_period = st.sidebar.number_input("The RSI indicator Time Period",min_value=1,step=1)
     time.sleep(2)
 elif 'SMA' in selected_indicators:
     MyStrategy.upper_bound = None
     MyStrategy.lower_bound = None
-    MyStrategy.time_period = st.sidebar.number_input("The SMA Indicator Time Period",min_value=1,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("Enter the SMA Indicator Time Period",min_value=1,step=1)
     st.toast("Strategy buys when the last close is above the SMA")
     time.sleep(2)
 else:
