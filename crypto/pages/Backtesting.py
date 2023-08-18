@@ -5,6 +5,9 @@ import streamlit as st
 import talib
 selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX']
 class MyStrategy(Strategy):
+  upper_bound = st.sidebar.slider("Enter the Indicator Upper Limit", 0, 100)
+  lower_bound = st.sidebar.slider("Enter the Indicator Lower Limit", 0, 100)
+  time_period = st.sidebar.slider("Enter the Indicator Time Period", 0, 30)
   def init(self):
     self.indicators = {}
     if 'RSI' in selected_indicators:
