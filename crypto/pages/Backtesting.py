@@ -13,9 +13,9 @@ class MyStrategy(Strategy):
       self.position.close()
     elif self.indicator[-1]<self.lower_bound:
       self.buy()
-cash=st.sidebar.slider("Enter you available cash",0,1000000,step=1)
-if st.button("Test my strategy"):
-  if st.session_state["DataFrame"] !=None:
+cash=st.sidebar.slider("Enter you available cash",0,10000,step=10)
+if st.sidebar.button("Test my strategy"):
+  if st.session_state["DataFrame"] is not None:
     bt=Backtest(st.session_state["DataFrame"],MyStrategy,cash)
     strategyStats=bt.run()
     strategyStatsDF=pd.DataFrame(strategyStats)
