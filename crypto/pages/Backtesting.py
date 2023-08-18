@@ -44,23 +44,24 @@ st.title("Backtesting")
 if 'ADX' in selected_indicators:
     MyStrategy.upper_bound = None
     MyStrategy.lower_bound = None
-    MyStrategy.time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period",min_value=1,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("The ADX Indicator Time Period",min_value=1,step=1)
     st.toast("Strategy buys and sells when the last close is above the ADX")
     time.sleep(2)
 elif 'EMA' in selected_indicators:
     MyStrategy.upper_bound = None
     MyStrategy.lower_bound = None
-    MyStrategy.time_period = st.sidebar.number_input("Enter the EMAIndicator Time Period", min_value=1,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("The EMA Indicator Time Period", min_value=1,step=1)
     st.toast("Strategy buys when the last close is above the EMA")
     time.sleep(2)
 elif 'RSI' in selected_indicators:
     MyStrategy.upper_bound=st.sidebar.slider("Enter the RSI Upper Limit",0,100,step=1)
     MyStrategy.lower_bound=st.sidebar.slider("Enter the RSI Lower Limit",0,100,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("The RSI indicator Time Period",min_value=1,step=1)
     time.sleep(2)
 elif 'SMA' in selected_indicators:
     MyStrategy.upper_bound = None
     MyStrategy.lower_bound = None
-    MyStrategy.time_period = st.sidebar.number_input("Enter the SMA Indicator Time Period",min_value=1,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("The SMA Indicator Time Period",min_value=1,step=1)
     st.toast("Strategy buys when the last close is above the SMA")
     time.sleep(2)
 else:
