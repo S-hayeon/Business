@@ -49,7 +49,8 @@ if st.sidebar.button("Test my strategy"):
     with st.container():
         # Display strategy statistics and equity curve
         st.write("Strategy Statistics:")
-        st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
+        #st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
+        st.dataframe(pd.DataFrame(strategy_stats))
         
         st.write("Equity Curve:")
         st.line_chart(strategy_stats['_equity_curve'])
