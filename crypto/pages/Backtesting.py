@@ -28,6 +28,6 @@ if st.sidebar.button("Test my strategy"):
         st.dataframe(strategyStatsDF)
       with strategyTrades_placeholder.expander("View Strategy Trades"):
         #st.dataframe(strategyTradesDF)
-        st.table(strategyStats['_equity_curve'])
+        st.write(strategyStats['_equity_curve'])
       
       
