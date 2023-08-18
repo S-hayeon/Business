@@ -2,6 +2,7 @@ from backtesting import Backtest, Strategy
 import streamlit as st
 import talib
 import pandas as pd
+import time
 
 selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
 
@@ -24,20 +25,46 @@ class MyStrategy(Strategy):
                 if last_value > self.upper_bound:
                     self.position.close()
                 elif last_value < self.lower_bound:
-                    self.buy()
-            elif indicator_name == 'EMA' or indicator_name == 'ADX':
-                if last_value > self.upper_bound:
+                     self.buy()
+            elif indicator_name == 'EMA':
+                if last_value<self.time_period:
                     self.position.close()
-                elif last_value < self.lower_bound:
+                elif last_value>self.time_period:
+                    self.buy()
+            elif indicator_name == 'ADX':
+                if last_value > self.time_period:
+                    self.position.close()
+                elif last_value > self.time_period:
                     self.buy()
 
 # Streamlit app
 st.title("Backtesting")
 
-# Sidebar inputs
-MyStrategy.upper_bound = st.sidebar.slider("Enter the Indicator Upper Limit", 0, 100)
-MyStrategy.lower_bound = st.sidebar.slider("Enter the Indicator Lower Limit", 0, 100)
-MyStrategy.time_period = st.sidebar.slider("Enter the Indicator Time Period", 0, 30)
+###################################################### Sidebar inputs ##############################
+if 'ADX' in selected_indicators:
+    MyStrategy.upper_bound = None
+    MyStrategy.lower_bound = None
+    MyStrategy.time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period",min_value=1,step=1)
+    st.toast("Strategy buys and sells when the last close is above the ADX")
+    time.sleep(2)
+elif 'EMA' in MyStrategy.indicators:
+    MyStrategy.upper_bound = None
+    MyStrategy.lower_bound = None
+    MyStrategy.time_period = st.sidebar.number_input("Enter the EMAIndicator Time Period", min_value=1,step=1)
+    st.toast("Strategy buys when the last close is above the EMA")
+    time.sleep(2)
+elif 'RSI' in MyStrategy.indicators:
+    MyStrategy.upper_bound=st.sidebar.slider("Enter the RSI Upper Limit",0,100,step=1)
+    MyStrategy.lower_bound=st.sidebar.slider("Enter the RSI Lower Limit",0,100,step=1)
+    time.sleep(2)
+elif 'SMA' in selected_indicators:
+    MyStrategy.upper_bound = None
+    MyStrategy.lower_bound = None
+    MyStrategy.time_period = st.sidebar.number_input("Enter the SMA Indicator Time Period",min_value=1,step=1)
+    st.toast("Strategy buys when the last close is above the SMA")
+    time.sleep(2)
+else:
+    pass
 
 data = st.session_state['DataFrame']
 
