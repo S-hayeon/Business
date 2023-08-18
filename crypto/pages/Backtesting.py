@@ -19,7 +19,7 @@ class MyStrategy(Strategy):
         if 'EMA' in selected_indicators:
             self.indicators['EMA'] = self.I(talib.EMA, self.data.Close, timeperiod=self.time_period)
         if 'ADX' in selected_indicators:
-            self.indicators['ADX'] = self.I(talib.ADX, self.data.High, self.data.Low, self.data.Close, timeperiod=self.time_period)
+            self.indicators['ADX'] = self.I(talib.ADX, self.data.High, self.data.Low, self.data.Close, timeperiod=self.adx_time_period)
 
     def next(self):
         for indicator_name, indicator_values in self.indicators.items():
@@ -31,8 +31,15 @@ class MyStrategy(Strategy):
                 self.should_buy =self.should_buy and (last_value>self.data.Close[-1])
                 self.should_sell =self.should_sell and (last_value<self.data.Close[-1])
             elif indicator_name == 'ADX':
-                self.should_buy =self.should_buy and(last_value>self.time_period)
-                self.should_sell =self.should_sell and (last_value>self.time_period)
+                if self.adx_upper_bound is None:
+                    self.should_buy =self.should_buy and(last_value>self.adx_time_period)
+                    self.should_sell =self.should_sell and (last_value>self.adx_time_period)
+                elif self.adx_upper_bound is not None:
+                    self.should_buy =self.should_buy and(last_value<self.adx_upper_bound) and (last_value>self.adx_lower_bound)
+                    self.should_sell =self.should_sell and(last_value<self.adx_upper_bound) and (last_value>self.adx_lower_bound)
+                else:
+                    pass
+                    
         if self.should_sell:
             self.position.close()
         elif self.should_buy:
@@ -43,10 +50,20 @@ class MyStrategy(Strategy):
 # Separate the indicator-specific sidebar inputs into their own blocks
 for indicator_name in selected_indicators:
     if indicator_name == 'ADX':
-        MyStrategy.upper_bound = None
-        MyStrategy.lower_bound = None
-        MyStrategy.time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period", min_value=1, step=1)
-        st.toast("Strategy buys and sells when the last close is above the ADX")
+        range_value_choice=st.selectbox("Do you want one ADX value or range?",['One Value','Range']):
+        if range_value_choice=='One Value':
+            MyStrategy.adx_upper_bound=None
+            MyStrategy.adx_lower_bound = st.sidebar.slider("Enter the ADX Value", 0, 40, step=1)
+            MyStrategy.adx_time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period", min_value=1, step=1)
+            st.toast("Strategy buys and sells when the last close is above the ADX")
+        elif range_value_choice=='Range':
+            MyStrategy.adx_upper_bound = st.sidebar.slider("Enter the ADX Upper Limit", 0, 40, step=1)
+            MyStrategy.adx_lower_bound = st.sidebar.slider("Enter the ADX Lower Limit", 0, 40, step=1)
+            MyStrategy.adx_time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period", min_value=1, step=1)
+            if MyStrategy.adx_upper_bound>Mystrategy.adx_lower_bound:
+                st.toast("Strategy buys and sells when the last close is above the ADX",icon="⚠️")
+            else:
+                pass
         time.sleep(2)
     elif indicator_name == 'EMA':
         MyStrategy.upper_bound = None
