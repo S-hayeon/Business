@@ -53,17 +53,17 @@ for indicator_name in selected_indicators:
         range_value_choice=st.sidebar.selectbox("Do you want one ADX value or range?",['One Value','Range'])
         if range_value_choice=='One Value':
             MyStrategy.adx_upper_bound=None
-            MyStrategy.adx_lower_bound = st.sidebar.slider("Enter the ADX Value", 0, 40, step=1)
-            MyStrategy.adx_time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period", min_value=1, step=1)
-            st.toast("Strategy buys and sells when the last close is above the ADX")
+            MyStrategy.adx_lower_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or above:", 0, 40, step=1)
+            MyStrategy.adx_time_period = st.sidebar.number_input("ADX Indicator Time Period", min_value=1, step=1)
+            st.toast("Knowledge Nugget: ADX shows a trending market",icon="💹")
         elif range_value_choice=='Range':
-            MyStrategy.adx_upper_bound = st.sidebar.slider("Enter the ADX Upper Limit", 0, 40, step=1)
-            MyStrategy.adx_lower_bound = st.sidebar.slider("Enter the ADX Lower Limit", 0, 40, step=1)
+            MyStrategy.adx_upper_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or below:", 0, 40, step=1)
+            MyStrategy.adx_lower_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or above:", 0, 40, step=1)
             MyStrategy.adx_time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period", min_value=1, step=1)
-            if MyStrategy.adx_upper_bound>Mystrategy.adx_lower_bound:
-                st.toast("Strategy buys and sells when the last close is above the ADX",icon="⚠️")
+            if MyStrategy.adx_upper_bound>MyStrategy.adx_lower_bound:
+                st.toast("Knowledge Nugget: ADX shows a trending market",icon="💹")
             else:
-                pass
+                st.toast("The ADX Upper limit should be higher the ADX Lower limit",icon="⚠️")
         time.sleep(2)
     elif indicator_name == 'EMA':
         MyStrategy.upper_bound = None
