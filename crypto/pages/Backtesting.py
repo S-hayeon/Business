@@ -6,7 +6,7 @@ import talib
 class MyStrategy(Strategy):
   upper_bound=st.sidebar.slider("Enter the Indicator Upper Limit",0, 100)
   lower_bound=st.sidebar.slider("Enter the Indicator Lower Limit",0, 100)
-  timeperiod=st.sidebar.slider("Enter the Indicator Time Period",0,30)
+  time_period=st.sidebar.slider("Enter the Indicator Time Period",0,30)
   def init(self):
     self.indicator1=self.I(talib.RSI,self.data.Close,self.time_period)
   def next(self):
