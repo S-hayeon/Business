@@ -6,6 +6,7 @@ import talib
 class MyStrategy(Strategy):
   upper_bound=st.sidebar.slider("Enter the Indicator Upper Limit",0, 100)
   lower_bound=st.sidebar.slider("Enter the Indicator Lower Limit",0, 100)
+  timeperiod=st.sidebar.slider("Enter the Indicator Time Period",0,30)
   def init(self):
     self.indicator1=self.I(talib.RSI,self.data.Close,self.time_period)
   def next(self):
@@ -16,7 +17,7 @@ class MyStrategy(Strategy):
 cash=st.sidebar.slider("Enter you available cash",0,10000,step=10)
 if st.sidebar.button("Test my strategy"):
   if st.session_state["DataFrame"] is not None:
-    bt=Backtest(st.session_state["DataFrame"],MyStrategy,cash)
+    bt=Backtest(st.session_state["DataFrame"],MyStrategy)
     strategyStats=bt.run()
     strategyStatsDF=pd.DataFrame(strategyStats)
     strategyTradesDF=pd.DataFrame(strategyStats['_trades'])
