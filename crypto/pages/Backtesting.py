@@ -57,6 +57,7 @@ elif 'EMA' in selected_indicators:
 elif 'RSI' in selected_indicators:
     MyStrategy.upper_bound=st.sidebar.slider("Enter the RSI Upper Limit",0,100,step=1)
     MyStrategy.lower_bound=st.sidebar.slider("Enter the RSI Lower Limit",0,100,step=1)
+    MyStrategy.time_period = st.sidebar.number_input("Enter the RSI Time Period", min_value=1,step=1)
     time.sleep(2)
 elif 'SMA' in selected_indicators:
     MyStrategy.upper_bound = None
