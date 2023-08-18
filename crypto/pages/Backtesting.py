@@ -10,9 +10,9 @@ class MyStrategy(Strategy):
   def init(self):
     self.indicator1=self.I(talib.RSI,self.data.Close,self.time_period)
   def next(self):
-    if self.indicator[-1]>self.upper_bound:
+    if self.indicator1[-1]>self.upper_bound:
       self.position.close()
-    elif self.indicator[-1]<self.lower_bound:
+    elif self.indicator1[-1]<self.lower_bound:
       self.buy()
 cash=st.sidebar.slider("Enter you available cash",0,10000,step=10)
 if st.sidebar.button("Test my strategy"):
