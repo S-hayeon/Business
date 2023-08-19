@@ -131,7 +131,7 @@ class TIndicators:
         else:
             return "Neutral"
   def techIndicators(self):
-      self.df.rename(columns={'Open':'open','High':'high','Low':'low','Close':close},inplace=True)
+      self.df.rename(columns={'Open':'open','High':'high','Low':'low','Close':'close'},inplace=True)
       self.techDF['ADX']=abstract.ADX(data)
       self.techDF=pd.concat([self.techDF,abstract.AROON(data)],axis=1)
       self.techDF=pd.concat([self.techDF,abstract.BBANDS(data)],axis=1)
