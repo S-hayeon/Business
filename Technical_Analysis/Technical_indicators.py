@@ -132,13 +132,13 @@ class TIndicators:
             return "Neutral"
   def techIndicators(self):
       self.df.rename(columns={'Open':'open','High':'high','Low':'low','Close':'close'},inplace=True)
-      self.techDF['ADX']=abstract.ADX(data)
-      self.techDF=pd.concat([self.techDF,abstract.AROON(data)],axis=1)
-      self.techDF=pd.concat([self.techDF,abstract.BBANDS(data)],axis=1)
-      self.techDF['EMA 20']=abstract.EMA(data,timeperiod=20)
-      self.techDF=pd.concat([self.techDF,abstract.MACD(data)],axis=1)
-      self.techDF['RSI']=abstract.RSI(data)
-      self.techDF['SMA 25']=abstract.SMA(data,timeperiod=25)
+      self.techDF['ADX']=abstract.ADX(self.df)
+      self.techDF=pd.concat([self.techDF,abstract.AROON(self.df)],axis=1)
+      self.techDF=pd.concat([self.techDF,abstract.BBANDS(self.df)],axis=1)
+      self.techDF['EMA 20']=abstract.EMA(self.df,timeperiod=20)
+      self.techDF=pd.concat([self.techDF,abstract.MACD(self.df)],axis=1)
+      self.techDF['RSI']=abstract.RSI(self.df)
+      self.techDF['SMA 25']=abstract.SMA(self.df,timeperiod=25)
       return self.techDF
 
 
