@@ -2,12 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
+from talib import abstract
 import talib
 import ta_py as ta
 class TIndicators:
   def __init__(self,data):
     self.df=data
     self.data=data['Close']
+    self.techDF =pd.DataFrame() # Technical Indicators Dataframe
     self.sma_50 = 0
     self.sma_200 = 0
     self.rsi = 0
@@ -128,4 +130,15 @@ class TIndicators:
             return "Weak Bearish"
         else:
             return "Neutral"
+  def techIndicators(self):
+      self.df.rename(columns={'Open':'open','High':'high','Low':'low','Close':close},inplace=True)
+      self.techDF['ADX']=abstract.ADX(data)
+      self.techDF=pd.concat([self.techDF,abstract.AROON(data)],axis=1)
+      self.techDF=pd.concat([self.techDF,abstract.BBANDS(data)],axis=1)
+      self.techDF['EMA 20']=abstract.EMA(data,timeperiod=20)
+      self.techDF=pd.concat([self.techDF,abstract.MACD(data)],axis=1)
+      self.techDF['RSI']=abstract.RSI(data)
+      self.techDF['SMA 25']=abstract.SMA(data,timeperiod=25)
+      return self.techDF
+
 
