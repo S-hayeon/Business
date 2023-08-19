@@ -139,6 +139,7 @@ class TIndicators:
       self.techDF=pd.concat([self.techDF,abstract.MACD(self.df)],axis=1)
       self.techDF['RSI']=abstract.RSI(self.df)
       self.techDF['SMA 25']=abstract.SMA(self.df,timeperiod=25)
+      self.df.rename(columns={'open':'Open','high':'High','low':'Low','close':'Close'},inplace=True) # Revert to Original columns
       return self.techDF
 
 
