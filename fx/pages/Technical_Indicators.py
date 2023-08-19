@@ -6,7 +6,6 @@ try:
 except:  
     sys.path.append('/mount/src/business')
     from Technical_Analysis import Technical_indicators
-if __name__=='__main__':
-  techanalysis=Technical_indicators.TIndicators(data=st.session_state['DataFrame'])
-  indicatorsDF=techanalysis.techIndicators()
-  st.dataframe(indicatorsDF)
+techanalysis=Technical_indicators.TIndicators(data=st.session_state['DataFrame'])
+indicatorsDF=techanalysis.techIndicators()
+st.dataframe(indicatorsDF)
