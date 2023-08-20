@@ -1,6 +1,7 @@
 from backtesting import Backtest, Strategy
 from backtesting.test import GOOG
 import streamlit as st
+import talib
 import time
 import backtesting  # Import your backtesting library
 
