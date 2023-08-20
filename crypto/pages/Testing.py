@@ -15,40 +15,19 @@ class RSIOscillator(Strategy):
         elif self.rsi[-1] < self.params.lower_bound:
             self.buy()
 
-def optimize_strategy(upper_bound, lower_bound, rsi_timeperiod):
-    bt = Backtest(
-        GOOG,
-        RSIOscillator,
-        cash=10_000,
-        upper_bound=upper_bound,
-        lower_bound=lower_bound,
-        rsi_timeperiod=rsi_timeperiod
-    )
-    strategy_stats = bt.run()
-    return strategy_stats
-
 def main():
     st.title("Backtesting Optimization Progress")
-
-    upper_bounds = range(50, 85, 5)
-    lower_bounds = range(10, 50, 5)
-    rsi_timeperiods = range(10, 30, 1)
-    
-    total_iterations = len(upper_bounds) * len(lower_bounds) * len(rsi_timeperiods)
-    progress = 0
-
-    # Display a progress bar
-    progress_bar = st.progress(0)
-
-    # Iterate over optimization parameters
-    for upper_bound in upper_bounds:
-        for lower_bound in lower_bounds:
-            for rsi_timeperiod in rsi_timeperiods:
-                strategy_stats = optimize_strategy(upper_bound, lower_bound, rsi_timeperiod)
-                progress += 1
-                progress_bar.progress(progress / total_iterations)
-
-    st.success("Optimization Complete!")
+    bt=Backtest(GOOG,RSIOscillator,cash=10_000)
+    strategyStats=bt.optimize(
+    upper_bound=range(50,85,5), # Optimize Upper bound from 50-85 in steps of 5
+    lower_bound=range(10,50,5), # Optimize Lower bound from 10-50 in steps of 5
+    rsi_timeperiod=range(10,30,2) # Optimize the strategy with RSI timeperiod betweeen 10 and 30 in steps of 2
+    )
+    my_bar = st.progress(0)
+    for percent_complete in range(Backtest.param_combos):
+        #time.sleep(0.1)
+        my_bar.progress(percent_complete + 1)
+    st.write(strategyStats['_strategy'])
 
 if __name__ == "__main__":
     main()
