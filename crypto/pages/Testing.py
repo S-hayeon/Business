@@ -8,7 +8,7 @@ import backtesting
 class RSIOscillator(Strategy):
     upper_bound = 70
     lower_bound = 30
-    ema_10_timeperiod=10
+    rsi_timeperiod=14
     def init(self):
         self.rsi = self.I(talib.RSI, self.data.Close, self.rsi_timeperiod)
     
