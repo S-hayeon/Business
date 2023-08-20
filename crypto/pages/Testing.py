@@ -13,9 +13,9 @@ def optimize_strategy():
       def init(self):
         self.rsi = self.I(talib.RSI, self.data.Close,self.rsi_timeperiod)
       def next(self):
-        if self.rsi[-1] > self.upper_bound and self.data.Close[-1]<self.ema[-1]:
+        if self.rsi[-1] > self.upper_bound:
           self.position.close()
-        elif self.rsi[-1] < self.lower_bound and self.data.Close[-1]>self.ema[-1]:
+        elif self.rsi[-1] < self.lower_bound:
           self.buy()
     bt=Backtest(GOOG,RSIOscillator,cash=10_000)
     strategyStats=bt.optimize(
