@@ -13,9 +13,9 @@ class RSIOscillator(Strategy):
         self.rsi = self.I(talib.RSI, self.data.Close, self.rsi_timeperiod)
     
     def next(self):
-        if self.rsi[-1] > self.params.upper_bound:
+        if self.rsi[-1] > self.upper_bound:
             self.position.close()
-        elif self.rsi[-1] < self.params.lower_bound:
+        elif self.rsi[-1] < self.lower_bound:
             self.buy()
 
 def main():
