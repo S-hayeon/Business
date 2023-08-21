@@ -116,7 +116,8 @@ if mode=='No':
         param_name = 'ema_timeperiod'
         param_range = range(5, 100, 10)
         selected_param_value = st.selectbox(f"Select {param_name.replace('_', ' ').capitalize()} to optimize:", param_range)
-        strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
+        #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
+        strategy_stats = bt.optimize(ema_10_timeperiod=[param_range])
         strategy_stats['_strategy'] = 'EMA Optimization'
 
     else:
