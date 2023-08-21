@@ -5,6 +5,7 @@ import pandas as pd
 import time
 
 st.title(f"Backtesting the {st.session_state['CurrencyPair']} Coin Pair")
+selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
 class MyStrategy(Strategy):
     def init(self):
         self.indicators = {}
@@ -49,7 +50,6 @@ class MyStrategy(Strategy):
 ###################################################### Sidebar inputs ##############################
 mode=st.sidebar.radio("Do you have the indicators' values?",['Yes','No'])
 if mode=='Yes':
-    selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
     # Separate the indicator-specific sidebar inputs into their own blocks
     for indicator_name in selected_indicators:
         if indicator_name == 'ADX':
