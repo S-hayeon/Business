@@ -107,47 +107,51 @@ if mode=='Yes':
                 st.write("Equity Percentage Curve:")
                 st.line_chart(strategy_stats['_equity_curve']['DrawdownPct'])
 if mode=='No':
-    st.write("Automatic Parameter Limits calculation")
-    strategy_options = ['EMA', 'RSI']
-    selected_strategy = st.selectbox("Select a Indicator to optimize:", strategy_options)
+    class ParameterOptimizer:
+        def __init__(self, data, strategy_class, cash=10000):
+            self.data = data
+            self.strategy_class = strategy_class
+            self.cash = cash
+            self.wait_placeholder = st.empty()
+        
+        def optimize_parameters(self, strategy_name, parameter_name, lower_limit, upper_limit):
+            param_lower = st.sidebar.number_input(f"Lower limit of {parameter_name}", min_value=lower_limit, step=1)
+            param_upper = st.sidebar.number_input(f"Upper limit of {parameter_name}", min_value=upper_limit, step=1)
+            
+            if param_upper > param_lower:
+                param_range = range(param_lower, param_upper, 1)
+                if st.sidebar.button("Find optimal Values"):
+                    strategy_stats = self.run_optimization(strategy_name, parameter_name, param_range)
+                    self.wait_placeholder.write("Hold on as the system searches for optimal value", icon="🕐⌛")
+            else:
+                st.toast(f"{parameter_name} upper is lower than {parameter_name} lower", icon="🚩")
+            return strategy_stats
+        
+        def run_optimization(self, strategy_name, parameter_name, param_range):
+            selected_param_value = st.session_state[parameter_name]
+            # Call the Backtest and optimization methods here based on the strategy and parameter
+            # Example: bt = Backtest(self.data, self.strategy_class, cash=self.cash)
+            # Example: strategy_stats = bt.optimize({parameter_name}: param_range)
+            # Return the strategy statistics
+            
+            return None  # Placeholder for actual strategy statistics
+    
+    # Example usage
     data = st.session_state['DataFrame']
-    bt = Backtest(data, MyStrategy, cash=10000)
-    wait_placeholder=st.empty()
+    # Define your MyStrategy class or import it from your code
+    MyStrategy = None  # Replace with your actual strategy class
+    
+    parameter_optimizer = ParameterOptimizer(data, MyStrategy, cash=10000)
+    strategy_options = ['EMA', 'ADX', 'SMA']  # Add more strategies as needed
+    selected_strategy = st.selectbox("Select an Indicator to optimize:", strategy_options)
+    
     if selected_strategy == 'EMA':
-        ema_timeperiod_lower=st.sidebar.number_input("Lower limit of EMA Time Period", min_value=5, step=1)
-        ema_timeperiod_upper=st.sidebar.number_input("Upper limit of EMA Time Period", min_value=5, step=1)
-        if ema_timeperiod_upper>ema_timeperiod_lower:
-            ema_time_period=range(ema_timeperiod_lower,ema_timeperiod_upper,1)
-            #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
-            if st.sidebar.button("Find optimal Values"):
-                strategy_stats = bt.optimize(ema_time_period)
-                wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
-        else:
-            st.toast("EMA upper is lower than EMA lower",icon="🚩")
-    elif selected_strategy=='ADX':
-        adx_timeperiod_lower=st.sidebar.number_input("Lower limit of SMA Time Period", min_value=5, step=1)
-        adx_timeperiod_upper=st.sidebar.number_input("Upper limit of SMA Time Period", min_value=7, step=1)
-        if adx_timeperiod_upper>adx_timeperiod_lower:
-            adx_time_period=range(adx_timeperiod_lower,adx_timeperiod_upper,1)
-            #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
-            if st.sidebar.button("Find optimal Values"):
-                strategy_stats = bt.optimize(adx_time_period)
-                wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
-        else:
-            st.toast("SMA upper is lower than SMA lower",icon="🚩")
-    elif selected_strategy=='SMA':
-        sma_timeperiod_lower=st.sidebar.number_input("Lower limit of SMA Time Period", min_value=5, step=1)
-        sma_timeperiod_upper=st.sidebar.number_input("Upper limit of SMA Time Period", min_value=7, step=1)
-        if sma_timeperiod_upper>sma_timeperiod_lower:
-            sma_time_period=range(sma_timeperiod_lower,sma_timeperiod_upper,1)
-            #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
-            if st.sidebar.button("Find optimal Values"):
-                strategy_stats = bt.optimize(sma_time_period)
-                wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
-        else:
-            st.toast("SMA upper is lower than SMA lower",icon="🚩")
+        stats=parameter_optimizer.optimize_parameters('EMA', 'ema_time_period', 5, 100)
+    elif selected_strategy == 'ADX':
+        stats=parameter_optimizer.optimize_parameters('ADX', 'adx_time_period', 5, 100)
+    elif selected_strategy == 'SMA':
+        stats=parameter_optimizer.optimize_parameters('SMA', 'sma_time_period', 5, 100)
     else:
         pass
-    time.sleep(100)
-    wait_placeholder=st.empty()
-    st.write(strategy_stats['_strategy'])
+    st.write(stats)
+    st.write(stats['_strategy'])
