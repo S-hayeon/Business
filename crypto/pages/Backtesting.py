@@ -123,7 +123,7 @@ if mode=='No':
                 param_range = range(param_lower, param_upper, 1)
                 if st.sidebar.button("Find optimal Values"):
                     #self.strategy_stats = self.run_optimization(strategy_name, parameter_name, param_range)
-                    bt = Backtest(self.data, self.strategy_class, cash=self.cash)
+                    bt = Backtest(st.session_state['DataFrame'], MyStrategy, cash=10000)
                     self.strategy_stats = self.strategy_stats = bt.optimize(parameter_name=param_range)
                     self.wait_placeholder.write("Hold on as the system searches for optimal value", icon="🕐⌛")
             else:
