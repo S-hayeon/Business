@@ -129,13 +129,13 @@ if mode=='No':
             return self.strategy_stats
         
         def run_optimization(self, strategy_name, parameter_name, param_range):
-            selected_param_value = st.session_state[parameter_name]
+            #selected_param_value = st.session_state[parameter_name]
             # Call the Backtest and optimization methods here based on the strategy and parameter
             # Example: bt = Backtest(self.data, self.strategy_class, cash=self.cash)
             # Example: strategy_stats = bt.optimize({parameter_name}: param_range)
             # Return the strategy statistics
-            
-            return None  # Placeholder for actual strategy statistics
+            return self.strategy_stats
+            #return None  # Placeholder for actual strategy statistics
     
     # Example usage
     data = st.session_state['DataFrame']
