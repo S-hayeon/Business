@@ -124,9 +124,7 @@ if mode=='No':
                 if st.sidebar.button("Find optimal Values"):
                     #self.strategy_stats = self.run_optimization(strategy_name, parameter_name, param_range)
                     bt = Backtest(self.data, self.strategy_class, cash=self.cash)
-                    #self.strategy_stats = bt.optimize({parameter_name}=range(param_lower,param_upper,1)
-                    #self.strategy_stats = self.strategy_stats = bt.optimize({parameter_name: range(param_lower, param_upper, 1)})
-                    self.strategy_stats = self.strategy_stats = bt.optimize({parameter_name}==param_range)
+                    self.strategy_stats = self.strategy_stats = bt.optimize(parameter_name=param_range)
                     self.wait_placeholder.write("Hold on as the system searches for optimal value", icon="🕐⌛")
             else:
                 st.toast(f"{parameter_name} upper is lower than {parameter_name} lower", icon="🚩")
