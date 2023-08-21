@@ -112,7 +112,7 @@ if mode=='No':
             self.data = data
             self.strategy_class = strategy_class
             self.cash = cash
-            self.strategy_stats=strategy_stats
+            self.strategy_stats=None
             self.wait_placeholder = st.empty()
         
         def optimize_parameters(self, strategy_name, parameter_name, lower_limit, upper_limit):
