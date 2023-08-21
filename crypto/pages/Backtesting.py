@@ -133,8 +133,10 @@ if mode=='No':
             # Call the Backtest and optimization methods here based on the strategy and parameter
             # Example: bt = Backtest(self.data, self.strategy_class, cash=self.cash)
             # Example: strategy_stats = bt.optimize({parameter_name}: param_range)
+            bt = Backtest(self.data, self.strategy_class, cash=self.cash)
+            strategy_stats = bt.optimize({parameter_name}: param_range)
             # Return the strategy statistics
-            return self.strategy_stats
+            return strategy_stats
             #return None  # Placeholder for actual strategy statistics
     
     # Example usage
