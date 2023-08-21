@@ -24,7 +24,7 @@ class MyStrategy(Strategy):
         for indicator_name, indicator_values in self.indicators.items():
             last_value = indicator_values[-1]
             if indicator_name == 'RSI':
-                self.should_buy = self.should_buy or (self.rsi_lower_bound<self.last_value<self.rsi_upper_bound)
+                self.should_buy = self.should_buy or (self.rsi_lower_bound<last_value) and (last_value<self.rsi_upper_bound)
                 self.should_sell =self.should_sell or (last_value<self.rsi_lower_bound)
             elif indicator_name == 'EMA':
                 self.should_buy =self.should_buy or (last_value>self.data.Close[-1])
