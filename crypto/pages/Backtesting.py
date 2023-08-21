@@ -145,10 +145,7 @@ if mode=='No':
             pass
     
     # Example usage
-    data = st.session_state['DataFrame']
-    # Define your MyStrategy class or import it from your code
-    MyStrategy = None  # Replace with your actual strategy class
-    
+    data = st.session_state['DataFrame']    
     parameter_optimizer = ParameterOptimizer(data, MyStrategy, cash=10000)
     strategy_options = ['EMA', 'ADX', 'SMA']  # Add more strategies as needed
     selected_strategy = st.selectbox("Select an Indicator to optimize:", strategy_options)
