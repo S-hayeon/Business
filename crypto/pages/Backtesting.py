@@ -48,7 +48,7 @@ class MyStrategy(Strategy):
 
 
 ###################################################### Sidebar inputs ##############################
-mode=st.radio("Do you have the indicators' values?"['Yes','No'])
+mode=st.radio("Do you have the indicators' values?",['Yes','No'])
 if mode=='Yes':
     # Separate the indicator-specific sidebar inputs into their own blocks
     for indicator_name in selected_indicators:
