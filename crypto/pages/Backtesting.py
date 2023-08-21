@@ -123,6 +123,8 @@ if mode=='No':
                 param_range = range(param_lower, param_upper, 1)
                 if st.sidebar.button("Find optimal Values"):
                     self.strategy_stats = self.run_optimization(strategy_name, parameter_name, param_range)
+                    bt = Backtest(self.data, self.strategy_class, cash=self.cash)
+                    self.strategy_stats = bt.optimize({parameter_name}=range(param_lower,param_upper,1)
                     self.wait_placeholder.write("Hold on as the system searches for optimal value", icon="🕐⌛")
             else:
                 st.toast(f"{parameter_name} upper is lower than {parameter_name} lower", icon="🚩")
@@ -156,5 +158,8 @@ if mode=='No':
         stats=parameter_optimizer.optimize_parameters('SMA', 'sma_time_period', 5, 100)
     else:
         pass
-    st.write(stats)
-    st.write(stats['_strategy'])
+    if stats is not None:
+        st.write(stats)
+        st.write(stats['_strategy'])
+    else:
+        st.sidebar.info("Find optimal values in strategy first")
