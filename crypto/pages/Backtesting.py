@@ -112,6 +112,7 @@ if mode=='No':
             self.data = data
             self.strategy_class = strategy_class
             self.cash = cash
+            self.strategy_stats=strategy_stats
             self.wait_placeholder = st.empty()
         
         def optimize_parameters(self, strategy_name, parameter_name, lower_limit, upper_limit):
@@ -121,11 +122,11 @@ if mode=='No':
             if param_upper > param_lower:
                 param_range = range(param_lower, param_upper, 1)
                 if st.sidebar.button("Find optimal Values"):
-                    strategy_stats = self.run_optimization(strategy_name, parameter_name, param_range)
+                    self.strategy_stats = self.run_optimization(strategy_name, parameter_name, param_range)
                     self.wait_placeholder.write("Hold on as the system searches for optimal value", icon="🕐⌛")
             else:
                 st.toast(f"{parameter_name} upper is lower than {parameter_name} lower", icon="🚩")
-            return strategy_stats
+            return self.strategy_stats
         
         def run_optimization(self, strategy_name, parameter_name, param_range):
             selected_param_value = st.session_state[parameter_name]
