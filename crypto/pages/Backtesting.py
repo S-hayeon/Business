@@ -5,7 +5,6 @@ import pandas as pd
 import time
 
 st.title(f"Backtesting the {st.session_state['CurrencyPair']} Coin Pair")
-selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
 class MyStrategy(Strategy):
     def init(self):
         self.indicators = {}
@@ -24,21 +23,21 @@ class MyStrategy(Strategy):
         for indicator_name, indicator_values in self.indicators.items():
             last_value = indicator_values[-1]
             if indicator_name == 'RSI':
-                self.should_buy = self.should_buy and (self.rsi_lower_bound<self.last_value<self.rsi_upper_bound)
-                self.should_sell =self.should_sell and (last_value<self.rsi_lower_bound)
+                self.should_buy = self.should_buy or (self.rsi_lower_bound<self.last_value<self.rsi_upper_bound)
+                self.should_sell =self.should_sell or (last_value<self.rsi_lower_bound)
             elif indicator_name == 'EMA':
-                self.should_buy =self.should_buy and (last_value>self.data.Close[-1])
-                self.should_sell =self.should_sell and (last_value<self.data.Close[-1])
+                self.should_buy =self.should_buy or (last_value>self.data.Close[-1])
+                self.should_sell =self.should_sell or (last_value<self.data.Close[-1])
             elif indicator_name == 'SMA':
-                self.should_buy =self.should_buy and (last_value>self.data.Close[-1])
-                self.should_sell =self.should_sell and (last_value<self.data.Close[-1])
+                self.should_buy =self.should_buy or (last_value>self.data.Close[-1])
+                self.should_sell =self.should_sell or (last_value<self.data.Close[-1])
             elif indicator_name == 'ADX':
                 if self.adx_upper_bound is None:
-                    self.should_buy =self.should_buy and(last_value>self.adx_time_period)
-                    self.should_sell =self.should_sell and (last_value>self.adx_time_period)
+                    self.should_buy =self.should_buy or(last_value>self.adx_time_period)
+                    self.should_sell =self.should_sell or (last_value>self.adx_time_period)
                 elif self.adx_upper_bound is not None:
-                    self.should_buy =self.should_buy and(last_value<self.adx_upper_bound) and (last_value>self.adx_lower_bound)
-                    self.should_sell =self.should_sell and(last_value<self.adx_upper_bound) and (last_value>self.adx_lower_bound)
+                    self.should_buy =self.should_buy or(last_value<self.adx_upper_bound) and (last_value>self.adx_lower_bound)
+                    self.should_sell =self.should_sell or(last_value<self.adx_upper_bound) and (last_value>self.adx_lower_bound)
                 else:
                     pass
         if self.should_sell:
@@ -50,6 +49,7 @@ class MyStrategy(Strategy):
 ###################################################### Sidebar inputs ##############################
 mode=st.sidebar.radio("Do you have the indicators' values?",['Yes','No'])
 if mode=='Yes':
+    selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
     # Separate the indicator-specific sidebar inputs into their own blocks
     for indicator_name in selected_indicators:
         if indicator_name == 'ADX':
@@ -109,25 +109,44 @@ if mode=='Yes':
 if mode=='No':
     st.write("Automatic Parameter Limits calculation")
     strategy_options = ['EMA', 'RSI']
-    selected_strategy = st.selectbox("Select a strategy to optimize:", strategy_options)
+    selected_strategy = st.selectbox("Select a Indicator to optimize:", strategy_options)
     data = st.session_state['DataFrame']
     bt = Backtest(data, MyStrategy, cash=10000)
+    wait_placeholder=st.empty()
     if selected_strategy == 'EMA':
-        param_name = 'ema_timeperiod'
-        param_range = range(5, 100, 10)
-        selected_param_value = st.selectbox(f"Select {param_name.replace('_', ' ').capitalize()} to optimize:", param_range)
-        #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
-        strategy_stats = bt.optimize(ema_10_timeperiod=[param_range])
-        strategy_stats['_strategy'] = 'EMA Optimization'
-
+        ema_timeperiod_lower=st.sidebar.number_input("Lower limit of EMA Time Period", min_value=5, step=1)
+        ema_timeperiod_upper=st.sidebar.number_input("Upper limit of EMA Time Period", min_value=5, step=1)
+        if ema_timeperiod_upper>ema_timeperiod_upper:
+            ema_timeperiod=range(ema_timeperiod_lower,ema_timeperiod_upper,1)
+            #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
+            strategy_stats = bt.optimize(ema_timeperiod)
+            wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
+        else:
+            st.toast("EMA upper is lower than EMA lower",icon="🚩")
+    elif selected_strategy=='ADX':
+        adx_timeperiod_lower=st.sidebar.number_input("Lower limit of SMA Time Period", min_value=5, step=1)
+        adx_timeperiod_upper=st.sidebar.number_input("Upper limit of SMA Time Period", min_value=7, step=1)
+        adx_timeperiod=range(adx_timeperiod_lower,adx_timeperiod_upper,1)
+        if adx_timeperiod_upper>adx_timeperiod_upper:
+            adx_timeperiod=range(adx_timeperiod_lower,adx_timeperiod_upper,1)
+            #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
+            strategy_stats = bt.optimize(adx_timeperiod)
+            wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
+        else:
+            st.toast("SMA upper is lower than SMA lower",icon="🚩")
+    elif selected_strategy=='SMA':
+        sma_timeperiod_lower=st.sidebar.number_input("Lower limit of SMA Time Period", min_value=5, step=1)
+        sma_timeperiod_upper=st.sidebar.number_input("Upper limit of SMA Time Period", min_value=7, step=1)
+        sma_timeperiod=range(sma_timeperiod_lower,sma_timeperiod_upper,1)
+        if sma_timeperiod_upper>sma_timeperiod_upper:
+            sma_timeperiod=range(sma_timeperiod_lower,sma_timeperiod_upper,1)
+            #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
+            strategy_stats = bt.optimize(sma_timeperiod)
+            wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
+        else:
+            st.toast("SMA upper is lower than SMA lower",icon="🚩")
     else:
-        param_name = 'rsi_timeperiod'
-        rsi_upper_bound = st.slider("Select RSI Upper Bound", 50, 85, 70, step=5)
-        rsi_lower_bound = st.slider("Select RSI Lower Bound", 10, 50, 30, step=5)
-        strategy_stats = bt.optimize(
-            upper_bound=[rsi_upper_bound],
-            lower_bound=[rsi_lower_bound]
-        )
-        strategy_stats['_strategy'] = 'RSI Optimization'
-
-    st.write(strategy_stats)
+        pass
+    time.sleep(100)
+    wait_placeholder=st.empty()
+    st.write(strategy_stats['_strategy'])
