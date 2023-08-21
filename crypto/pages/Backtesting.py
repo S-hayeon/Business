@@ -117,34 +117,32 @@ if mode=='No':
         ema_timeperiod_lower=st.sidebar.number_input("Lower limit of EMA Time Period", min_value=5, step=1)
         ema_timeperiod_upper=st.sidebar.number_input("Upper limit of EMA Time Period", min_value=5, step=1)
         if ema_timeperiod_upper>ema_timeperiod_lower:
-            ema_timeperiod=range(ema_timeperiod_lower,ema_timeperiod_upper,1)
+            ema_time_period=range(ema_timeperiod_lower,ema_timeperiod_upper,1)
             #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
             if st.sidebar.button("Find optimal Values"):
-                strategy_stats = bt.optimize(ema_timeperiod)
+                strategy_stats = bt.optimize(ema_time_period)
                 wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
         else:
             st.toast("EMA upper is lower than EMA lower",icon="🚩")
     elif selected_strategy=='ADX':
         adx_timeperiod_lower=st.sidebar.number_input("Lower limit of SMA Time Period", min_value=5, step=1)
         adx_timeperiod_upper=st.sidebar.number_input("Upper limit of SMA Time Period", min_value=7, step=1)
-        adx_timeperiod=range(adx_timeperiod_lower,adx_timeperiod_upper,1)
         if adx_timeperiod_upper>adx_timeperiod_lower:
-            adx_timeperiod=range(adx_timeperiod_lower,adx_timeperiod_upper,1)
+            adx_time_period=range(adx_timeperiod_lower,adx_timeperiod_upper,1)
             #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
             if st.sidebar.button("Find optimal Values"):
-                strategy_stats = bt.optimize(adx_timeperiod)
+                strategy_stats = bt.optimize(adx_time_period)
                 wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
         else:
             st.toast("SMA upper is lower than SMA lower",icon="🚩")
     elif selected_strategy=='SMA':
         sma_timeperiod_lower=st.sidebar.number_input("Lower limit of SMA Time Period", min_value=5, step=1)
         sma_timeperiod_upper=st.sidebar.number_input("Upper limit of SMA Time Period", min_value=7, step=1)
-        sma_timeperiod=range(sma_timeperiod_lower,sma_timeperiod_upper,1)
         if sma_timeperiod_upper>sma_timeperiod_lower:
-            sma_timeperiod=range(sma_timeperiod_lower,sma_timeperiod_upper,1)
+            sma_time_period=range(sma_timeperiod_lower,sma_timeperiod_upper,1)
             #strategy_stats = bt.optimize(ema_10_timeperiod=[selected_param_value])
             if st.sidebar.button("Find optimal Values"):
-                strategy_stats = bt.optimize(sma_timeperiod)
+                strategy_stats = bt.optimize(sma_time_period)
                 wait_placeholder.write("Hold on as the system searches for optimal value",icon="🕐⌛")
         else:
             st.toast("SMA upper is lower than SMA lower",icon="🚩")
