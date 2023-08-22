@@ -147,8 +147,10 @@ if __name__=='__main__':
         interval = st.sidebar.selectbox("Select an interval", intervals)
         #st.write(f"The Interval: {st.session_state['Interval']}")
         start_date = st.sidebar.date_input("Select the start date:")
+        st.session_state["Start_Date"]=start_date
         #st.write(f"The start date: {start_date}")
         end_date = st.sidebar.date_input("Select the end date:")
+        st.session_state["End_Date"]=end_date
 
         if start_date is not None and end_date is not None:
             # Convert start_date and end_date to datetime.datetime objects
