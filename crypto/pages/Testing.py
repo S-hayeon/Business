@@ -9,7 +9,8 @@ def main():
     triangle_pattern=tradingpatterns.detect_triangle_pattern(df=data)
     wedge_pattern=tradingpatterns.detect_wedge(df=data)
     double_topbottom_pattern=tradingpatterns.detect_double_top_bottom(df=data)
-    data[['head_shoulder_pattern','multiple_top_bottom_pattern','triangle_pattern','wedge_pattern','double_pattern']]
+    data=data[['head_shoulder_pattern','multiple_top_bottom_pattern','triangle_pattern','wedge_pattern','double_pattern']]
+    
     #st.write(data.index)
     #st.write(data.columns)
     #st.write(data)
