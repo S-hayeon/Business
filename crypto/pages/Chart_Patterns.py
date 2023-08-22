@@ -42,6 +42,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
             st.dataframe(st.session_state['DataFrame'])
         with data_placeholder.expander("Descriptive Statistics"):
             st.dataframe(st.session_state['DataFrame'].describe())
+        chart_patterns_placeholder = st.empty() # Create a placeholder for the Chart Patterns
         st.header(":green[Support] and :red[Resistance] Levels")
         candlestickfigure_placeholder = st.empty() # Create a placeholder for the candlestickfigure
         support_Resistance()
@@ -66,6 +67,15 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         pattern_name=str(patternsID[0])
         candlestickDF.at[dfindex,'Pattern']=candlestickID.candlestick_dict[pattern_name]
         candlestickDF.at[dfindex,'Trend']=patternsID[2]
+    with chart_patterns_placeholder.expander("View Chart Patterns"):
+        data=st.session_state["DataFrame"]
+        head_shoulder=tradingpatterns.detect_head_shoulder(df=data)
+        multiple_top_bottom=tradingpatterns.detect_multiple_tops_bottoms(df=data)
+        triangle_pattern=tradingpatterns.detect_triangle_pattern(df=data)
+        wedge_pattern=tradingpatterns.detect_wedge(df=data)
+        double_topbottom_pattern=tradingpatterns.detect_double_top_bottom(df=data)
+        data=data[['head_shoulder_pattern','multiple_top_bottom_pattern','triangle_pattern','wedge_pattern','double_pattern']]
     candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
     with candlestickpatterns_placeholder.expander("View Candlestick Patterns"):
         st.dataframe(candlestickDF.dropna().reset_index().drop(columns=['index']))
+    
