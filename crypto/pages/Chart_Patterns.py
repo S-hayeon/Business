@@ -36,7 +36,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         time.sleep(2)  # Wait for 2 seconds
     #st.set_option('deprecation.showPyplotGlobalUse', False)
     with st.container():
-        st.title(f"{st.session_state['CurrencyPair']} Chart Pattern from {st.session_state["Start_Date"]} to {st.session_state["End_Date"]} :chart:")
+        st.title(f"{st.session_state['CurrencyPair']} Chart Pattern from {st.session_state['Start_Date']} to {st.session_state['End_Date']} :chart:")
         df_placeholder = st.empty() # Create a placeholder for the dataframe
         data_placeholder = st.empty() # Create a placeholder for the dataframe descriptive stats
         with df_placeholder.expander("View Candlestick Data"):
