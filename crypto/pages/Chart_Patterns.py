@@ -43,10 +43,10 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
             st.dataframe(st.session_state['DataFrame'])
         with data_placeholder.expander("Descriptive Statistics"):
             st.dataframe(st.session_state['DataFrame'].describe())
+        chart_patterns_placeholder = st.empty() # Create a placeholder for the Chart Patterns
         st.header(":green[Support] and :red[Resistance] Levels")
         candlestickfigure_placeholder = st.empty() # Create a placeholder for the candlestickfigure
         support_Resistance()
-        chart_patterns_placeholder = st.empty() # Create a placeholder for the Chart Patterns
         with st.expander("More info on Support and Resistance"):
             #st.info("Sensitivity is the % of data the system looks back to find support and resistance.")
             # Access support_resistance_lines from st.session_state
