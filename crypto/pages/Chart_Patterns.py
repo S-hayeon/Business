@@ -39,11 +39,11 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         st.title('Chart Patterns :chart:')
         df_placeholder = st.empty() # Create a placeholder for the dataframe
         data_placeholder = st.empty() # Create a placeholder for the dataframe descriptive stats
+        chart_patterns_placeholder = st.empty() # Create a placeholder for the Chart Patterns
         with df_placeholder.expander("View Candlestick Data"):
             st.dataframe(st.session_state['DataFrame'])
         with data_placeholder.expander("Descriptive Statistics"):
             st.dataframe(st.session_state['DataFrame'].describe())
-        chart_patterns_placeholder = st.empty() # Create a placeholder for the Chart Patterns
         st.header(":green[Support] and :red[Resistance] Levels")
         candlestickfigure_placeholder = st.empty() # Create a placeholder for the candlestickfigure
         support_Resistance()
