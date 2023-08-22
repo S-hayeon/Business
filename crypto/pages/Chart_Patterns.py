@@ -17,6 +17,7 @@ except:
 
 #sys.path.append('/app/business/fx')
 import time
+from tradingpatterns import tradingpatterns
 st.session_state['SupportResistance_Figure']=None
 
 if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
