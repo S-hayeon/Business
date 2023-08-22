@@ -12,7 +12,7 @@ def main():
     data[['head_shoulder_pattern','multiple_top_bottom_pattern','triangle_pattern','wedge_pattern','double_pattern']]
     #st.write(data.index)
     #st.write(data.columns)
-    st.write(data)
+    #st.write(data)
     
 
 if __name__ == "__main__":
