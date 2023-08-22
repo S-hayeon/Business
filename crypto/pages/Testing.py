@@ -9,6 +9,7 @@ from tradingpatterns.tradingpatterns import detect_head_shoulder
 def main():
     st.title("Head shoulders")
     head_shoulder=detect_head_shoulder(df=st.session_state["DataFrame"])
+    head_shoulder[['Date','head_shoulder_pattern']]
     st.write(head_shoulder)
     
 
