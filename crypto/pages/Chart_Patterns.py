@@ -76,6 +76,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
             wedge_pattern=tradingpatterns.detect_wedge(df=data)
             double_topbottom_pattern=tradingpatterns.detect_double_top_bottom(df=data)
             data=data[['head_shoulder_pattern','multiple_top_bottom_pattern','triangle_pattern','wedge_pattern','double_pattern']]
+            st.write(data)
         candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
         with candlestickpatterns_placeholder.expander("View Candlestick Patterns"):
             st.dataframe(candlestickDF.dropna().reset_index().drop(columns=['index']))
