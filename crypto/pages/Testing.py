@@ -6,6 +6,7 @@ def main():
     head_shoulder=detect_head_shoulder(df=st.session_state["DataFrame"])
     #head_shoulder[['Date','head_shoulder_pattern']]
     st.write(st.session_state["DataFrame"].index)
+    st.write(st.session_state["DataFrame"].columns)
     st.write(head_shoulder)
     
 
