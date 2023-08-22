@@ -4,7 +4,7 @@ import streamlit as st
 import talib
 import time
 import backtesting
-from tradingpatterns. import detect_head_shoulder
+from tradingpatterns.tradingpatterns import detect_head_shoulder
 
 def main():
     st.title("Head shoulders")
