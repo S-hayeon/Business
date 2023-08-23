@@ -19,6 +19,8 @@ import time
 refresh_interval=60 # Refresh in 60 seconds
 st.session_state['CurrencyPair']=None
 st.session_state['DataFrame']=None
+st.session_state['End_Date']=None
+st.session_state['Start_Date']=None
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
