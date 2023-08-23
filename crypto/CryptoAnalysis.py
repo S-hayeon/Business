@@ -47,7 +47,7 @@ def coin_token_selection():
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 
-@st.cache_data
+@st.cache_dat(ttl=3600) # Cache data for 1hr
 def get_historical_data(symbol, interval, start_time, end_time):
     #url = f"https://api.binance.us/api/v3/klines"
     url = f"https://data.binance.com/api/v3/klines"
@@ -76,7 +76,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Convert OHLCV values to numeric data types
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
-@st.cache_data
+@st.cache_dat(ttl=3600)
 def visualize_data():
     # Create  placeholders
     candlestickfigure_placeholder = st.empty()
