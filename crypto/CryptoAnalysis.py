@@ -56,7 +56,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
         "interval": interval,
         "startTime": start_time,
         "endTime": end_time,
-        "limit": 5000  # Adjust the limit as per your requirement
+        "limit": 500000  # Adjust the limit as per your requirement
     }
     response = requests.get(url, params=params)
     st.session_state['response']=response
