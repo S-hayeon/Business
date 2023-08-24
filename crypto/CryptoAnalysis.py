@@ -142,6 +142,7 @@ if __name__=='__main__':
     with st.container():
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
+        st.cache_data.clear()
         popularCoinPrices()
         title_placeholder=st.empty()
         coin_token_selection()
