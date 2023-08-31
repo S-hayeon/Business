@@ -17,7 +17,9 @@ class VWAPBOLLRSI:
         self.rsi_period=rsi_period
         self.rsi_buyThreshold=rsi_buyThreshold
         self.rsi_sellThreshold=rsi_sellThreshold
+        sl_coeff=None
         #self.sl_coeff=sl_coeff
+        tp_ratio=None
         #self.tp_ratio=tp_ratio
         self.fig=None
         self.stat=None
