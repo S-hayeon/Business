@@ -35,6 +35,7 @@ if strategy=='VWAP_Bollinger_RSI':
     bbu_column_name = f'BBU_{bollPeriod}_{bollDev}'
     coinData = coinData.join(my_bbands)
     st.write(f'Columns: {coinData.columns}')
+    st.write(f'BBU Column: {bbu_column_name in coinData.columns}')
     VWAPsignal = [0]*len(coinData)
     for thisRow in range(previousCandles, len(coinData)):
       upTrend = 1
