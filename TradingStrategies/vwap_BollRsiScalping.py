@@ -28,7 +28,8 @@ class VWAPBOLLRSI:
         coinData["VWAP"]=ta.vwap(coinData.High, coinData.Low, coinData.Close, coinData.Volume)
         coinData['RSI']=ta.rsi(coinData.Close, length=self.rsi_period)
         my_bbands = ta.bbands(coinData.Close, length=self.bollPeriod, std=self.boll_dev)
-        coinData=coinData.join(my_bbands)
+        #coinData=coinData.join(my_bbands)
+        coinData=coinData.append(my_bbands, ignore_index=True)
         VWAPsignal = [0]*len(coinData)
         self.previousCandles = 15
         for thisRow in range(self.previousCandles, len(coinData)):
