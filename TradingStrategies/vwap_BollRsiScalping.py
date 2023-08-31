@@ -17,10 +17,10 @@ class VWAPBOLLRSI:
         self.rsi_period=rsi_period
         self.rsi_buyThreshold=rsi_buyThreshold
         self.rsi_sellThreshold=rsi_sellThreshold
-        sl_coeff=None
-        #self.sl_coeff=sl_coeff
-        tp_ratio=None
-        #self.tp_ratio=tp_ratio
+        #sl_coeff=None
+        self.sl_coeff=sl_coeff
+        #tp_ratio=None
+        self.tp_ratio=tp_ratio
         self.fig=None
         self.stat=None
     def implement(self,coinData):
@@ -117,8 +117,8 @@ class VWAPBOLLRSI:
         
             def next(self):
                 super().next()
-                slatr = sl_coeff*self.data.ATR[-1]
-                TPSLRatio = tp_ratio
+                slatr = self.sl_coeff*self.data.ATR[-1]
+                TPSLRatio = self.tp_ratio
         
                 if len(self.trades)>0:
                     if self.trades[-1].is_long and self.data.RSI[-1]>=90:
