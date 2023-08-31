@@ -10,8 +10,8 @@ if strategy=='VWAP_Bollinger_RSI':
   rsi_sellThreshold=st.sidebar.number_input("RSI Sell Threshold",min_value=rsi_buyThreshold,step=1)
   sl_co_efficient=st.sidebar.number_input("Stop Loss Co-efficient",min_value=0.1,step=0.01)
   tp_co_efficient=st.sidebar.number_input("Reward Ratio Co-efficient",min_value=0.1,step=0.01)
-  vwapBoll=vwap_BollRSIScalping.VWAPBOLLRSI(prevCandles,bollPeriod,rsiPeriod,rsi_buyThreshold,rsi_sellThreshold,sl_co_efficient,tp_co_efficient)
-  vwapBollFigure,vwapBoll_stat=vwapBoll.implement(st.session_state['DataFrame'])
+  vwapBoll=vwap_BollRsiScalping.VWAPBOLLRSI(prevCandles,bollPeriod,rsiPeriod,rsi_buyThreshold,rsi_sellThreshold,sl_co_efficient,tp_co_efficient)
+  vwapBollFigure,vwapll_stat=vwapBoll.implement(st.session_state['DataFrame'])
   st.toast("Evaluating the VWAP Bollinger RSI strategy")
   with st.container():
     with st.expander("Strategy Buy and Sell Points"):
