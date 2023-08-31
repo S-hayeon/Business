@@ -18,7 +18,7 @@ class VWAPBOLLRSI:
         self.tp_ratio=tp_ratio
         self.fig=None
         self.stat=None
-    def implement(coinData):
+    def implement(self,coinData):
         #coinData=pd.read_csv("DataTest.csv")
         coinData.index=pd.to_datetime(coinData.index)
         coinData=coinData[coinData.High!=coinData.Low] # Filter where there is no market movement.
