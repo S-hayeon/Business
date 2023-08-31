@@ -48,12 +48,13 @@ class VWAPBOLLRSI:
         coinData['VWAPSignal'] = VWAPsignal
         
         def Entry_Exit_Signal(l):
+            bbu_column_name = f'BBU_{self.bollPeriod}_{self.boll_dev}'
             if (coinData.VWAPSignal[l]==2
-                and coinData.Close[l]<=coinData['BBL_14_2.0'][l]
+                and coinData.Close[l]<=coinData[bbu_column_name][l]
                 and coinData.RSI[l]<self.rsi_buyThreshold):
                     return 2
             if (coinData.VWAPSignal[l]==1
-                and coinData.Close[l]>=coinData['BBU_14_2.0'][l]
+                and coinData.Close[l]>=coinData[bbu_column_name][l]
                 and coinData.RSI[l]>self.rsi_sellThreshold):
                     return 1
             return 0
