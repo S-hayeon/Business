@@ -9,6 +9,8 @@ from plotly.subplots import make_subplots
 import streamlit as st
 class VWAPBOLLRSI:
     def __init__(self,previousCandles,bollPeriod,boll_dev,rsi_period,rsi_buyThreshold,rsi_sellThreshold,sl_coeff,tp_ratio):
+        self.bbl_column_name = None
+        self.bbu_column_name = None
         self.bollPeriod=bollPeriod
         self.boll_dev=boll_dev
         self.previousCandles=previousCandles
@@ -28,10 +30,12 @@ class VWAPBOLLRSI:
         coinData["VWAP"]=ta.vwap(coinData.High, coinData.Low, coinData.Close, coinData.Volume)
         coinData['RSI']=ta.rsi(coinData.Close, length=self.rsi_period)
         my_bbands = ta.bbands(coinData.Close, length=self.bollPeriod, std=self.boll_dev)
-        #coinData=coinData.join(my_bbands)
-        coinData=coinData.append(my_bbands, ignore_index=True)
+        self.bbl_column_name = f'BBL_{self.bollPeriod}_{float(self.boll_dev)}'
+        self.bbu_column_name = f'BBU_{self.bollPeriod}_{float(self.boll_dev)}'
+        coinData=coinData.join(my_bbands)
+        #coinData=coinData.append(my_bbands, ignore_index=True)
         VWAPsignal = [0]*len(coinData)
-        self.previousCandles = 15
+        #self.previousCandles = 15
         for thisRow in range(self.previousCandles, len(coinData)):
             upTrend = 1
             downTrend = 1
@@ -50,14 +54,12 @@ class VWAPBOLLRSI:
         coinData['VWAPSignal'] = VWAPsignal
         #st.write(coinData)
         def Entry_Exit_Signal(l):
-            bbl_column_name = f'BBL_{self.bollPeriod}_{self.boll_dev}'
-            bbu_column_name = f'BBU_{self.bollPeriod}_{self.boll_dev}'
             if (coinData.VWAPSignal[l]==2
-                and coinData.Close[l]<=coinData[bbl_column_name][l]
+                and coinData.Close[l]<=coinData[self.bbl_column_name][l]
                 and coinData.RSI[l]<self.rsi_buyThreshold):
                     return 2
             if (coinData.VWAPSignal[l]==1
-                and coinData.Close[l]>=coinData[bbu_column_name][l]
+                and coinData.Close[l]>=coinData[self.bbu_column_name][l]
                 and coinData.RSI[l]>self.rsi_sellThreshold):
                     return 1
             return 0
@@ -87,10 +89,10 @@ class VWAPBOLLRSI:
                         go.Scatter(x=coinDatapl.index, y=coinDatapl.VWAP, 
                                    line=dict(color='blue', width=1), 
                                    name="VWAP"), 
-                        go.Scatter(x=coinDatapl.index, y=coinDatapl['BBL_14_2.0'], 
+                        go.Scatter(x=coinDatapl.index, y=coinDatapl[self.bbl_column_name], 
                                    line=dict(color='green', width=1), 
                                    name="BBL"),
-                        go.Scatter(x=coinDatapl.index, y=coinDatapl['BBU_14_2.0'], 
+                        go.Scatter(x=coinDatapl.index, y=coinDatapl[self.bbu_column_name], 
                                    line=dict(color='green', width=1), 
                                    name="BBU")])
         
