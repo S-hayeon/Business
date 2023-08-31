@@ -10,6 +10,7 @@ mplfinance
 openpyxl
 pandas
 pandas_ta
+plotly
 python-binance
 requests
 streamlit
