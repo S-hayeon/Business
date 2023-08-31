@@ -31,11 +31,11 @@ if strategy=='VWAP_Bollinger_RSI':
     coinData["VWAP"] = ta.vwap(coinData.High, coinData.Low, coinData.Close, coinData.Volume)
     coinData['RSI'] = ta.rsi(coinData.Close, length=rsiPeriod)
     my_bbands = ta.bbands(coinData.Close, length=bollPeriod, std=bollDev)
-    bbl_column_name = f'BBL_{bollPeriod}_{bollDev}'
-    bbu_column_name = f'BBU_{bollPeriod}_{bollDev}'
+    bbl_column_name = f'BBL_{bollPeriod}_{float(bollDev)}'
+    bbu_column_name = f'BBU_{bollPeriod}_{float(bollDev)}'
     coinData = coinData.join(my_bbands)
     st.write(f'BBU Upper is referred to: {bbu_column_name}')
-    #st.write(f'Columns: {coinData.columns}')
+    st.write(f'Columns: {coinData.columns}')
     st.write(f'BBU Column: {bbu_column_name in coinData.columns}')
     VWAPsignal = [0]*len(coinData)
     for thisRow in range(previousCandles, len(coinData)):
