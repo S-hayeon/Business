@@ -111,8 +111,12 @@ class VWAPBOLLRSI:
         class MyVWAP_Boll_RSI_Strategy(Strategy):
             initsize = 0.99
             mysize = initsize
-            def init(self):
-                super().init()
+            #def init(self):
+            #super().init()
+            def __init__(self, *args, **kwargs):
+                super(MyVWAP_Boll_RSI_Strategy, self).__init__(*args, **kwargs)
+                self.sl_coeff = kwargs['sl_coeff']  # Access sl_coeff from kwargs
+                self.tp_ratio = kwargs['tp_ratio']  # Access tp_ratio from kwargs
                 self.signal1 = self.I(SIGNAL)
         
             def next(self):
