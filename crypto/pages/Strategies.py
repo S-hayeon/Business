@@ -22,8 +22,8 @@ if strategy=='VWAP_Bollinger_RSI':
   if st.sidebar.button("Evaluate"):
     vwapBoll=vwap_BollRsiScalping.VWAPBOLLRSI(prevCandles,bollPeriod,bollDev,rsiPeriod,rsi_buyThreshold,rsi_sellThreshold,sl_co_efficient,tp_co_efficient)
     data=st.session_state['DataFrame']
-    st.write(data)
-    vwapBollFigure,vwapll_stat=vwapBoll.implement()
+    #st.write(data)
+    vwapBollFigure,vwapll_stat=vwapBoll.implement(data)
     st.toast("Evaluating the VWAP Bollinger RSI strategy")
     with st.container():
       with st.expander("Strategy Buy and Sell Points"):
