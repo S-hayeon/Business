@@ -27,7 +27,8 @@ if strategy=='VWAP_Bollinger_RSI':
     st.toast("Evaluating the VWAP Bollinger RSI strategy")
     with st.container():
       with st.expander("Strategy Buy and Sell Points"):
-        st.pyplot(vwapBollFigure)
+        st.write("Coming soon!!")
+        #st.pyplot(vwapBollFigure)
       with st.expander("Strategy Performance"):
         st.dataframe(vwapBoll_stat)
                                                   
