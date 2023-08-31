@@ -29,7 +29,6 @@ class VWAPBOLLRSI:
         coinData['RSI']=ta.rsi(coinData.Close, length=self.rsi_period)
         my_bbands = ta.bbands(coinData.Close, length=self.bollPeriod, std=self.boll_dev)
         coinData=coinData.join(my_bbands)
-        st.write(coinData)
         VWAPsignal = [0]*len(coinData)
         self.previousCandles = 15
         for thisRow in range(self.previousCandles, len(coinData)):
@@ -48,7 +47,7 @@ class VWAPBOLLRSI:
                 VWAPsignal[thisRow]=1
 
         coinData['VWAPSignal'] = VWAPsignal
-        
+        st.write(coinData)
         def Entry_Exit_Signal(l):
             bbl_column_name = f'BBL_{self.bollPeriod}_{self.boll_dev}'
             bbu_column_name = f'BBU_{self.bollPeriod}_{self.boll_dev}'
