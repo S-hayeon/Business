@@ -115,8 +115,8 @@ class VWAPBOLLRSI:
         
             def next(self):
                 super().next()
-                slatr = self.sl_coeff*self.data.ATR[-1]
-                TPSLRatio = self.tp_ratio
+                slatr = VWAPBOLLRSI.sl_coeff*self.data.ATR[-1]
+                TPSLRatio = VWAPBOLLRSI.tp_ratio
         
                 if len(self.trades)>0:
                     if self.trades[-1].is_long and self.data.RSI[-1]>=90:
