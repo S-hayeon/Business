@@ -7,7 +7,7 @@ import pandas_ta as ta
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 class VWAPBOLLRSI:
-    def init(previousCandles,bollPeriod,boll_dev,rsi_period,rsi_buyThreshold,rsi_sellThreshold,sl_coeff,tp_ratio):
+    def __init__(self,previousCandles,bollPeriod,boll_dev,rsi_period,rsi_buyThreshold,rsi_sellThreshold,sl_coeff,tp_ratio):
         self.bollPeriod=bollPeriod
         self.boll_dev=boll_dev
         self.previousCandles=previousCandles
