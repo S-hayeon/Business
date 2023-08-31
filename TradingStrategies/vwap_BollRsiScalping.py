@@ -6,6 +6,7 @@ import pandas as pd
 import pandas_ta as ta
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import streamlit as st
 class VWAPBOLLRSI:
     def __init__(self,previousCandles,bollPeriod,boll_dev,rsi_period,rsi_buyThreshold,rsi_sellThreshold,sl_coeff,tp_ratio):
         self.bollPeriod=bollPeriod
@@ -28,6 +29,7 @@ class VWAPBOLLRSI:
         coinData['RSI']=ta.rsi(coinData.Close, length=self.rsi_period)
         my_bbands = ta.bbands(coinData.Close, length=self.bollPeriod, std=self.boll_dev)
         coinData=coinData.join(my_bbands)
+        st.write(coinData)
         VWAPsignal = [0]*len(coinData)
         self.previousCandles = 15
         for thisRow in range(self.previousCandles, len(coinData)):
