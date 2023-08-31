@@ -47,7 +47,7 @@ class VWAPBOLLRSI:
                 VWAPsignal[thisRow]=1
 
         coinData['VWAPSignal'] = VWAPsignal
-        st.write(coinData)
+        #st.write(coinData)
         def Entry_Exit_Signal(l):
             bbl_column_name = f'BBL_{self.bollPeriod}_{self.boll_dev}'
             bbu_column_name = f'BBU_{self.bollPeriod}_{self.boll_dev}'
