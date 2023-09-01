@@ -138,7 +138,8 @@ if strategy=='VWAP_Bollinger_RSI':
     import streamlit as st
     with st.container():
       with st.expander("Strategy Buy and Sell Points"):
-        st.pyplot(bt.plot())
+        #st.pyplot(bt.plot())
+        st.write("In Development")
       with st.expander("Strategy Performance"):
         st.dataframe(stat)
       with st.expander("Equity curve"):
