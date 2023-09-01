@@ -115,8 +115,9 @@ if strategy=='VWAP_Bollinger_RSI':
     
         def next(self):
             super().next()
-            slatr = 1.2*self.data.ATR[-1]
-            TPSLRatio = 1.5
+            #slatr = 1.2*self.data.ATR[-1]
+            slatr = sl_co_efficient*self.data.ATR[-1]
+            TPSLRatio = tp_co_efficient
     
             if len(self.trades)>0:
                 if self.trades[-1].is_long and self.data.RSI[-1]>=90:
@@ -134,5 +135,16 @@ if strategy=='VWAP_Bollinger_RSI':
     
     bt = Backtest(coinDatapl, MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
     stat = bt.run()
-    stat['Avg. Trade Duration']
+    with st.container():
+      with st.expander("Strategy Buy and Sell Points"):
+        st.write("Coming soon!!")
+        #st.pyplot(vwapBollFigure)
+      with st.expander("Strategy Performance"):
+        st.dataframe(stat)
+      with st.expander("Equity curve"):
+        st.line_chart(stat['_equity_curve'])
+      with st.expander("Average Trade duration"):
+        st.write(stat['Avg. Trade Duration'])
+      with st.expander("Equity Drawdown curve"):
+        st.line_chart(stat['_equity_curve']['DrawdownPct'])
     #bt.plot(show_legend=False)
