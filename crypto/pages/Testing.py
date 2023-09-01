@@ -135,6 +135,8 @@ if strategy=='VWAP_Bollinger_RSI':
     
     bt = Backtest(coinDatapl, MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
     stat = bt.run()
+    import streamlit as st
+    st.write(stat)
     #st.write(stat)
     #st.line_chart(stat['_equity_curve']['DrawdownPct'])
     # with st.container():
