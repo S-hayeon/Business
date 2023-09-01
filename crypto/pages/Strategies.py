@@ -1,3 +1,4 @@
+from backtesting import Backtest
 import streamlit as st
 from TradingStrategies import vwap_BollRsiScalping
 strategies=['VWAP_Bollinger_RSI','None']
@@ -20,16 +21,18 @@ if strategy=='VWAP_Bollinger_RSI':
   # sl_co_efficient=1.2
   # tp_co_efficient=1.5
   if st.sidebar.button("Evaluate"):
-    vwapBoll=vwap_BollRsiScalping.VWAPBOLLRSI(prevCandles,bollPeriod,bollDev,rsiPeriod,rsi_buyThreshold,rsi_sellThreshold,sl_co_efficient,tp_co_efficient)
     data=st.session_state['DataFrame']
+    vwapBoll=vwap_BollRsiScalping.VWAPBOLLRSI(data,prevCandles,bollPeriod,bollDev,rsiPeriod,rsi_buyThreshold,rsi_sellThreshold)
+    bt = Backtest(VWAPBOLLRSI.coinDatapl, vwap_BollRsiScalping.MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
+    stat = bt.run()
     #st.write(data)
-    vwapBollFigure,vwapll_stat=vwapBoll.implement(data)
+    vwapBollFigure=vwapBoll.fig
     st.toast("Evaluating the VWAP Bollinger RSI strategy")
     with st.container():
       with st.expander("Strategy Buy and Sell Points"):
         st.write("Coming soon!!")
         #st.pyplot(vwapBollFigure)
       with st.expander("Strategy Performance"):
-        st.dataframe(vwapBoll_stat)
+        st.dataframe(stat)
                                                   
   
