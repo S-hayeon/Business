@@ -135,8 +135,7 @@ if strategy=='VWAP_Bollinger_RSI':
     
     bt = Backtest(coinDatapl, MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
     stat = bt.run()
-    with st.expander("Strategy Performance"):
-         st.dataframe(stat)
+    st.dataframe(stat)
     # with st.container():
     #   with st.expander("Strategy Buy and Sell Points"):
     #     st.write("Coming soon!!")
