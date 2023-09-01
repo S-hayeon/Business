@@ -18,9 +18,9 @@ class VWAPBOLLRSI:
         self.rsi_buyThreshold=rsi_buyThreshold
         self.rsi_sellThreshold=rsi_sellThreshold
         #sl_coeff=None
-        self.sl_coeff=sl_coeff
+        #self.sl_coeff=sl_coeff
         #tp_ratio=None
-        self.tp_ratio=tp_ratio
+        #self.tp_ratio=tp_ratio
         #self.fig=None
         #self.stat=None
         #coinData=pd.read_csv("DataTest.csv")
@@ -122,8 +122,10 @@ class MyVWAP_Boll_RSI_Strategy(Strategy):
 
     def next(self):
         super().next()
-        slatr = self.sl_coeff*self.data.ATR[-1]
-        TPSLRatio = self.tp_ratio
+        #slatr = self.sl_coeff*self.data.ATR[-1]
+        slatr = 1.2*self.data.ATR[-1]
+        #TPSLRatio = self.tp_ratio
+        TPSLRatio = 1.5
 
         if len(self.trades)>0:
             if self.trades[-1].is_long and self.data.RSI[-1]>=90:
