@@ -113,8 +113,8 @@ class MyVWAP_Boll_RSI_Strategy(Strategy):
     def init(self):
         super().init()
     def __init__(self, *args, **kwargs):
-        self.sl_coeff = sl_coeff
-        self.tp_ratio = tp_ratio
+        #self.sl_coeff = sl_coeff
+        #self.tp_ratio = tp_ratio
     #   super(MyVWAP_Boll_RSI_Strategy, self).__init__(*args, **kwargs)
         #self.sl_coeff = kwargs['sl_coeff']  # Access sl_coeff from kwargs
         #self.tp_ratio = kwargs['tp_ratio']  # Access tp_ratio from kwargs
