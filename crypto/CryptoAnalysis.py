@@ -91,6 +91,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
             "limit": limit
         }
         response = requests.get(url, params=params)
+        st.session_state['response']=response
         data = response.json()
 
         if not data:
