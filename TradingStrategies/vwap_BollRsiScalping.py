@@ -104,7 +104,8 @@ class VWAPBOLLRSI:
         self.coinDatapl = coinData[:75000].copy()
         self.coinDatapl['ATR']=ta.atr(self.coinDatapl.High, self.coinDatapl.Low, self.coinDatapl.Close, length=7)
         #help(ta.atr)
-        def SIGNAL():
+        self.SIGNAL()
+        def SIGNAL(self):
             return self.coinDatapl.Entry_Exit_Signal
         
 class MyVWAP_Boll_RSI_Strategy(Strategy):
@@ -112,14 +113,17 @@ class MyVWAP_Boll_RSI_Strategy(Strategy):
     mysize = initsize
     def init(self):
         super().init()
+        # Initialize an instance of VWAPBOLLRSI and call its SIGNAL method
+        vwap_boll_rsi = VWAPBOLLRSI(coinData, previousCandles, bollPeriod, boll_dev, rsi_period, rsi_buyThreshold, rsi_sellThreshold)
+        self.signal1=vwap_boll_rsi.SIGNAL()  # Assuming SIGNAL is a method of VWAPBOLLRSI
     def __init__(self, *args, **kwargs):
         #self.sl_coeff = sl_coeff
         #self.tp_ratio = tp_ratio
-        #super(MyVWAP_Boll_RSI_Strategy, self).__init__(*args, **kwargs)
+        super(MyVWAP_Boll_RSI_Strategy, self).__init__(*args, **kwargs)
         super(VWAPBOLLRSI, self).__init__(*args, **kwargs)
         #self.sl_coeff = kwargs['sl_coeff']  # Access sl_coeff from kwargs
         #self.tp_ratio = kwargs['tp_ratio']  # Access tp_ratio from kwargs
-        self.signal1 = self.I(SIGNAL)
+        #self.signal1 = self.I(SIGNAL)
 
     def next(self):
         super().next()
