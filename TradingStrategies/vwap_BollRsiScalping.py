@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 class VWAPBOLLRSI:
-    def __init__(self,previousCandles,bollPeriod,boll_dev,rsi_period,rsi_buyThreshold,rsi_sellThreshold,sl_coeff,tp_ratio):
+    def __init__(self,coinData,previousCandles,bollPeriod,boll_dev,rsi_period,rsi_buyThreshold,rsi_sellThreshold):
         self.bbl_column_name = None
         self.bbu_column_name = None
         self.bollPeriod=bollPeriod
@@ -21,9 +21,8 @@ class VWAPBOLLRSI:
         self.sl_coeff=sl_coeff
         #tp_ratio=None
         self.tp_ratio=tp_ratio
-        self.fig=None
-        self.stat=None
-    def implement(self,coinData):
+        #self.fig=None
+        #self.stat=None
         #coinData=pd.read_csv("DataTest.csv")
         coinData.index=pd.to_datetime(coinData.index)
         coinData=coinData[coinData.High!=coinData.Low] # Filter where there is no market movement.
@@ -81,69 +80,69 @@ class VWAPBOLLRSI:
         
         coinData['pointposbreak'] = coinData.apply(lambda row: pointposbreak(row), axis=1)
         st=10400
-        coinDatapl = coinData[st:st+350]
-        coinDatapl.reset_index(inplace=True)
-        self.fig = go.Figure(data=[go.Candlestick(x=coinDatapl.index,
-                        open=coinDatapl['Open'],
-                        high=coinDatapl['High'],
-                        low=coinDatapl['Low'],
-                        close=coinDatapl['Close']),
-                        go.Scatter(x=coinDatapl.index, y=coinDatapl.VWAP, 
+        self.coinDatapl = coinData[st:st+350]
+        self.coinDatapl.reset_index(inplace=True)
+        self.fig = go.Figure(data=[go.Candlestick(x=self.coinDatapl.index,
+                        open=self.coinDatapl['Open'],
+                        high=self.coinDatapl['High'],
+                        low=self.coinDatapl['Low'],
+                        close=self.coinDatapl['Close']),
+                        go.Scatter(x=self.coinDatapl.index, y=self.coinDatapl.VWAP, 
                                    line=dict(color='blue', width=1), 
                                    name="VWAP"), 
-                        go.Scatter(x=coinDatapl.index, y=coinDatapl[self.bbl_column_name], 
+                        go.Scatter(x=self.coinDatapl.index, y=self.coinDatapl[self.bbl_column_name], 
                                    line=dict(color='green', width=1), 
                                    name="BBL"),
-                        go.Scatter(x=coinDatapl.index, y=coinDatapl[self.bbu_column_name], 
+                        go.Scatter(x=self.coinDatapl.index, y=self.coinDatapl[self.bbu_column_name], 
                                    line=dict(color='green', width=1), 
                                    name="BBU")])
         
-        self.fig.add_scatter(x=coinDatapl.index, y=coinDatapl['pointposbreak'], mode="markers",
+        self.fig.add_scatter(x=self.coinDatapl.index, y=self.coinDatapl['pointposbreak'], mode="markers",
                         marker=dict(size=10, color="MediumPurple"),
                         name="Signal")
         #fig.show()
-        coinDatapl = coinData[:75000].copy()
-        coinDatapl['ATR']=ta.atr(coinDatapl.High, coinDatapl.Low, coinDatapl.Close, length=7)
+        self.coinDatapl = coinData[:75000].copy()
+        self.coinDatapl['ATR']=ta.atr(self.coinDatapl.High, self.coinDatapl.Low, self.coinDatapl.Close, length=7)
         #help(ta.atr)
         def SIGNAL():
-            return coinDatapl.Entry_Exit_Signal
+            return self.coinDatapl.Entry_Exit_Signal
         
-        class MyVWAP_Boll_RSI_Strategy(Strategy):
-            initsize = 0.99
-            mysize = initsize
-            #def init(self):
-            #super().init()
-            def __init__(self, *args, **kwargs):
-                super(MyVWAP_Boll_RSI_Strategy, self).__init__(*args, **kwargs)
-                self.sl_coeff = kwargs['sl_coeff']  # Access sl_coeff from kwargs
-                self.tp_ratio = kwargs['tp_ratio']  # Access tp_ratio from kwargs
-                self.signal1 = self.I(SIGNAL)
-        
-            def next(self):
-                super().next()
-                slatr = self.sl_coeff*self.data.ATR[-1]
-                TPSLRatio = self.tp_ratio
-        
-                if len(self.trades)>0:
-                    if self.trades[-1].is_long and self.data.RSI[-1]>=90:
-                        self.trades[-1].close()
-                    elif self.trades[-1].is_short and self.data.RSI[-1]<=10:
-                        self.trades[-1].close()
-                if self.signal1==2 and len(self.trades)==0:
-                    sl1 = self.data.Close[-1] - slatr
-                    tp1 = self.data.Close[-1] + slatr*TPSLRatio
-                    self.buy(sl=sl1, tp=tp1, size=self.mysize)
-                elif self.signal1==1 and len(self.trades)==0:
-                    sl1 = self.data.Close[-1] + slatr
-                    tp1 = self.data.Close[-1] - slatr*TPSLRatio
-                    self.sell(sl=sl1, tp=tp1, size=self.mysize)
-        
-        bt = Backtest(coinDatapl, MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
-        self.stat = bt.run()
-        #stat['Avg. Trade Duration']
-        #bt.plot(show_legend=False)
-        return self.fig,self.stat
+class MyVWAP_Boll_RSI_Strategy(Strategy):
+    initsize = 0.99
+    mysize = initsize
+    def init(self):
+        super().init()
+    def __init__(self, *args, **kwargs):
+        self.sl_coeff = sl_coeff
+        self.tp_ratio = tp_ratio
+    #   super(MyVWAP_Boll_RSI_Strategy, self).__init__(*args, **kwargs)
+        #self.sl_coeff = kwargs['sl_coeff']  # Access sl_coeff from kwargs
+        #self.tp_ratio = kwargs['tp_ratio']  # Access tp_ratio from kwargs
+        self.signal1 = self.I(SIGNAL)
 
+    def next(self):
+        super().next()
+        slatr = self.sl_coeff*self.data.ATR[-1]
+        TPSLRatio = self.tp_ratio
+
+        if len(self.trades)>0:
+            if self.trades[-1].is_long and self.data.RSI[-1]>=90:
+                self.trades[-1].close()
+            elif self.trades[-1].is_short and self.data.RSI[-1]<=10:
+                self.trades[-1].close()
+        if self.signal1==2 and len(self.trades)==0:
+            sl1 = self.data.Close[-1] - slatr
+            tp1 = self.data.Close[-1] + slatr*TPSLRatio
+            self.buy(sl=sl1, tp=tp1, size=self.mysize)
+        elif self.signal1==1 and len(self.trades)==0:
+            sl1 = self.data.Close[-1] + slatr
+            tp1 = self.data.Close[-1] - slatr*TPSLRatio
+            self.sell(sl=sl1, tp=tp1, size=self.mysize)
+
+
+#stat['Avg. Trade Duration']
+#bt.plot(show_legend=False)
+#return self.fig,self.stat
 
 
 
