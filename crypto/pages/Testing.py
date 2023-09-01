@@ -135,4 +135,4 @@ if strategy=='VWAP_Bollinger_RSI':
     bt = Backtest(coinDatapl, MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
     stat = bt.run()
     stat['Avg. Trade Duration']
-    bt.plot(show_legend=False)
+    #bt.plot(show_legend=False)
