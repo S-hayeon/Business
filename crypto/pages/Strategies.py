@@ -162,7 +162,7 @@ if strategy=='VWAP_Bollinger_RSI':
         rsi_sellThreshold=55
         sl_co_efficient=0.5
         tp_co_efficient=1.2
-        data = df
+        data = st.session_state['DataFrame']
         def init(self):
             super().init()
             self.data.index = pd.to_datetime(self.data.index)
