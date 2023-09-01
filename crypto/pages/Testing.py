@@ -135,21 +135,24 @@ if strategy=='VWAP_Bollinger_RSI':
     
     bt = Backtest(coinDatapl, MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
     stat = bt.run()
-    #import streamlit as st
-    st.write(stat)
+    import streamlit as st
+    with st.container():
+      with st.expander("Strategy Buy and Sell Points"):
+        st.write("Coming soon!!") #st.pyplot(vwapBollFigure)
+      with st.expander("Strategy Performance"):
+        st.dataframe(stat)
+      with st.expander("Equity curve"):
+        st.line_chart(stat['_equity_curve'])
+      with st.expander("Average Trade duration"):
+        st.write(stat['Avg. Trade Duration'])
+      with st.expander("Equity Drawdown curve"):
+        st.line_chart(stat['_equity_curve']['DrawdownPct'])
+      with st.expander("Equity curve"):
+        st.line_chart(stat['_equity_curve'])
+      
+    #st.we(stat)
     #st.write(stat)
     #st.line_chart(stat['_equity_curve']['DrawdownPct'])
-    # with st.container():
-    #   with st.expander("Strategy Buy and Sell Points"):
-    #     st.write("Coming soon!!")
-    #     #st.pyplot(vwapBollFigure)
-    #   with st.expander("Strategy Performance"):
-    #     st.dataframe(stat)
-    #   with st.expander("Equity curve"):
-    #     st.line_chart(stat['_equity_curve'])
-    #   with st.expander("Average Trade duration"):
-    #     st.write(stat['Avg. Trade Duration'])
-    #   with st.expander("Equity Drawdown curve"):st.line_chart(stat['_equity_curve']['DrawdownPct'])
-    #   with st.expander("Equity curve"):
-    #     st.line_chart(stat['_equity_curve'])
+    
+    #   
     #bt.plot(show_legend=False)
