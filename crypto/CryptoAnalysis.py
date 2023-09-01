@@ -106,7 +106,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Convert all_data into a pandas DataFrame
     df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
     # Drop the unnecessary columns
-    df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+    #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
     # Convert the timestamp from milliseconds to a datetime object
     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
     #df.index.name = 'Date'
