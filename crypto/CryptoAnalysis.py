@@ -47,28 +47,66 @@ def coin_token_selection():
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 
-@st.cache_data(ttl=3600) # Cache data for 1hr
+# @st.cache_data(ttl=3600) # Cache data for 1hr
+# def get_historical_data(symbol, interval, start_time, end_time):
+#     #url = f"https://api.binance.us/api/v3/klines"
+#     url = f"https://data.binance.com/api/v3/klines"
+#     params = {
+#         "symbol": symbol,
+#         "interval": interval,
+#         "startTime": start_time,
+#         "endTime": end_time,
+#         "limit": 500000  # Adjust the limit as per your requirement
+#     }
+#     response = requests.get(url, params=params)
+#     st.session_state['response']=response
+#     data = response.json()
+#     print("Response data:", data)  # Print the data retrieved from the API
+#     if not data:
+#         st.warning("No data available for the selected duration.")
+#         return None
+#     # Convert the data into a pandas DataFrame
+#     df = pd.DataFrame(data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+#     # Drop the unnecessary columns
+#     #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+#     # Convert the timestamp from milliseconds to a datetime object
+#     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
+#     #df.index.name = 'Date'
+#     df.set_index('Date',inplace=True)
+#     # Convert OHLCV values to numeric data types
+#     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
+#     return df
+@st.cache_data(ttl=3600)
 def get_historical_data(symbol, interval, start_time, end_time):
-    #url = f"https://api.binance.us/api/v3/klines"
     url = f"https://data.binance.com/api/v3/klines"
-    params = {
-        "symbol": symbol,
-        "interval": interval,
-        "startTime": start_time,
-        "endTime": end_time,
-        "limit": 500000  # Adjust the limit as per your requirement
-    }
-    response = requests.get(url, params=params)
-    st.session_state['response']=response
-    data = response.json()
-    print("Response data:", data)  # Print the data retrieved from the API
-    if not data:
+    limit = 1000  # Number of data points per request
+    all_data = []  # To store all retrieved data
+
+    while start_time < end_time:
+        params = {
+            "symbol": symbol,
+            "interval": interval,
+            "startTime": start_time,
+            "endTime": end_time,
+            "limit": limit
+        }
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        if not data:
+            break
+
+        all_data.extend(data)
+        start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
+
+    if not all_data:
         st.warning("No data available for the selected duration.")
         return None
-    # Convert the data into a pandas DataFrame
-    df = pd.DataFrame(data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+
+    # Convert all_data into a pandas DataFrame
+    df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
     # Drop the unnecessary columns
-    #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+    df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
     # Convert the timestamp from milliseconds to a datetime object
     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
     #df.index.name = 'Date'
@@ -76,6 +114,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     # Convert OHLCV values to numeric data types
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
+
 @st.cache_data(ttl=3600)
 def visualize_data():
     # Create  placeholders
