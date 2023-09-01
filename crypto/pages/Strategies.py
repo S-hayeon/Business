@@ -23,7 +23,7 @@ if strategy=='VWAP_Bollinger_RSI':
   if st.sidebar.button("Evaluate"):
     data=st.session_state['DataFrame']
     vwapBoll=vwap_BollRsiScalping.VWAPBOLLRSI(data,prevCandles,bollPeriod,bollDev,rsiPeriod,rsi_buyThreshold,rsi_sellThreshold)
-    bt = Backtest(VWAPBOLLRSI.coinDatapl, vwap_BollRsiScalping.MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
+    bt = Backtest(vwapBoll.coinDatapl, vwap_BollRsiScalping.MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
     stat = bt.run()
     #st.write(data)
     vwapBollFigure=vwapBoll.fig
