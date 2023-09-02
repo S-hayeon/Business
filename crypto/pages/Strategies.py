@@ -255,7 +255,8 @@ if strategy=='VWAP_Bollinger_RSI':
       param_dict = vwapBoll_params[selected_key]
       param_string = ', '.join(f"{key}=range({value.start}, {value.stop}, {value.step})" for key, value in param_dict.items())
       #stats[selected_key] = bt.optimize(**{param_string}) # Construct the stats dictionary based on the selected key
-      stats[selected_key] = bt.optimize(**{param_dict}) # Construct the stats dictionary based on the selected key
+      #stats[selected_key] = bt.optimize(**{param_dict}) # Construct the stats dictionary based on the selected key
+      stats[selected_key] = bt.optimize(**eval(f"dict({param_string})")) # Evaluate the param_string and pass it as keyword arguments using eval()
       with st.container():
         with st.expander("Strategy KPI Performance"):
           st.write(stats[selected_key])
