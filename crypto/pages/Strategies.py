@@ -214,7 +214,8 @@ if strategy=='VWAP_Bollinger_RSI':
             coinDatapl = self.data[:75000].copy()
             self.data['ATR']=ta.atr(self.data.High, self.data.Low, self.data.Close, length=7)
             def SIGNAL():
-                return coinDatapl.Entry_Exit_Signal
+                #return coinDatapl.Entry_Exit_Signal
+                return self.data['Entry_Exit_Signal']
             self.signal1 = self.I(SIGNAL)
         def next(self):
             super().next()
