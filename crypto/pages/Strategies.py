@@ -248,12 +248,12 @@ if strategy=='VWAP_Bollinger_RSI':
         'rsi_sellThreshold': range(51, 80, 1)
     }
 }
-selected_key = st.selectbox("Select Parameter:", list(vwapBoll_params.keys())) # Create a Streamlit selectbox to choose the key
-if st.button("Find optimized values"):
-  stats = {} # Initialize stats with an empty dictionary
-  stats[selected_key] = bt.optimize(**vwapBoll_params[selected_key]) # Construct the stats dictionary based on the selected key
-  with st.container():
-    with st.expander("Strategy KPI Performance"):
-      st.dataframe(stats)
-    with st.expander(f'Optimal Values for {selected_key} in Strategy'):
-      st.write(stat['_strategy'])
+    selected_key = st.selectbox("Select Parameter:", list(vwapBoll_params.keys())) # Create a Streamlit selectbox to choose the key
+    if st.button("Find optimized values"):
+      stats = {} # Initialize stats with an empty dictionary
+      stats[selected_key] = bt.optimize(**vwapBoll_params[selected_key]) # Construct the stats dictionary based on the selected key
+      with st.container():
+        with st.expander("Strategy KPI Performance"):
+          st.dataframe(stats)
+        with st.expander(f'Optimal Values for {selected_key} in Strategy'):
+          st.write(stat['_strategy'])
