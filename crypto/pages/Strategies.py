@@ -248,13 +248,26 @@ if strategy=='VWAP_Bollinger_RSI':
         'rsi_sellThreshold': range(51, 80, 1)
     }
 }
-    selected_key = st.selectbox("Select Parameter:", list(vwapBoll_params.keys())) # Create a Streamlit selectbox to choose the key
-    if st.button("Find optimized values"):
-      #stats = {} # Initialize stats with an empty dictionary
-      stats = None
-      param_dict = vwapBoll_params[selected_key] # Extract the parameter settings dictionary
-      param_string = ', '.join(f"{key}=range({value.start}, {value.stop}, {value.step})" for key, value in param_dict.items())
-      stats = bt.optimize(**eval(f"dict({param_string})")) # Evaluate the param_string and pass it as keyword arguments using eval()
+    metrics_dict = {
+    "Profit Factor": "Profit Factor",
+    "Win Rate": "Win Rate [%]",
+    "Expectancy": "Expectancy [%]",
+    "Calmar Ratio": "Calmar Ratio",
+    "Sharpe Ratio": "Sharpe Ratio",
+    "Sortino Ratio": "Sortino Ratio"
+}
+    optimizationMode=st.radio("Your preferred optimization",options=['Indicators','Metrics'])
+    if optimizationMode=='Indicators':
+      selected_key = st.selectbox("Select Parameter:", list(vwapBoll_params.keys())) # Create a Streamlit selectbox to choose the key
+      if st.button("Find optimized values"):
+        #stats = {} # Initialize stats with an empty dictionary
+        stats = None
+        param_dict = vwapBoll_params[selected_key] # Extract the parameter settings dictionary
+        param_string = ', '.join(f"{key}=range({value.start}, {value.stop}, {value.step})" for key, value in param_dict.items())
+        stats = bt.optimize(**eval(f"dict({param_string})")) # Evaluate the param_string and pass it as keyword arguments using eval()
+    if optimizationMode=='Metrics':
+      selected_metric = st.selectbox("Select a metric:", list(metrics_dict.keys()))
+      stats=bt.optimize(**eval(f"dict({metrics_dict[selected_metric]})"))
       with st.container():
         with st.expander("Strategy KPI Performance"):
           #st.dataframe(stats[selected_key])
