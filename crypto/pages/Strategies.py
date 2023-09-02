@@ -238,9 +238,22 @@ if strategy=='VWAP_Bollinger_RSI':
                 tp1 = self.data.Close[-1] - slatr*TPSLRatio
                 self.sell(sl=sl1, tp=tp1, size=self.mysize)
     bt = Backtest(st.session_state['DataFrame'], MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
-    stats=bt.optimize(previousCandles=range(2,30,1),bollPeriod=range(2,30,1),bollDev=range(1,5,1),rsiPeriod=range(2,30,1),rsi_buyThreshold=range(5,50,1),rsi_sellThreshold=range(51,80,1))
-    with st.container():
-        with st.expander("Strategy KPI Performance"):
-          st.dataframe(stats)
-        with st.expander("Optimal Strategy"):
-          st.write(stat['_strategy'])
+    #stats=bt.optimize(previousCandles=range(2,30,1),bollPeriod=range(2,30,1),bollDev=range(1,5,1),rsiPeriod=range(2,30,1),rsi_buyThreshold=range(5,50,1),rsi_sellThreshold=range(51,80,1))
+    vwapBoll_params = {
+    'Candles': {'previousCandles': range(2, 30, 1)},
+    'Bollinger': {'bollPeriod': range(2, 30, 1), 'bollDev': range(1, 5, 1)},
+    'RSI': {
+        'rsiPeriod': range(2, 30, 1),
+        'rsi_buyThreshold': range(5, 50, 1),
+        'rsi_sellThreshold': range(51, 80, 1)
+    }
+}
+selected_key = st.selectbox("Select Parameter:", list(vwapBoll_params.keys())) # Create a Streamlit selectbox to choose the key
+if st.button("Find optimized values"):
+  stats = {} # Initialize stats with an empty dictionary
+  stats[selected_key] = bt.optimize(**vwapBoll_params[selected_key]) # Construct the stats dictionary based on the selected key
+  with st.container():
+    with st.expander("Strategy KPI Performance"):
+      st.dataframe(stats)
+    with st.expander(f'Optimal Values for {selected_key} in Strategy'):
+      st.write(stat['_strategy'])
