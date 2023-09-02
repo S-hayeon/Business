@@ -213,8 +213,6 @@ if strategy=='VWAP_Bollinger_RSI':
             coinDatapl.reset_index(inplace=True)
             coinDatapl = self.data[:75000].copy()
             self.data['ATR']=ta.atr(self.data.High, self.data.Low, self.data.Close, length=7)
-            #coinDatapl['ATR']=ta.atr(coinDatapl.High, coinDatapl.Low, coinDatapl.Close, length=7)
-            #help(ta.atr)
             def SIGNAL():
                 return coinDatapl.Entry_Exit_Signal
             self.signal1 = self.I(SIGNAL)
@@ -251,15 +249,12 @@ if strategy=='VWAP_Bollinger_RSI':
     selected_key = st.selectbox("Select Parameter:", list(vwapBoll_params.keys())) # Create a Streamlit selectbox to choose the key
     if st.button("Find optimized values"):
       stats = {} # Initialize stats with an empty dictionary
-      # Extract the parameter settings dictionary
-      param_dict = vwapBoll_params[selected_key]
+      param_dict = vwapBoll_params[selected_key] # Extract the parameter settings dictionary
       param_string = ', '.join(f"{key}=range({value.start}, {value.stop}, {value.step})" for key, value in param_dict.items())
-      #stats[selected_key] = bt.optimize(**{param_string}) # Construct the stats dictionary based on the selected key
-      #stats[selected_key] = bt.optimize(**{param_dict}) # Construct the stats dictionary based on the selected key
       stats[selected_key] = bt.optimize(**eval(f"dict({param_string})")) # Evaluate the param_string and pass it as keyword arguments using eval()
       with st.container():
         with st.expander("Strategy KPI Performance"):
-          st.write(stats[selected_key])
-        with st.expander(f'Optimal Values for {selected_key} in Strategy'):
+          st.dataframe(stats[selected_key])
+        #with st.expander(f'Optimal Values for {selected_key} in Strategy'):
           #st.write(stats['_strategy'])
           pass
