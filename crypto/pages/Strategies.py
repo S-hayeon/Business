@@ -267,7 +267,9 @@ if strategy=='VWAP_Bollinger_RSI':
         stats = bt.optimize(**eval(f"dict({param_string})")) # Evaluate the param_string and pass it as keyword arguments using eval()
     if optimizationMode=='Metrics':
       selected_metric = st.selectbox("Select a metric:", list(metrics_dict.keys()))
-      stats=bt.optimize(**eval(f"dict({metrics_dict[selected_metric]})"))
+      metric_format = metrics_dict.get(selected_metric)
+      if metric_format is not None:
+        stats = bt.optimize(maximize=metric_format)
       with st.container():
         with st.expander("Strategy KPI Performance"):
           #st.dataframe(stats[selected_key])
