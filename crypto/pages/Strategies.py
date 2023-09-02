@@ -249,12 +249,12 @@ if strategy=='VWAP_Bollinger_RSI':
     }
 }
     metrics_dict = {
-    "Profit Factor": "Profit Factor",
-    "Win Rate": "Win Rate [%]",
+    "Profit": "Profit Factor",
+    "WinRate": "Win Rate [%]",
     "Expectancy": "Expectancy [%]",
-    "Calmar Ratio": "Calmar Ratio",
-    "Sharpe Ratio": "Sharpe Ratio",
-    "Sortino Ratio": "Sortino Ratio"
+    "Calmar": "Calmar Ratio",
+    "Sharpe": "Sharpe Ratio",
+    "Sortino": "Sortino Ratio"
 }
     optimizationMode=st.radio("Your preferred optimization",options=['Indicators','Metrics'])
     if optimizationMode=='Indicators':
