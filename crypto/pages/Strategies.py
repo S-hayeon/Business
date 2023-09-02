@@ -269,7 +269,7 @@ if strategy=='VWAP_Bollinger_RSI':
       selected_metric = st.selectbox("Select a metric:", list(metrics_dict.keys()))
       metric_format = metrics_dict.get(selected_metric)
       if metric_format is not None:
-        stats = bt.optimize(maximize=metric_format)
+        stats = bt.optimize(rsi_sellThreshold=range(20,100,1),maximize=metric_format)
       with st.container():
         with st.expander("Strategy KPI Performance"):
           #st.dataframe(stats[selected_key])
