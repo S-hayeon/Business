@@ -249,13 +249,15 @@ if strategy=='VWAP_Bollinger_RSI':
 }
     selected_key = st.selectbox("Select Parameter:", list(vwapBoll_params.keys())) # Create a Streamlit selectbox to choose the key
     if st.button("Find optimized values"):
-      stats = {} # Initialize stats with an empty dictionary
+      #stats = {} # Initialize stats with an empty dictionary
+      stats = None
       param_dict = vwapBoll_params[selected_key] # Extract the parameter settings dictionary
       param_string = ', '.join(f"{key}=range({value.start}, {value.stop}, {value.step})" for key, value in param_dict.items())
-      stats[selected_key] = bt.optimize(**eval(f"dict({param_string})")) # Evaluate the param_string and pass it as keyword arguments using eval()
+      stats = bt.optimize(**eval(f"dict({param_string})")) # Evaluate the param_string and pass it as keyword arguments using eval()
       with st.container():
         with st.expander("Strategy KPI Performance"):
-          st.dataframe(stats[selected_key])
-        #with st.expander(f'Optimal Values for {selected_key} in Strategy'):
-          #st.write(stats['_strategy'])
-          pass
+          #st.dataframe(stats[selected_key])
+          st.dataframe(stats)
+        with st.expander(f'Optimal Values for {selected_key} in Strategy'):
+          st.write(stats['_strategy'])
+        
