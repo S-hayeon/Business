@@ -256,4 +256,4 @@ if strategy=='VWAP_Bollinger_RSI':
         with st.expander("Strategy KPI Performance"):
           st.dataframe(stats)
         with st.expander(f'Optimal Values for {selected_key} in Strategy'):
-          st.write(stat['_strategy'])
+          st.write(stats['_strategy'])
