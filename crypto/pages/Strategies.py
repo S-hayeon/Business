@@ -241,6 +241,7 @@ if strategy=='VWAP_Bollinger_RSI':
     vwapBoll_params = {
     'Candles': {'previousCandles': range(2, 30, 1)},
     'Bollinger': {'bollPeriod': range(2, 30, 1), 'bollDev': range(1, 5, 1)},
+    'Profit':{'Profit Factor'},
     'RSI': {
         'rsiPeriod': range(2, 30, 1),
         'rsi_buyThreshold': range(5, 50, 1),
