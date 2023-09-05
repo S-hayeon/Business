@@ -76,7 +76,8 @@ def coin_token_selection():
 #     # Convert OHLCV values to numeric data types
 #     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
 #     return df
-@st.cache_data(ttl=3600)
+#@st.cache_data(ttl=3600)
+@st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
     url = f"https://data.binance.com/api/v3/klines"
     limit = 1000  # Number of data points per request
@@ -116,7 +117,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
 
-@st.cache_data(ttl=3600)
+@st.cache_resource(show_spinner=False)
 def visualize_data():
     # Create  placeholders
     candlestickfigure_placeholder = st.empty()
