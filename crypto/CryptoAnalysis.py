@@ -27,12 +27,12 @@ def format_key(key):
 def coin_token_selection():
     # Coin, Token dictionary containing the keys and values for the dropdowns
     # First dropdown for selecting the Token key
-    token_selected_key = st.sidebar.selectbox("Select your Token Category:", list(main.crypto_tokens.keys()))
+    token_selected_key = st.sidebar.selectbox("Select your Token Category:", list(sorted(main.crypto_tokens.keys())))
     #token_selected_key = st.selectbox("Select your Token Category:", [format_key(key) for key in main.crypto_tokens.keys()])
     # Convert the formatted key back to the original key with underscores
     # token_original_key = "_".join(word.lower() for word in token_selected_key.split())
     # Second dropdown showing values based on the selected key
-    token_selected_value = st.sidebar.selectbox("Select a Token currency:", main.crypto_tokens[token_selected_key])
+    token_selected_value = st.sidebar.selectbox("Select a Token currency:", sorted(main.crypto_tokens[token_selected_key]))
     # st.write(" Coin Selected Key:", token_original_key)
     # st.write(" Coin Selected Value:", token_selected_value)
     # First dropdown for selecting the Coin key
