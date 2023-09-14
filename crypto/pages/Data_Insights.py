@@ -8,9 +8,9 @@ with st.expander("Descriptive Stats"):
   st.write(f"Std Deviation: {data['Close'].median()}")
   st.write(f"IQR:{data['Close'].median()}")
 st.header("Box Plot")
-box_plot=data['Close'].plot.box()
-#box_plot.set_xlabel("index")
-#box_plot.set_ylabel(f"{st.session_state['CoinPair']} Close values")
-st.pyplot(box_plot)
+box_plot = data['Close'].plot.box()
+box_plot.set_xlabel("index")
+box_plot.set_ylabel(f"{st.session_state['CoinPair']} Close values")
+st.pyplot(box_plot.figure)
         
                  
