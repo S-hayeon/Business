@@ -1,16 +1,34 @@
+import pandas as pd
 import streamlit as st
 data=st.session_state['DataFrame']
+st.title(f"{st.session_state['CoinPair']} Data Insights")
+ohlcv=['Open','High','Low','Close','Volume']
+data_option=st.sidebar.radio("Select Data option",options=ohlcv)
 with st.expander("Coin Pair Data"):
   st.dataframe(data)
 with st.expander("Descriptive Stats"):
   st.dataframe(data.describe())
-  st.write(f"Median: {data['Close'].median()}")
-  st.write(f"Std Deviation: {data['Close'].median()}")
-  st.write(f"IQR:{data['Close'].median()}")
+  
+  stats_DF=pd.DataFrame({'Median': data[ohlcv].median(),
+                     'Standard Deviation': data[ohlcv].std(),
+                      'Percentiles':data[ohlcv].quantile([0.05,0.25,0.5,0.75,0.95]),
+                     'InterQuartile Range':data[ohlcv].quantile(0.75)-data[ohlcv].quantile(0.25)})
+  st.dataframe(stats_DF)
+st.header( f"{data_option} Frequency Table")
+binned_data=pd.cut(data[data_option],10)
+st.dataframe(binned_data.value_counts())
 st.header("Box Plot")
-box_plot = data['Close'].plot.box()
-box_plot.set_xlabel("index")
-box_plot.set_ylabel(f"{st.session_state['CoinPair']} Close values")
+box_plot = data[data_option].plot.box()
+#box_plot.set_xlabel("index")
+box_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
 st.pyplot(box_plot.figure)
-        
+st.header(" {st.session_state['CoinPair']} {data_option} Histogram Plot")
+histogram=data[data_option].plot.hist()
+histogram.set_xlabel(f"{data_option} Data")
+histogram.set_ylabel("Frequency")
+st.pyplot(histogram.figure)
+st.header(" {st.session_state['CoinPair']} {data_option} Density Plot")
+density_plot=data[data_option].plot.kde()
+density_plot.set_x_label(" {data_option} Density Plot")
+st.pyplot(density_plot.figure)
                  
