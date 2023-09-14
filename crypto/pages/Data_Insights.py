@@ -25,7 +25,7 @@ with st.expander("Descriptive Stats"):
   # st.dataframe(stats_DF)
 st.header( f"{data_option} Frequency Table")
 binned_data=pd.cut(data[data_option],10)
-st.dataframe(binned_data)
+st.dataframe(binned_data.value_counts())
 st.header("Box Plot")
 box_plot = data[data_option].plot.box()
 #box_plot.set_xlabel("index")
