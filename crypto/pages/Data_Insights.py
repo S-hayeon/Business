@@ -9,10 +9,18 @@ with st.expander("Coin Pair Data"):
 with st.expander("Descriptive Stats"):
   st.dataframe(data.describe())
   
-  stats_DF=pd.DataFrame({'Median': data[ohlcv].median(),
-                     'Standard Deviation': data[ohlcv].std(),
-                      'Percentiles':data[ohlcv].quantile([0.05,0.25,0.5,0.75,0.95]),
-                     'InterQuartile Range':data[ohlcv].quantile(0.75)-data[ohlcv].quantile(0.25)})
+  # stats_DF=pd.DataFrame({'Median': data[ohlcv].median(),
+  #                    'Standard Deviation': data[ohlcv].std(),
+  #                     'Percentiles':data[ohlcv].quantile([0.05,0.25,0.5,0.75,0.95]),
+  #                    'InterQuartile Range':data[ohlcv].quantile(0.75)-data[ohlcv].quantile(0.25)})
+  # st.dataframe(stats_DF)
+  stats_DF = pd.DataFrame()
+  # Loop through each OHLCV column and calculate statistics
+  for column in ohlcv:
+    stats_DF[column + ' Median'] = data[column].median()
+    stats_DF[column + ' Standard Deviation'] = data[column].std()
+    stats_DF[column + ' Percentiles'] = data[column].quantile([0.05, 0.25, 0.5, 0.75, 0.95])
+    stats_DF[column + ' InterQuartile Range'] = data[column].quantile(0.75) - data[column].quantile(0.25)
   st.dataframe(stats_DF)
 st.header( f"{data_option} Frequency Table")
 binned_data=pd.cut(data[data_option],10)
