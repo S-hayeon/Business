@@ -4,9 +4,9 @@ with st.expander("Coin Pair Data"):
   st.dataframe(data)
 with st.expander("Descriptive Stats"):
   st.dataframe(data.describe())
-  st.write(f'Median: {data.median()}')
-  st.write(f'Std Deviation: {data.median()}')
-  st.write(f'IQR:{data.median()}')
+  st.write(f'Median: {data['Close'].median()}')
+  st.write(f'Std Deviation: {data['Close'].median()}')
+  st.write(f'IQR:{data['Close'].median()}')
 st.header("Box Plot")
 box_plot=data['Close'].plot.box()
 box_plot.set_xlabel("index")
