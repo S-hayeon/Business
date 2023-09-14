@@ -13,6 +13,7 @@ pandas_ta
 plotly
 python-binance
 requests
+scipy
 streamlit
 TA-Lib-Precompiled
 ta_py
