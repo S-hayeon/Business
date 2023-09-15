@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 import talib
+from tradingpatterns import tradingpatterns
 strategies=['-','HS','VWAP_Bollinger_RSI']
 strategy=st.selectbox("My preferred Strategy is",strategies)
 if strategy=='VWAP_Bollinger_RSI':
