@@ -3,7 +3,6 @@ backtesting
 fredapi
 #json
 #./libs/MetaTrader5-5.0.45-cp311-cp311-win_amd64.whl
-ipyvizzu
 matplotlib
 #MetaTrader5
 mt5
@@ -16,6 +15,7 @@ python-binance
 requests
 scipy
 streamlit
+st-vizzu
 TA-Lib-Precompiled
 ta_py
 #./libs/TA_Lib-0.4.24-cp310-cp310-win_amd64.whl
