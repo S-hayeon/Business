@@ -71,9 +71,9 @@ for indicator_name in selected_indicators:
         st.toast("Strategy buys when the last close is above the EMA")
         time.sleep(2)
     elif indicator_name == 'RSI':
-        MyStrategy.rsi_upper_bound = st.sidebar.slider("Enter the RSI Upper Limit", 0, 100, step=1)
         MyStrategy.rsi_lower_bound = st.sidebar.slider("Enter the RSI Lower Limit", 0, 100, step=1)
-        MyStrategy.rsi_time_period = st.sidebar.number_input("Enter the RSI Time Period", min_value=1, step=1)
+        MyStrategy.rsi_upper_bound = st.sidebar.slider("Enter the RSI Upper Limit", MyStrategy.rsi_lower_bound, 100, step=1)
+        MyStrategy.rsi_time_period = st.sidebar.number_input("Enter the RSI Time Period", min_value=2, step=1)
         time.sleep(2)
     elif indicator_name == 'SMA':
         MyStrategy.sma_upper_bound = None
