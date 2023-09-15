@@ -10,7 +10,11 @@ import streamlit as st
 import talib
 from tradingpatterns import tradingpatterns
 strategies=['-','HS','VWAP_Bollinger_RSI']
+st.title(f"{st.session_state['CurrencyPair']} Strategy ♟️ Evaluation")
+st.header(f" Duration: {st.session_state['Start_Date']} to {st.session_state['End_Date']}")
 strategy=st.selectbox("My preferred Strategy is",strategies)
+st.write(f"{strategy} Strategy Evaluation")
+strategy_stats=None
 if strategy=='VWAP_Bollinger_RSI':
   mode=st.sidebar.radio("Enter Mode",options=['Manual','Automatic'])
   if mode=='Manual':
@@ -138,22 +142,22 @@ if strategy=='VWAP_Bollinger_RSI':
                   self.sell(sl=sl1, tp=tp1, size=self.mysize)
       
       bt = Backtest(coinDatapl, MyVWAP_Boll_RSI_Strategy, cash=100, margin=1/10, commission=0.00)
-      stat = bt.run()
+      strategy_stats = bt.run()
       import streamlit as st
       with st.container():
         with st.expander("Strategy Buy and Sell Points"):
           #st.pyplot(bt.plot())
           st.write("In Development")
         with st.expander("Strategy Performance"):
-          st.dataframe(stat)
+          st.dataframe(strategy_stats)
         with st.expander("Equity curve"):
-          st.line_chart(stat['_equity_curve'])
+          st.line_chart(strategy_stats['_equity_curve'])
         with st.expander("Average Trade duration"):
-          st.write(stat['Avg. Trade Duration'])
+          st.write(strategy_stats['Avg. Trade Duration'])
         with st.expander("Equity Drawdown curve"):
-          st.line_chart(stat['_equity_curve']['DrawdownPct'])
+          st.line_chart(strategy_stats['_equity_curve']['DrawdownPct'])
         with st.expander("Equity curve"):
-          st.line_chart(stat['_equity_curve'])
+          st.line_chart(strategy_stats['_equity_curve'])
   else:
     class MyVWAP_Boll_RSI_Strategy(Strategy):
         previousCandles=15
@@ -271,13 +275,13 @@ if strategy=='VWAP_Bollinger_RSI':
       selected_metric = st.selectbox("Select a metric:", list(metrics_dict.keys()))
       metric_format = metrics_dict.get(selected_metric)
       if metric_format is not None:
-        stats = bt.optimize(rsi_buythreshold=range(2,45,1),maximize=metric_format)
+        strategy_stats = bt.optimize(rsi_buythreshold=range(2,45,1),maximize=metric_format)
       with st.container():
         with st.expander("Strategy KPI Performance"):
           #st.dataframe(stats[selected_key])
-          st.dataframe(stats)
+          st.dataframe(strategy_stats)
         with st.expander(f'Optimal Values for {selected_key} in Strategy'):
-          st.write(stats['_strategy'])
+          st.write(strategy_stats['_strategy'])
 if strategy=='HS':
   data_table=st.session_state['DataFrame']
   data_table=data_table[['Open','High','Low','Close','Volume']]
@@ -307,7 +311,21 @@ if strategy=='HS':
   def SIGNAL(self):
     return self.data['head_shoulder_pattern'] #to use the 'head_shoulder_pattern' column from your DataFrame
   bt=Backtest(analysis_table,chart_candlestickPattern,cash=10_000)
-  strategyStats=bt.run()
-  st.dataframe(strategyStats)
+  if st.sidebar.button("Evaluate"):
+    strategy_stats=bt.run()
+    with st.container():
+      # Display strategy statistics and equity curve
+      stats_placeholder=st.empty()
+      equity_placeholder=st.empty()
+      equity_percent_placeholder=st.empty()
+      with stats_placeholder.expander("Strategy Results"):
+        #st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
+        st.dataframe(pd.DataFrame(strategy_stats))
+      with equity_placeholder.expander("Equity curve"):
+        st.write("Equity Curve:")
+        st.line_chart(strategy_stats['_equity_curve']['Equity'])
+      with equity_percent_placeholder.expander("Equity Drawdown curve"):
+        st.write("Equity Percentage Curve:")
+        st.line_chart(strategy_stats['_equity_curve']['DrawdownPct'])
 
         
