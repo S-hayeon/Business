@@ -14,7 +14,7 @@ def create_chart():
     data = Data()
     #data_frame = pd.read_csv("https://github.com/vizzuhq/ipyvizzu/raw/main/docs/examples/stories/titanic/titanic.csv")
     data_frame = st.session_state['DataFrame']
-    data.add_data_frame(data_frame)
+    data.add_df(data_frame)
 
     chart.animate(data)
 
