@@ -19,7 +19,12 @@ anim_obj = beta_vizzu_animate( bar_obj,
     align="center",
     split=False,
 )
-anim_obj2 = vizzu_animate(anim_obj)
+_dict = {"size": {"set": "Close"}, 
+    "geometry": "circle",
+    "coordSystem": "polar",
+    "title": "Animation for the OHLCV",
+    }
+anim_obj2 = vizzu_animate(anim_obj,_dict)
 vizzu_plot(anim_obj2)
 
         
