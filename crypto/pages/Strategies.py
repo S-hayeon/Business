@@ -318,7 +318,8 @@ if strategy=='HS':
     #wedge_pattern=tradingpatterns.detect_wedge(df=data_table)
     double_topbottom_pattern=tradingpatterns.detect_double_top_bottom(df=data_table)
   patterns()
-  analysis_table = data_table[['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'high_roll_max', 'low_roll_min', 'head_shoulder_pattern', 'close_roll_max', 'close_roll_min', 'multiple_top_bottom_pattern', 'triangle_pattern', 'double_pattern']].copy()
+  #analysis_table = data_table[['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'high_roll_max', 'low_roll_min', 'head_shoulder_pattern', 'close_roll_max', 'close_roll_min', 'multiple_top_bottom_pattern', 'triangle_pattern', 'double_pattern']].copy()
+  analysis_table = data_table[['Open', 'High', 'Low', 'Close', 'Volume', 'high_roll_max', 'low_roll_min', 'head_shoulder_pattern', 'close_roll_max', 'close_roll_min', 'multiple_top_bottom_pattern', 'triangle_pattern', 'double_pattern']].copy()
   analysis_table['Pattern'] = None  # Initialize the 'Pattern' column with None values
   # Populate the 'Pattern' column in analysis_table
   for row in range(len(data_table)):
