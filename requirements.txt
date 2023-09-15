@@ -3,6 +3,7 @@ backtesting
 fredapi
 #json
 #./libs/MetaTrader5-5.0.45-cp311-cp311-win_amd64.whl
+ipyvizzu
 matplotlib
 #MetaTrader5
 mt5
