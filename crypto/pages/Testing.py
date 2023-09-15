@@ -6,6 +6,7 @@ import pandas as pd
 import pandas_ta as ta
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import ssl
 import streamlit as st
 strategies=['VWAP_Bollinger_RSI','None']
 strategy=st.selectbox("My preferred Strategy is",strategies)
