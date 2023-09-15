@@ -279,7 +279,7 @@ if strategy=='VWAP_Bollinger_RSI':
           st.write(stats['_strategy'])
 if strategy=='HS':
   data_table=st.session_state['DataFrame']
-  data_table=data_table[['Date','Open','High','Low','Close','Volume']]
+  data_table=data_table[['Open','High','Low','Close','Volume']]
   @st.cache_data()
   def candlestick_pattern(data,index):
     open_prices=data['Open'].values.astype(float)
@@ -324,7 +324,7 @@ if strategy=='HS':
     pattern, value, trend = candlestick_pattern(data_table, row)
     analysis_table.loc[row, 'Pattern'] = pattern
     analysis_table.loc[row, 'Trend'] = trend
-  analysis_table.set_index('Date',inplace=True)
+  #analysis_table.set_index('Date',inplace=True)
   analysis_table.index = pd.to_datetime(analysis_table.index)
   class chart_candlestickPattern(Strategy):
     def init(self):
