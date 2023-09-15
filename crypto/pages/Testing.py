@@ -1,4 +1,5 @@
 from st_vizzu import *
+import streamlit as st
 df=st.session_state['DataFrame']
 obj=create_vizzu_obj(df)
 bar_obj=bar_chart(df,
