@@ -7,7 +7,8 @@ import pandas_ta as ta
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
-strategies=['VWAP_Bollinger_RSI','None']
+import talib
+strategies=['-','HS','VWAP_Bollinger_RSI']
 strategy=st.selectbox("My preferred Strategy is",strategies)
 if strategy=='VWAP_Bollinger_RSI':
   mode=st.sidebar.radio("Enter Mode",options=['Manual','Automatic'])
@@ -276,4 +277,70 @@ if strategy=='VWAP_Bollinger_RSI':
           st.dataframe(stats)
         with st.expander(f'Optimal Values for {selected_key} in Strategy'):
           st.write(stats['_strategy'])
+if strategy=='HS':
+  data_table=st.session_state['DataFrame']
+  data_table=data_table[['Date','Open','High','Low','Close','Volume']]
+  @st.cache_data()
+  def candlestick_pattern(data,index):
+    open_prices=data['Open'].values.astype(float)
+    high_prices=data['High'].values.astype(float)
+    low_prices=data['Low'].values.astype(float)
+    close_prices=data['Close'].values.astype(float)
+    patterns=talib.get_function_groups()['Pattern Recognition']
+    result={}
+    max_pattern=None
+    max_value=None
+    trend=None
+    for pattern in patterns:
+        pattern_function=getattr(talib,pattern)
+        result[pattern]=pattern_function(open_prices,high_prices,low_prices,close_prices)
+    pattern_at_index={}
+    for pattern,values in result.items():
+        if values[index]!=0:
+            pattern_at_index[pattern]=values[index]
+    if pattern_at_index:
+        max_pattern=max(pattern_at_index,key=pattern_at_index.get)
+        max_value=pattern_at_index[max_pattern]
+        if max_value==100:
+            trend="Bullish"
+        elif max_value==-100:
+            trend="Bearish"
+        elif max_value==0:
+            trend="Uncertain"
+        else:
+            pass
+    return max_pattern,max_value,trend
+  def patterns():
+    head_shoulder=tradingpatterns.detect_head_shoulder(df=data_table)
+    multiple_top_bottom=tradingpatterns.detect_multiple_tops_bottoms(df=data_table)
+    triangle_pattern=tradingpatterns.detect_triangle_pattern(df=data_table)
+    #wedge_pattern=tradingpatterns.detect_wedge(df=data_table)
+    double_topbottom_pattern=tradingpatterns.detect_double_top_bottom(df=data_table)
+  patterns()
+  analysis_table = data_table[['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'high_roll_max', 'low_roll_min', 'head_shoulder_pattern', 'close_roll_max', 'close_roll_min', 'multiple_top_bottom_pattern', 'triangle_pattern', 'double_pattern']].copy()
+  analysis_table['Pattern'] = None  # Initialize the 'Pattern' column with None values
+  # Populate the 'Pattern' column in analysis_table
+  for row in range(len(data_table)):
+    pattern, value, trend = candlestick_pattern(data_table, row)
+    analysis_table.loc[row, 'Pattern'] = pattern
+    analysis_table.loc[row, 'Trend'] = trend
+  analysis_table.set_index('Date',inplace=True)
+  analysis_table.index = pd.to_datetime(analysis_table.index)
+  class chart_candlestickPattern(Strategy):
+    def init(self):
+        pass
+
+    def next(self):
+        signal = SIGNAL(self)
+        if signal[-1] == 'Head and Shoulder':
+            self.buy()
+        elif signal[-1] == 'Inverse Head and Shoulder':
+            self.sell()
+
+  def SIGNAL(self):
+      return self.data['head_shoulder_pattern'] #to use the 'head_shoulder_pattern' column from your DataFrame
+  bt=Backtest(analysis_table,chart_candlestickPattern,cash=10_000)
+  strategyStats=bt.run()
+  st.dataframe(strategyStats)
+
         
