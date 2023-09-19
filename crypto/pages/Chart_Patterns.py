@@ -21,6 +21,12 @@ from tradingpatterns import tradingpatterns
 st.session_state['SupportResistance_Figure']=None
 
 if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
+    currency_pair = st.session_state.get('CurrencyPair')
+    image_file_path=None
+    if currency_pair is not None:
+        image_file_path = f"{currency_pair}_chart.png"
+        if os.path.exists(image_file_path):
+            os.remove(image_file_path)
     def support_Resistance():
         status_displayed = False  # Flag to track whether status message has been displayed
         # Continuously update the data by fetching new data from the API
@@ -30,10 +36,32 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         support_resistance_lines=list(chart_pattern.support_resistance())
         #support_resistance_lines=list(chart_pattern.support_resistance(int(lookback)))
         st.session_state['support_resistance_lines'] = support_resistance_lines
-        fig=mpf.plot(st.session_state['DataFrame'],type='candle',volume=True,style='binance',hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'))
+        fig=mpf.plot(st.session_state['DataFrame'],type='candle',
+                     volume=True,style='binance',
+                     hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'),
+                     savefig=image_file_path)
         #candlestickfigure_placeholder.pyplot(fig)
-        st.pyplot(fig)
+        st.session_state['support']=support_resistance_lines[0]
+        st.session_state['resistance']=support_resistance_lines[1]
+        #st.pyplot(fig)
+        #plt.savefig(f"{image_file_path}",dpi=1400)
+        st.image(image_file_path)
         time.sleep(2)  # Wait for 2 seconds
+    def send_telegram_Message():
+        bot_token=st.secrets['bot_token']
+        chat_id=st.secrets['chat_id']
+        url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
+        #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
+        caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}"
+        payload = {'chat_id': chat_id,'caption': caption}     
+        files = {'photo': open(image_file_path, 'rb')} # Prepare the payload
+        response = requests.post(url, data=payload, files=files) # Send the photo
+        if response.status_code == 200:
+            st.toast('Photo sent successfully!')
+        else:
+            #st.toast('Failed to send photo. Status code:', response.status_code)
+            st.toast(response.text)
+        
     #st.set_option('deprecation.showPyplotGlobalUse', False)
     with st.container():
         st.title(f"{st.session_state['CurrencyPair']} Chart Pattern from {st.session_state['Start_Date']} to {st.session_state['End_Date']} :chart:")
@@ -80,4 +108,6 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         candlestickpatterns_placeholder = st.empty() # Create a placeholder for the candlestick Patterns Dataframe 
         with candlestickpatterns_placeholder.expander("View Candlestick Patterns"):
             st.dataframe(candlestickDF.dropna().reset_index().drop(columns=['index']))
+            
+    send_telegram_Message()
     
