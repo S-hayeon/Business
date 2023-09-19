@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import mplfinance as mpf
 import os
 import pandas as pd
+import requests
 #from streamlit import caching
 import streamlit as st
 import sys
