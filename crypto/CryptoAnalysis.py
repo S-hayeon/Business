@@ -28,22 +28,14 @@ def coin_token_selection():
     # Coin, Token dictionary containing the keys and values for the dropdowns
     # First dropdown for selecting the Token key
     token_selected_key = st.sidebar.selectbox("Select your Token Category:", list(sorted(main.crypto_tokens.keys())))
-    #token_selected_key = st.selectbox("Select your Token Category:", [format_key(key) for key in main.crypto_tokens.keys()])
-    # Convert the formatted key back to the original key with underscores
-    # token_original_key = "_".join(word.lower() for word in token_selected_key.split())
-    # Second dropdown showing values based on the selected key
     token_selected_value = st.sidebar.selectbox("Select a Token currency:", sorted(main.crypto_tokens[token_selected_key]))
-    # st.write(" Coin Selected Key:", token_original_key)
-    # st.write(" Coin Selected Value:", token_selected_value)
-    # First dropdown for selecting the Coin key
+
     coin_selected_key = st.sidebar.selectbox("Select your Coin Currency:", [format_key(key) for key in main.crypto_coins.keys()])
     # Convert the formatted key back to the original key with underscores
     coin_original_key = "_".join(word.lower() for word in coin_selected_key.split())
     # Second dropdown showing values based on the selected key
     coin_selected_value = st.sidebar.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
-    # st.write(" Coin Selected Key:", coin_original_key)
-    # st.write(" Coin Selected Value:", coin_selected_value)
-    #st.session_state['CurrencyPair'] = f"{token_selected_value}{coin_selected_value}"
+    st.session_state['TokenCategory']= token_selected_key
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 
