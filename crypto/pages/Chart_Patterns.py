@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
 import mplfinance as mpf
+import os
 import pandas as pd
 #from streamlit import caching
 import streamlit as st
@@ -22,11 +23,7 @@ st.session_state['SupportResistance_Figure']=None
 
 if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
     currency_pair = st.session_state.get('CurrencyPair')
-    image_file_path=None
-    if currency_pair is not None:
-        image_file_path = f"{currency_pair}_chart.png"
-        if os.path.exists(image_file_path):
-            os.remove(image_file_path)
+    image_file_path = f"{currency_pair}_chart.png"
     def support_Resistance():
         status_displayed = False  # Flag to track whether status message has been displayed
         # Continuously update the data by fetching new data from the API
@@ -57,7 +54,9 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         files = {'photo': open(image_file_path, 'rb')} # Prepare the payload
         response = requests.post(url, data=payload, files=files) # Send the photo
         if response.status_code == 200:
-            st.toast('Photo sent successfully!')
+            st.toast('Chart Patterns available!')
+            if os.path.exists(image_file_path):
+                os.remove(image_file_path)
         else:
             #st.toast('Failed to send photo. Status code:', response.status_code)
             st.toast(response.text)
@@ -110,4 +109,5 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
             st.dataframe(candlestickDF.dropna().reset_index().drop(columns=['index']))
             
     send_telegram_Message()
+    
     
