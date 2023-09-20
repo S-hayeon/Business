@@ -31,9 +31,10 @@ st.header("Box Plot")
 box_plot = data[data_option].plot.box()
 #box_plot.set_xlabel("index")
 box_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
-box_image_file_path = f"{currency_pair}_boxPlot.png"
+box_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
 plt.savefig(box_image_file_path)
-st.pyplot(box_plot.figure)
+#st.pyplot(box_plot.figure)
+st.image(box_image_file_path)
 def send_telegram_Message():
   bot_token=st.secrets['bot_token']
   chat_id=st.secrets['chat_id']
