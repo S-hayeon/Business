@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import requests
 import scipy
 import streamlit as st
 data=st.session_state['DataFrame']
