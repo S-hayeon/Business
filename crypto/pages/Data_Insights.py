@@ -8,13 +8,13 @@ data=st.session_state['DataFrame']
 st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
 data=data[ohlcv]
-data_option=st.sidebar.radio("Select Data option",options=ohlcv)
-bar_plot=data[data_option].plot.bar(legend=False)
-bar_plot.set_xlabel(f"{st.session_state['Start_Date']} - {st.session_state['End_Date']}")
-bar_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
-bar_image_file_path = f"{st.session_state['CoinPair']}_barPlot.png"
-plt.savefig(bar_image_file_path)
-st.pyplot(bar_plot.figure)
+# data_option=st.sidebar.radio("Select Data option",options=ohlcv)
+# bar_plot=data[data_option].plot.bar(legend=False)
+# bar_plot.set_xlabel(f"{st.session_state['Start_Date']} - {st.session_state['End_Date']}")
+# bar_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
+# bar_image_file_path = f"{st.session_state['CoinPair']}_barPlot.png"
+# plt.savefig(bar_image_file_path)
+# st.pyplot(bar_plot.figure)
 with st.expander("Coin Pair Data"):
   st.dataframe(data)
 with st.expander("Descriptive Stats"):
@@ -72,5 +72,5 @@ def send_telegram_Message():
   else:
       #st.toast('Failed to send photo. Status code:', response.status_code)
       st.toast(response.text)
-#send_telegram_Message()
+send_telegram_Message()
                  
