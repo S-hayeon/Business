@@ -42,7 +42,7 @@ value_counts = binned_data.value_counts().reset_index()
 # Rename the columns for clarity
 value_counts.columns = ['Bin Range', 'Count']
 # Format the "Bin Range" column
-value_counts['Bin Range'] = value_counts['Bin Range'].apply(lambda x: f"{x.left:.2f} - {x.right:.2f}")
+value_counts['Bin Range'] = value_counts['Bin Range'].apply(lambda x: f"{x.left:.3f} - {x.right:.3f}")
 # Print the frequency table
 st.dataframe(value_counts)
 st.header("Box Plot")
@@ -72,5 +72,5 @@ def send_telegram_Message():
   else:
       #st.toast('Failed to send photo. Status code:', response.status_code)
       st.toast(response.text)
-send_telegram_Message()
+#send_telegram_Message()
                  
