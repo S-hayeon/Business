@@ -7,11 +7,14 @@ import streamlit as st
 data=st.session_state['DataFrame']
 st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
-#data=data[[ohlcv]]
+data=data[ohlcv]
 data_option=st.sidebar.radio("Select Data option",options=ohlcv)
 with st.expander("Coin Pair Data"):
   st.dataframe(data)
-st.pyplot(data.plot.bar())
+bar_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
+plt.savefig(bar_image_file_path)
+bar_plot=data.plot.bar()
+st.pyplot(bar_plot.figure)
 with st.expander("Descriptive Stats"):
   st.dataframe(data.describe())
   st.header("Measures of Central Tendency")
@@ -60,6 +63,8 @@ def send_telegram_Message():
   response = requests.post(url, data=payload, files=files) # Send the photo
   if response.status_code == 200:
     st.toast('Data Insights available!')
+    if os.path.exists(bar_image_file_path):
+      os.remove(bar_image_file_path)
     if os.path.exists(box_image_file_path):
       os.remove(box_image_file_path)
   else:
