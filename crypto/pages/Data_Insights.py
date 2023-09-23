@@ -7,7 +7,7 @@ import streamlit as st
 data=st.session_state['DataFrame']
 st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
-data=data[[ohlcv]]
+#data=data[[ohlcv]]
 data_option=st.sidebar.radio("Select Data option",options=ohlcv)
 with st.expander("Coin Pair Data"):
   st.dataframe(data)
