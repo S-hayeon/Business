@@ -11,9 +11,9 @@ data=data[ohlcv]
 data_option=st.sidebar.radio("Select Data option",options=ohlcv)
 with st.expander("Coin Pair Data"):
   st.dataframe(data)
+bar_plot=data.plot.bar()
 bar_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
 plt.savefig(bar_image_file_path)
-bar_plot=data.plot.bar()
 st.pyplot(bar_plot.figure)
 with st.expander("Descriptive Stats"):
   st.dataframe(data.describe())
