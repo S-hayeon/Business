@@ -8,7 +8,7 @@ data=st.session_state['DataFrame']
 st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
 data=data[ohlcv]
-# data_option=st.sidebar.radio("Select Data option",options=ohlcv)
+data_option=st.sidebar.radio("Select Data option",options=ohlcv)
 # bar_plot=data[data_option].plot.bar(legend=False)
 # bar_plot.set_xlabel(f"{st.session_state['Start_Date']} - {st.session_state['End_Date']}")
 # bar_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
