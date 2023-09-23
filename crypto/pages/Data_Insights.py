@@ -22,10 +22,10 @@ with st.expander("Descriptive Stats"):
   st.header("Measures of Central Tendency")
   stats_DF=pd.DataFrame({'Median': data[data_option].median(),
                      'Standard Deviation': data[data_option].std(),
-                     'InterQuartile Range':data[data_option].quantile(0.75)-data[data_option].quantile(0.25)})
+                     'InterQuartile Range':data[data_option].quantile(0.75)-data[data_option].quantile(0.25)})},index=['-'])
   st.dataframe(stats_DF)
   st.header("Percentiles")       
-  percentileDF=pd.DataFrame({'Percentiles':data[data_option].quantile([0.05,0.25,0.5,0.75,0.95])})
+  percentileDF=pd.DataFrame({'Percentiles':data[data_option].quantile([0.05,0.25,0.5,0.75,0.95])}index=['-'])
   st.write(percentileDF)
   # stats_DF = pd.DataFrame()
   # # Loop through each OHLCV column and calculate statistics
