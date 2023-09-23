@@ -7,17 +7,21 @@ import streamlit as st
 data=st.session_state['DataFrame']
 st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
+data=data[[ohlcv]]
 data_option=st.sidebar.radio("Select Data option",options=ohlcv)
 with st.expander("Coin Pair Data"):
   st.dataframe(data)
+st.pyplot(data.plot.bar())
 with st.expander("Descriptive Stats"):
   st.dataframe(data.describe())
-  
+  st.header("Measures of Central Tendency")
   stats_DF=pd.DataFrame({'Median': data[data_option].median(),
                      'Standard Deviation': data[data_option].std(),
-                      'Percentiles':data[data_option].quantile([0.05,0.25,0.5,0.75,0.95]),
                      'InterQuartile Range':data[data_option].quantile(0.75)-data[data_option].quantile(0.25)})
   st.dataframe(stats_DF)
+  st.header("Percentiles")       
+  percentileDF=pd.DataFrame({'Percentiles':data[data_option].quantile([0.05,0.25,0.5,0.75,0.95]})
+  st.write(percentileDF)
   # stats_DF = pd.DataFrame()
   # # Loop through each OHLCV column and calculate statistics
   # for column in ohlcv:
@@ -33,7 +37,7 @@ value_counts = binned_data.value_counts().reset_index()
 # Rename the columns for clarity
 value_counts.columns = ['Bin Range', 'Count']
 # Format the "Bin Range" column
-value_counts['Bin Range'] = value_counts['Bin Range'].apply(lambda x: f"{x.left:.3f} - {x.right:.3f}")
+value_counts['Bin Range'] = value_counts['Bin Range'].apply(lambda x: f"{x.left:.1f} - {x.right:.1f}")
 # Print the frequency table
 st.dataframe(value_counts)
 st.header("Box Plot")
