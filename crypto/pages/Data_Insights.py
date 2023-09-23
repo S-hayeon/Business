@@ -31,7 +31,7 @@ binned_data=pd.cut(data[data_option],10)
 # Convert to a DataFrame
 df = pd.DataFrame({'Binned Data': binned_data})
 # Calculate value counts
-value_counts = df['Binned Data'].value_counts()
+value_counts = df['Binned Data'].value_counts().reset_index()
 # Create a DataFrame to display the bin ranges and their counts
 frequency_table = pd.DataFrame({'Bin Range': value_counts.index, 'Count': value_counts.values})
 # Print the frequency table
