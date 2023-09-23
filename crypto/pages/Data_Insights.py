@@ -9,12 +9,12 @@ st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
 data=data[ohlcv]
 data_option=st.sidebar.radio("Select Data option",options=ohlcv)
-with st.expander("Coin Pair Data"):
-  st.dataframe(data)
 bar_plot=data.plot.bar()
-bar_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
+bar_image_file_path = f"{st.session_state['CoinPair']}_barPlot.png"
 plt.savefig(bar_image_file_path)
 st.pyplot(bar_plot.figure)
+with st.expander("Coin Pair Data"):
+  st.dataframe(data)
 with st.expander("Descriptive Stats"):
   st.dataframe(data.describe())
   st.header("Measures of Central Tendency")
