@@ -20,7 +20,7 @@ with st.expander("Descriptive Stats"):
                      'InterQuartile Range':data[data_option].quantile(0.75)-data[data_option].quantile(0.25)})
   st.dataframe(stats_DF)
   st.header("Percentiles")       
-  percentileDF=pd.DataFrame({'Percentiles':data[data_option].quantile([0.05,0.25,0.5,0.75,0.95]})
+  percentileDF=pd.DataFrame({'Percentiles':data[data_option].quantile([0.05,0.25,0.5,0.75,0.95]}))
   st.write(percentileDF)
   # stats_DF = pd.DataFrame()
   # # Loop through each OHLCV column and calculate statistics
