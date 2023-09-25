@@ -71,8 +71,8 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         client = tweepy.Client(bearer_token=bearerToken,consumer_key=apiKey,consumer_secret=apiSecret,access_token=accessToken,access_token_secret=accessSecret)
         auth = tweepy.OAuth1UserHandler(apiKey, apiSecret)
         auth.set_access_token(accessToken,accessSecret)
-        media = api.media_upload(filename=image_file_path)
         api = tweepy.API(auth)
+        media = api.media_upload(filename=image_file_path)
         media_id = media.media_id
         caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoGuideBotTrading"
         client.create_tweet(media_ids=[media_id], text=caption)
