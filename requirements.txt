@@ -23,6 +23,7 @@ ta_py
 #ta-lib==0.4.24
 #threading
 tradingpattern
+tweepy
 websocket_client
 world_bank_data
 yfinance
