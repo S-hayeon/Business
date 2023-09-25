@@ -20,6 +20,7 @@ except:
 #sys.path.append('/app/business/fx')
 import time
 from tradingpatterns import tradingpatterns
+import tweepy
 st.session_state['SupportResistance_Figure']=None
 
 if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'] is not None:
@@ -61,7 +62,20 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         else:
             #st.toast('Failed to send photo. Status code:', response.status_code)
             st.toast(response.text)
-        
+    def send_twitter_Message():
+        apiKey= st.secrets['apiKey']
+        apiSecret=st.secrets['apiSecret']
+        bearerToken=st.secrets['bearerToken']
+        accessToken=st.secrets['accessToken']
+        accessSecret=st.secrets['accessSecret']
+        client = tweepy.Client(bearer_token=bearerToken,consumer_key=apiKey,consumer_secret=apiSecret,access_token=accessToken,access_token_secret=accessSecret)
+        auth = tweepy.OAuth1UserHandler(apiKey, apiSecret)
+        auth.set_access_token(accessToken,accessSecret)
+        media = api.media_upload(filename=image_file_path)
+        api = tweepy.API(auth)
+        media_id = media.media_id
+        caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoGuideBotTrading"
+        client.create_tweet(media_ids=[media_id], text=caption)
     #st.set_option('deprecation.showPyplotGlobalUse', False)
     with st.container():
         st.title(f"{st.session_state['CurrencyPair']} Chart Pattern from {st.session_state['Start_Date']} to {st.session_state['End_Date']} :chart:")
@@ -109,6 +123,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         with candlestickpatterns_placeholder.expander("View Candlestick Patterns"):
             st.dataframe(candlestickDF.dropna().reset_index().drop(columns=['index']))
             
+    send_twitter_Message()
     send_telegram_Message()
     
     
