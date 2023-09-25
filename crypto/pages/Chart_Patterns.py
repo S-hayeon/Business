@@ -74,7 +74,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         api = tweepy.API(auth)
         media = api.media_upload(filename=image_file_path)
         media_id = media.media_id
-        caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoGuideBotTrading"
+        caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoTradingGuideBot."
         client.create_tweet(media_ids=[media_id], text=caption)
     #st.set_option('deprecation.showPyplotGlobalUse', False)
     with st.container():
