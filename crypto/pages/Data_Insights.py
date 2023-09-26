@@ -4,6 +4,7 @@ import pandas as pd
 import requests
 import scipy
 import streamlit as st
+import tweepy
 data=st.session_state['DataFrame']
 st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
@@ -65,12 +66,27 @@ def send_telegram_Message():
   response = requests.post(url, data=payload, files=files) # Send the photo
   if response.status_code == 200:
     st.toast('Data Insights available!')
-    if os.path.exists(bar_image_file_path):
-      os.remove(bar_image_file_path)
+    # if os.path.exists(bar_image_file_path):
+    #   os.remove(bar_image_file_path)
     if os.path.exists(box_image_file_path):
       os.remove(box_image_file_path)
   else:
       #st.toast('Failed to send photo. Status code:', response.status_code)
       st.toast(response.text)
-#send_telegram_Message()
+def send_twitter_Message():
+  apiKey= st.secrets['apiKey']
+  apiSecret=st.secrets['apiSecret']
+  bearerToken=st.secrets['bearerToken']
+  accessToken=st.secrets['accessToken']
+  accessSecret=st.secrets['accessSecret']
+  client = tweepy.Client(bearer_token=bearerToken,consumer_key=apiKey,consumer_secret=apiSecret,access_token=accessToken,access_token_secret=accessSecret)
+  auth = tweepy.OAuth1UserHandler(apiKey, apiSecret)
+  auth.set_access_token(accessToken,accessSecret)
+  api = tweepy.API(auth)
+  media = api.media_upload(filename=box_image_file_path)
+  media_id = media.media_id
+  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoTradingGuideBot."
+  client.create_tweet(media_ids=[media_id], text=caption)
+send_twitter_Message()
+send_telegram_Message()
                  
