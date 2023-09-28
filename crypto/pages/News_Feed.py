@@ -64,7 +64,7 @@ wordcloud=WordCloud(background_color='orange',max_words=1000,width=800,height=40
 plt.figure(figsize=(10,5))
 plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
-wordcloudImage=f'{st.session_state['CoinPair']}_wordcloud.png'
+wordcloudImage=f"{st.session_state['CoinPair']}_wordcloud.png"
 plt.savefig(wordcloudImage)  # Save as PNG
 st.image(wordcloudImage)
 if os.path.exists(wordcloudImage):
