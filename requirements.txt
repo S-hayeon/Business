@@ -25,5 +25,6 @@ ta_py
 tradingpattern
 tweepy
 websocket_client
+wordcloud
 world_bank_data
 yfinance
