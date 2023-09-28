@@ -61,7 +61,7 @@ def stripContents(text):
 title_list=df['title'].apply(stripContents).tolist()
 title_paragraph=" ".join(map(str,title_list))
 wordcloud=WordCloud(background_color='orange',max_words=1000,width=800,height=400).generate(title_paragraph)
-#plt.figure(figsize=(10,5))
+plt.figure(figsize=(30,15))
 plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
 wordcloudImage=f"{st.session_state['CoinPair']}_wordcloud.png"
