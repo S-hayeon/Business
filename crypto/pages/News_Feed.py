@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import os
 import pandas as pd
 import requests
 import streamlit as st
@@ -60,10 +61,11 @@ def stripContents(text):
 title_list=df['title'].apply(stripContents).tolist()
 title_paragraph=" ".join(map(str,title_list))
 wordcloud=WordCloud(background_color='orange',max_words=1000,width=800,height=400).generate(title_paragraph)
-# wordcloudFigure=plt.figure(figsize=(10,5))
-# wordcloudFigure.imshow(wordcloud,interpolation='bilinear')
-# wordcloudFigure.axis('off')
-# st.pyplot(wordcloudFigure)
-st.pyplot(plt.figure(figsize=(10, 5)))
-plt.imshow(wordcloud, interpolation='bilinear')
+plt.figure(figsize=(10,5))
+plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
+wordcloudImage=f'{st.session_state['CoinPair']}_wordcloud.png'
+plt.savefig(wordcloudImage)  # Save as PNG
+st.image(wordcloudImage)
+if os.path.exists(wordcloudImage):
+      os.remove(wordcloudImage)
