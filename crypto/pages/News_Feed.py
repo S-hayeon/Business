@@ -70,7 +70,7 @@ def send_telegram_Message(type,image_file_path):
     chat_id=st.secrets['chat_id']
     url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
     #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
-    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Wordcloud depicting the latest {type} sentiments as of: {current_time}\n#CryptoGuideBotTrading"
+    caption = f"Coin Pair:${st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Wordcloud depicting the latest {type} sentiments as of: {current_time}\n#CryptoGuideBotTrading"
     payload = {'chat_id': chat_id,'caption': caption}     
     files = {'photo': open(image_file_path, 'rb')} # Prepare the payload
     response = requests.post(url, data=payload, files=files) # Send the photo
@@ -93,7 +93,7 @@ def send_twitter_Message(type,image_file_path):
     api = tweepy.API(auth)
     media = api.media_upload(filename=image_file_path)
     media_id = media.media_id
-    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Wordcloud depicting the latest {type} sentiments as of: {current_time}\n#CryptoTradingGuideBot"
+    caption = f"Coin Pair:${st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Wordcloud depicting the latest {type} sentiments as of: {current_time}\n#CryptoTradingGuideBot"
     client.create_tweet(media_ids=[media_id], text=caption)
 multimedia_title_list=multimedia_df['title'].apply(stripContents).tolist()
 news_title_list=news_df['title'].apply(stripContents).tolist()
