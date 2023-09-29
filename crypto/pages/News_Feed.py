@@ -1,3 +1,4 @@
+import datetime
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
@@ -7,6 +8,7 @@ import tweepy
 from wordcloud import WordCloud
 API_KEY=st.secrets['CP_API']
 st.title(f"{st.session_state['CoinPair']} NEWS Feed")
+current_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 def make_url(filter=None, currencies=None, kind=None, region=None, page=None):
     """Handle of URL variables for API POST."""
     url = 'https://cryptopanic.com/api/v1/posts/?auth_token={}'.format(API_KEY)
@@ -68,7 +70,7 @@ def send_telegram_Message(type,image_file_path):
     chat_id=st.secrets['chat_id']
     url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
     #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
-    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud\n#CryptoGuideBotTrading"
+    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud as at: {current_time}\n#CryptoGuideBotTrading"
     payload = {'chat_id': chat_id,'caption': caption}     
     files = {'photo': open(image_file_path, 'rb')} # Prepare the payload
     response = requests.post(url, data=payload, files=files) # Send the photo
@@ -91,7 +93,7 @@ def send_twitter_Message(type,image_file_path):
     api = tweepy.API(auth)
     media = api.media_upload(filename=image_file_path)
     media_id = media.media_id
-    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud\n#CryptoTradingGuideBot"
+    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud as at {current_time}\n#CryptoTradingGuideBot"
     client.create_tweet(media_ids=[media_id], text=caption)
 multimedia_title_list=multimedia_df['title'].apply(stripContents).tolist()
 news_title_list=news_df['title'].apply(stripContents).tolist()
