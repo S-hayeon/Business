@@ -127,7 +127,8 @@ def visualize_data():
             st.session_state['DataFrame']=df
             title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
             with df_expander_placeholder.expander("View the data"):
-                data_placeholder.dataframe(df)
+                #data_placeholder.dataframe(df)
+                st.dataframe(df)
             # Display status message only once
             fig=mpf.plot(df,type='candle',volume=True,style='binance')
             candlestickfigure_placeholder.pyplot(fig)
