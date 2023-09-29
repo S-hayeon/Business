@@ -91,7 +91,7 @@ def send_twitter_Message(type,image_file_path):
     api = tweepy.API(auth)
     media = api.media_upload(filename=image_file_path)
     media_id = media.media_id
-    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud\n#CryptoGuideBotTrading"
+    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud\n#CryptoTradingGuideBot"
     client.create_tweet(media_ids=[media_id], text=caption)
 multimedia_title_list=multimedia_df['title'].apply(stripContents).tolist()
 news_title_list=news_df['title'].apply(stripContents).tolist()
@@ -104,7 +104,8 @@ ax.axis("off")
 media_wordcloud_img=f"{st.session_state['CoinPair']}_media_wordcloud.png"
 # send_telegram_Message(type="Youtube Media",image_file_path=media_wordcloud_img)
 # send_twitter_Message(type="Youtube Media",image_file_path=media_wordcloud_img)
-plt.savefig(media_wordcloud_img)  # Save as PNG
+#plt.savefig(media_wordcloud_img)  # Save as PNG
+plt.savefig(media_wordcloud_img, transparent=True, bbox_inches='tight', pad_inches=0)
 st.header("Latest :red[Youtube] Sentiments")
 st.pyplot(fig)
 #st.image(media_wordcloud_img)
@@ -116,6 +117,7 @@ ax.imshow(news_wordcloud, interpolation='bilinear')
 ax.axis("off") 
 news_wordcloud_img=f"{st.session_state['CoinPair']}_news_wordcloud.png"
 plt.savefig(news_wordcloud_img)  # Save as PNG
+plt.savefig(news_wordcloud_img, transparent=True, bbox_inches='tight', pad_inches=0)
 st.header("Latest :blue[News] Sentiments")
 st.pyplot(fig)
 send_twitter_Message(type="News",image_file_path=news_wordcloud_img)
