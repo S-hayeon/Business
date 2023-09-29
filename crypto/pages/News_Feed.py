@@ -72,7 +72,7 @@ plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
 media_wordcloud_img=f"{st.session_state['CoinPair']}_media_wordcloud.png"
 plt.savefig(media_wordcloud_img)  # Save as PNG
-st.header("Latest MultiMedia (e.g.,Youtube) Sentiments")
+st.header("Latest red[Youtube] Sentiments")
 st.image(media_wordcloud_img)
 if os.path.exists(media_wordcloud_img):
       os.remove(media_wordcloud_img)
@@ -82,7 +82,7 @@ plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
 news_wordcloud_img=f"{st.session_state['CoinPair']}_news_wordcloud.png"
 plt.savefig(news_wordcloud_img)  # Save as PNG
-st.header("Latest News Sentiments")
+st.header("Latest :blue[News] Sentiments")
 st.image(news_wordcloud_img)
 if os.path.exists(news_wordcloud_img):
       os.remove(news_wordcloud_img)
