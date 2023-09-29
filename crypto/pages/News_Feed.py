@@ -72,7 +72,7 @@ plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
 media_wordcloud_img=f"{st.session_state['CoinPair']}_media_wordcloud.png"
 plt.savefig(media_wordcloud_img)  # Save as PNG
-st.header("Latest red[Youtube] Sentiments")
+st.header("Latest :red[Youtube] Sentiments")
 st.image(media_wordcloud_img)
 if os.path.exists(media_wordcloud_img):
       os.remove(media_wordcloud_img)
