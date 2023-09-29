@@ -5,7 +5,7 @@ import requests
 import streamlit as st
 from wordcloud import WordCloud
 API_KEY=st.secrets['CP_API']
-st.title(f"{st.session_state['CoinPair'} NEWS FEED")
+st.title(f"{st.session_state['CoinPair']} NEWS Feed")
 def make_url(filter=None, currencies=None, kind=None, region=None, page=None):
     """Handle of URL variables for API POST."""
     url = 'https://cryptopanic.com/api/v1/posts/?auth_token={}'.format(API_KEY)
