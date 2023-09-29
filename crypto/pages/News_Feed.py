@@ -118,8 +118,8 @@ news_wordcloud_img=f"{st.session_state['CoinPair']}_news_wordcloud.png"
 plt.savefig(news_wordcloud_img)  # Save as PNG
 st.header("Latest :blue[News] Sentiments")
 st.pyplot(fig)
-send_telegram_Message(type="News",image_file_path=news_wordcloud_img)
 send_twitter_Message(type="News",image_file_path=news_wordcloud_img)
+send_telegram_Message(type="News",image_file_path=news_wordcloud_img)
 #st.image(news_wordcloud_img)
 if os.path.exists(news_wordcloud_img):
       os.remove(news_wordcloud_img)
