@@ -129,16 +129,12 @@ def visualize_data():
             with df_expander_placeholder.expander("View the data"):
                 data_placeholder.dataframe(df)
             # Display status message only once
-            # fig=mpf.plot(df,type='candle',volume=True,style='charles')
-            # candlestickfigure_placeholder.pyplot(fig)
+            fig=mpf.plot(df,type='candle',volume=True,style='binance')
+            candlestickfigure_placeholder.pyplot(fig)
             if not status_displayed:
                 response=st.session_state['response']
                 st.sidebar.info(f"Response status {response.status_code}")
                 status_displayed = True
-        remaining_time = refresh_interval
-        while remaining_time > 0:
-            response_placeholder.info(f"For accuracy, data will refresh in {remaining_time} seconds")
-            remaining_time -= 1
         # Display the dataframe inside the placeholder
         with expander_placeholder.expander("Data Statistics"):
             st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
