@@ -62,6 +62,36 @@ multimedia_df=get_df(multimedia_response)
 news_df=get_df(news_response)
 def stripContents(text):
     return text.strip()
+def send_telegram_Message(type,image_file_path):
+    bot_token=st.secrets['bot_token']
+    chat_id=st.secrets['chat_id']
+    url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
+    #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
+    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud\n#CryptoGuideBotTrading"
+        payload = {'chat_id': chat_id,'caption': caption}     
+        files = {'photo': open(image_file_path, 'rb')} # Prepare the payload
+        response = requests.post(url, data=payload, files=files) # Send the photo
+        if response.status_code == 200:
+            st.toast('News feed available!')
+            if os.path.exists(image_file_path):
+                os.remove(image_file_path)
+        else:
+            #st.toast('Failed to send photo. Status code:', response.status_code)
+            st.toast(response.text)
+def send_twitter_Message(type,image_file_path):
+    apiKey= st.secrets['apiKey']
+    apiSecret=st.secrets['apiSecret']
+    bearerToken=st.secrets['bearerToken']
+    accessToken=st.secrets['accessToken']
+    accessSecret=st.secrets['accessSecret']
+    client = tweepy.Client(bearer_token=bearerToken,consumer_key=apiKey,consumer_secret=apiSecret,access_token=accessToken,access_token_secret=accessSecret)
+    auth = tweepy.OAuth1UserHandler(apiKey, apiSecret)
+    auth.set_access_token(accessToken,accessSecret)
+    api = tweepy.API(auth)
+    media = api.media_upload(filename=image_file_path)
+    media_id = media.media_id
+    caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\n{type} Latest Sentiments Word Cloud\n#CryptoGuideBotTrading"
+    client.create_tweet(media_ids=[media_id], text=caption)
 multimedia_title_list=multimedia_df['title'].apply(stripContents).tolist()
 news_title_list=news_df['title'].apply(stripContents).tolist()
 multimedia_paragraph=" ".join(map(str,multimedia_title_list))
@@ -71,6 +101,8 @@ fig, ax = plt.subplots()
 ax.imshow(multimedia_wordcloud, interpolation='bilinear') 
 ax.axis("off") 
 media_wordcloud_img=f"{st.session_state['CoinPair']}_media_wordcloud.png"
+# send_telegram_Message(type="Youtube Media",image_file_path=media_wordcloud_img)
+# send_twitter_Message(type="Youtube Media",image_file_path=media_wordcloud_img)
 plt.savefig(media_wordcloud_img)  # Save as PNG
 st.header("Latest :red[Youtube] Sentiments")
 st.pyplot(fig)
@@ -85,6 +117,8 @@ news_wordcloud_img=f"{st.session_state['CoinPair']}_news_wordcloud.png"
 plt.savefig(news_wordcloud_img)  # Save as PNG
 st.header("Latest :blue[News] Sentiments")
 st.pyplot(fig)
+send_telegram_Message(type="News",image_file_path=news_wordcloud_img)
+send_twitter_Message(type="News",image_file_path=news_wordcloud_img)
 #st.image(news_wordcloud_img)
 if os.path.exists(news_wordcloud_img):
       os.remove(news_wordcloud_img)
