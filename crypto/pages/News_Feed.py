@@ -68,7 +68,7 @@ multimedia_paragraph=" ".join(map(str,multimedia_title_list))
 news_paragraph=" ".join(map(str,news_title_list))
 wordcloud=WordCloud(background_color='white',max_words=3000).generate(multimedia_paragraph)
 #wordcloud=WordCloud(background_color='white',max_words=1000,width=800,height=400).generate(multimedia_paragraph)
-plt.figure(figsize=(10,5))
+#plt.figure(figsize=(10,5))
 plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
 media_wordcloud_img=f"{st.session_state['CoinPair']}_media_wordcloud.png"
