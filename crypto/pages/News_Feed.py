@@ -67,7 +67,7 @@ news_title_list=news_df['title'].apply(stripContents).tolist()
 multimedia_paragraph=" ".join(map(str,multimedia_title_list))
 news_paragraph=" ".join(map(str,news_title_list))
 wordcloud=WordCloud(background_color='orange',max_words=1000,width=800,height=400).generate(multimedia_paragraph)
-plt.figure(figsize=(10,5))
+#plt.figure(figsize=(10,5))
 plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
 media_wordcloud_img=f"{st.session_state['CoinPair']}_media_wordcloud.png"
@@ -77,7 +77,7 @@ st.image(media_wordcloud_img)
 if os.path.exists(media_wordcloud_img):
       os.remove(media_wordcloud_img)
 wordcloud=WordCloud(background_color='orange',max_words=1000,width=800,height=400).generate(news_paragraph)
-plt.figure(figsize=(10,5))
+#plt.figure(figsize=(10,5))
 plt.imshow(wordcloud,interpolation='bilinear')
 plt.axis('off')
 news_wordcloud_img=f"{st.session_state['CoinPair']}_news_wordcloud.png"
