@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import requests
 import streamlit as st
+import tweepy
 from wordcloud import WordCloud
 API_KEY=st.secrets['CP_API']
 st.title(f"{st.session_state['CoinPair']} NEWS Feed")
