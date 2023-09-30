@@ -166,10 +166,11 @@ def recent_tech_indicators():
         close = subset['lastPrice'].astype(float)
     # Calculate ADX
     adx = talib.ADX(high, low, close, timeperiod=14)
-    df.loc[df['symbol'] == symbol, 'ADX'] = adx[-1]
+    df.loc[df['symbol'] == symbol, 'ADX'] = adx.iloc[-1]
+
     # Calculate RSI
     rsi = talib.RSI(close, timeperiod=14)
-    df.loc[df['symbol'] == symbol, 'RSI'] = rsi[-1]
+    df.loc[df['symbol'] == symbol, 'RSI'] = rsi.iloc[-1]
     # Display the information using Streamlit
     st.header('Technical IndicatorsAnalysis')
     for symbol in cryptolist:
