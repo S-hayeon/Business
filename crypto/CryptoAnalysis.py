@@ -15,12 +15,15 @@ except:
     sys.path.append('/mount/src/business')
     from crypto import main
 #sys.path.append('/app/business/fx')
+import talib
 import time
 refresh_interval=60 # Refresh in 60 seconds
 st.session_state['CurrencyPair']=None
 st.session_state['DataFrame']=None
 st.session_state['End_Date']=None
 st.session_state['Start_Date']=None
+cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
+                  'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
@@ -146,13 +149,48 @@ def round_value(input_value):
     else:
         a=round(input_value,8) # Round values less than 1 to 8 decimal places
     return a
+def recent_tech_indicators():
+    # Fetch data from the API
+    url = 'https://data.binance.com/api/v3/ticker/24hr'
+    response = requests.get(url)
+    data = response.json()
+    # Create a DataFrame from the API data
+    df = pd.DataFrame(data)
+    # Filter the DataFrame to include only the cryptocurrencies from cryptolist
+    df = df[df['symbol'].isin(cryptolist)]
+    # Calculate ADX and RSI values for each cryptocurrency
+    for symbol in cryptolist:
+        subset = df[df['symbol'] == symbol]
+        high = subset['high'].astype(float)
+        low = subset['low'].astype(float)
+        close = subset['lastPrice'].astype(float)
+    # Calculate ADX
+    adx = talib.ADX(high, low, close, timeperiod=14)
+    df.loc[df['symbol'] == symbol, 'ADX'] = adx[-1]
+    # Calculate RSI
+    rsi = talib.RSI(close, timeperiod=14)
+    df.loc[df['symbol'] == symbol, 'RSI'] = rsi[-1]
+    # Display the information using Streamlit
+    st.header('Technical IndicatorsAnalysis')
+    for symbol in cryptolist:
+        coin_data = df[df['symbol'] == symbol]
+        coin_pair = coin_data['symbol'].values[0]
+        adx_value = coin_data['ADX'].values[0]
+        rsi_value = coin_data['RSI'].values[0]
+        st.write(f'## {coin_pair} Analysis')
+        # Display coin symbol and ADX and RSI values using st.metric()
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Coin Pair", coin_pair)
+        with col2:
+            st.metric("ADX Value", adx_value)
+        with col3:
+            st.metric("RSI Value", rsi_value)
 def popularCoinPrices():
     # Fetch data from the API
     url='https://data.binance.com/api/v3/ticker/24hr'
     popularcoinDF = pd.DataFrame(requests.get(url).json())
     
-    cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
-                  'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
     
     col1,col2,col3 =st.columns(3)
     for index, symbol in enumerate(cryptolist):
