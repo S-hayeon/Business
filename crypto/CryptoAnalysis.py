@@ -114,24 +114,24 @@ def get_historical_data(symbol, interval, start_time, end_time):
 def visualize_data():
     # Create  placeholders
     candlestickfigure_placeholder = st.empty()
-    data_placeholder = st.empty()
+    #data_placeholder = st.empty()
     df_expander_placeholder = st.empty()
     expander_placeholder = st.empty()
     status_displayed = False  # Flag to track whether status message has been displayed
     response_placeholder = st.empty()
     # Continuously update the data by fetching new data from the API
-    while True:
-        df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
-        # If data is not empty, show the data in the frontend
-        if df is not None:
-            st.session_state['DataFrame']=df
-            title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
-            with df_expander_placeholder.expander("View the data"):
-                #data_placeholder.dataframe(df)
-                st.dataframe(df)
+    #while True:
+    df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
+    # If data is not empty, show the data in the frontend
+    if df is not None:
+        st.session_state['DataFrame']=df
+        title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
+        fig=mpf.plot(df,type='candle',volume=True,style='binance')
+        candlestickfigure_placeholder.pyplot(fig)
+        with df_expander_placeholder.expander("View the data"):
+            #data_placeholder.dataframe(df)
+            st.dataframe(df)
             # Display status message only once
-            fig=mpf.plot(df,type='candle',volume=True,style='binance')
-            candlestickfigure_placeholder.pyplot(fig)
             if not status_displayed:
                 response=st.session_state['response']
                 st.sidebar.info(f"Response status {response.status_code}")
@@ -173,7 +173,6 @@ if __name__=='__main__':
     with st.container():
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
-        st.cache_data.clear()
         popularCoinPrices()
         title_placeholder=st.empty()
         coin_token_selection()
@@ -197,6 +196,7 @@ if __name__=='__main__':
             #st.write(f"The end time: {end_time}")
             #st.dataframe(df)
         if st.sidebar.button('Start Analysis'):
+            st.cache_data.clear()
             st.session_state['CurrencyPair']=st.session_state['CoinPair']
             st.session_state['Interval']=interval
             st.session_state['Start_Time']=start_time
