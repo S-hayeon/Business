@@ -110,7 +110,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
 
-@st.cache_resource(show_spinner=False)
+#@st.cache_resource(show_spinner=False)
 def visualize_data():
     # Create  placeholders
     candlestickfigure_placeholder = st.empty()
