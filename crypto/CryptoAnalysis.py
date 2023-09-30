@@ -113,7 +113,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
 #@st.cache_resource(show_spinner=False)
 def visualize_data():
     # Create  placeholders
-    #candlestickfigure_placeholder = st.empty()
+    candlestickfigure_placeholder = st.empty()
     #data_placeholder = st.empty()
     df_expander_placeholder = st.empty()
     expander_placeholder = st.empty()
@@ -126,8 +126,8 @@ def visualize_data():
     if df is not None:
         st.session_state['DataFrame']=df
         title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
-        #fig=mpf.plot(df,type='candle',volume=True,style='binance')
-        #candlestickfigure_placeholder.pyplot(fig)
+        fig=mpf.plot(df,type='line',volume=True,style='binance')
+        candlestickfigure_placeholder.pyplot(fig)
         with df_expander_placeholder.expander("View the data"):
             #data_placeholder.dataframe(df)
             st.dataframe(df)
