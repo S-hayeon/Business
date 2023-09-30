@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 # Define the cryptocurrency you want to scrape data for
-st.title(f"{st.session_state['CurrencyPair']} :orange[Tokenomics]")
+st.title(f":orange[Tokenomics]")
 crypto_symbol = "bitcoin"
 # Define the CoinGecko API endpoint for the cryptocurrency
 url = f"https://api.coingecko.com/api/v3/coins/{crypto_symbol}"
