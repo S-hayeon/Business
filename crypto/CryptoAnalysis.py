@@ -160,6 +160,7 @@ def recent_tech_indicators():
     df = df[df['symbol'].isin(cryptolist)]
     # Calculate ADX and RSI values for each cryptocurrency
     for symbol in cryptolist:
+        subset = df[df['symbol'] == symbol]
         high = subset['highPrice'].astype(float)
         low = subset['lowPrice'].astype(float)
         close = subset['lastPrice'].astype(float)
