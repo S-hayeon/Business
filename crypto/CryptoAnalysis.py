@@ -3,6 +3,7 @@ import datetime
 import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
 import mplfinance as mpf
+import numpy as np
 import pandas as pd
 import requests
 #from streamlit import caching
@@ -192,28 +193,25 @@ def recent_tech_indicators(interval):
         coin_data = crypto_data[symbol]
         last_adx_value = coin_data['ADX'][len(coin_data)-1]
         prev_adx_value = coin_data['ADX'][len(coin_data)-2]
-        adx_change=((last_adx_value-prev_adx_value)/last_adx_value)*100
+        if not np.isnan(last_adx_value) and not np.isnan(prev_adx_value) and last_adx_value != 0:
+            adx_change=((last_adx_value-prev_adx_value)/last_adx_value)*100
+        else:
+            adx_change=0
         last_rsi_value = coin_data['RSI'][len(coin_data)-1]
         prev_rsi_value = coin_data['RSI'][len(coin_data)-2]
-        rsi_change=((last_rsi_value-prev_rsi_value)/last_rsi_value)*100
+        if not np.isnan(last_rsi_value) and not np.isnan(prev_rsi_value) and last_rsi_value != 0:
+            rsi_change=((last_rsi_value-prev_rsi_value)/last_rsi_value)*100
+        else:
+            rsi_change=0
         #st.write(f'## {coin_pair} Analysis')
         # Display coin symbol and ADX and RSI values using st.metric()
         col1, col2, col3 = st.columns(3)
-        # if index % 3 == 0:
-        #     col=col1
-        # elif index%3==1:
-        #     col=col2
-        # else:
-        #     col=col3
-        # with col:
-        #     st.metric(symbol,last_adx_value,adx_change)
-        #     st.metric(symbol,last_rsi_value,rsi_change)
         with col1:
             st.metric("Coin Pair", symbol)
         with col2:
-            st.metric("ADX",last_adx_value,adx_change)
+            st.metric("ADX",round(last_adx_value, 2),round(adx_change, 2))
         with col3:
-            st.metric("RSI",last_rsi_value,rsi_change)
+            st.metric("RSI",round(last_rsi_value,2),round(rsi_change,2))
 def popularCoinPrices():
     # Fetch data from the API
     url='https://data.binance.com/api/v3/ticker/24hr'
