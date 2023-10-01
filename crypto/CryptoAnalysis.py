@@ -207,7 +207,7 @@ def recent_tech_indicators(interval):
         # Display coin symbol and ADX and RSI values using st.metric()
         col1, col2, col3 = st.columns(3)
         # Set the width of col1 to be wider
-        col1_width = 700  # You can adjust this value
+        col1_width = 1200  # You can adjust this value
         # Create custom CSS styles to control the column widths
         col1_style = f"width: {col1_width}px;"
         col2_style = "width: auto;"
