@@ -196,7 +196,7 @@ def recent_tech_indicators(interval):
         # Display coin symbol and ADX and RSI values using st.metric()
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("Coin Pair", coin_pair)
+            st.metric("Coin Pair", symbol)
         with col2:
             st.metric("ADX Value", adx_value)
         with col3:
