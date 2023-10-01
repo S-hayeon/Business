@@ -149,36 +149,50 @@ def round_value(input_value):
     else:
         a=round(input_value,8) # Round values less than 1 to 8 decimal places
     return a
-def recent_tech_indicators():
-    # Fetch data from the API
-    url = 'https://data.binance.com/api/v3/ticker/24hr'
-    response = requests.get(url)
-    data = response.json()
-    # Create a DataFrame from the API data
-    df = pd.DataFrame(data)
-    # Filter the DataFrame to include only the cryptocurrencies from cryptolist
-    df = df[df['symbol'].isin(cryptolist)]
-    # Calculate ADX and RSI values for each cryptocurrency
+def recent_tech_indicators(interval):
+    # Initialize a dictionary to store DataFrames for each cryptocurrency
+    crypto_data = {}
+    # Define parameters for the API request
+    url = 'https://data.binance.com/api/v3/klines'
+    #interval = '1d'  # Daily interval
+    start_time = None  # Start time (optional)
+    end_time = None  # End time (optional)
+    limit = 1000  # Limit result (latest data)
+    # Iterate through the list of cryptocurrencies and make API requests
     for symbol in cryptolist:
-        subset = df[df['symbol'] == symbol]
-        high = subset['highPrice'].astype(float)
-        low = subset['lowPrice'].astype(float)
-        close = subset['lastPrice'].astype(float)
-    # Calculate ADX
-    adx = talib.ADX(high, low, close, timeperiod=14)
-    df.loc[df['symbol'] == symbol, 'ADX'] = adx.iloc[-1]
-
-    # Calculate RSI
-    rsi = talib.RSI(close, timeperiod=14)
-    df.loc[df['symbol'] == symbol, 'RSI'] = rsi.iloc[-1]
-    # Display the information using Streamlit
+        params = {
+        "symbol": symbol,
+        "interval": interval,
+        "startTime": start_time,
+        "endTime": end_time,
+        "limit": limit
+    }
+        response = requests.get(url, params=params)
+        data = response.json()
+        df = pd.DataFrame(data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+        # Extract relevant data for ADX and RSI calculation
+        high = df['High'].astype(float)
+        low = df['Low'].astype(float)
+        close = df['Close'].astype(float)
+        # Calculate ADX
+        adx = talib.ADX(high, low, close, timeperiod=25)
+        # Calculate RSI
+        rsi = talib.RSI(close, timeperiod=14)
+        # Create a DataFrame for the current symbol pair
+        crypto_df = pd.DataFrame({
+        'Date': df['Date'],
+        'ADX': adx,
+        'RSI': rsi
+    })
+        crypto_df['Date'] = pd.to_datetime(crypto_df['Date'], unit='ms')
+        # Store the DataFrame in the dictionary with the symbol as the key
+        crypto_data[symbol] = crypto_df
     st.header('Technical IndicatorsAnalysis')
     for symbol in cryptolist:
-        coin_data = df[df['symbol'] == symbol]
-        coin_pair = coin_data['symbol'].values[0]
-        adx_value = coin_data['ADX'].values[0]
-        rsi_value = coin_data['RSI'].values[0]
-        st.write(f'## {coin_pair} Analysis')
+        coin_data = crypto_data[symbol]
+        adx_value = coin_data['ADX'][len(coin_data)-1]
+        rsi_value = coin_data['RSI'][len(coin_data)-1]
+        #st.write(f'## {coin_pair} Analysis')
         # Display coin symbol and ADX and RSI values using st.metric()
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -213,12 +227,12 @@ if __name__=='__main__':
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
         popularCoinPrices()
-        with st.expander("Technical Indicator values"):
-            recent_tech_indicators()
         title_placeholder=st.empty()
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
         interval = st.sidebar.selectbox("Select an interval", intervals)
+        with st.expander("Technical Indicator values"):
+            recent_tech_indicators(interval)
         #st.write(f"The Interval: {st.session_state['Interval']}")
         start_date = st.sidebar.date_input("Select the start date:")
         st.session_state["Start_Date"]=start_date
