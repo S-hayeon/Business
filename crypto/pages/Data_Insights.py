@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import pandas as pd
 import requests
@@ -54,6 +55,25 @@ box_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
 box_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
 plt.savefig(box_image_file_path)
 st.pyplot(box_plot.figure)
+with st.expander("More info on Box Plot"):
+  maximum = data[data_option].max()
+  st.write(f"Maximum: {maximum}")
+  minimum = data[data_option].min()
+  st.write(f"Minimum: {minimum}")
+  percentile_75 = np.percentile(data[data_option], 75)
+  st.write(f"75th Perentile: {percentile_75}")
+  percentile_25 = np.percentile(data[data_option], 25)
+  st.write(f"25th Perentile: {percentile_25}")
+  IQR = percentile_75 - percentile_25
+  st.write(f"Inter Quartile Range: {IQR}")
+  lower_bound = percentile_25 - 1.5 * IQR
+  upper_bound = percentile_75+ 1.5 * IQR
+  outliers = data[(data[data_option] < lower_bound) | (data[data_option] > upper_bound)][data_option]
+  st.write(f"Outliers: {outliers}")
+  median = data[data_option].median()
+  st.write(f"Median: {median}")
+  
+  
 #st.image(box_image_file_path) # Testing the exported image.
 def send_telegram_Message():
   bot_token=st.secrets['bot_token']
