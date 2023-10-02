@@ -34,8 +34,7 @@ def send_telegram_Message():
     st.toast('Data Insights available!')
     # if os.path.exists(bar_image_file_path):
     #   os.remove(bar_image_file_path)
-    if os.path.exists(box_image_file_path):
-      os.remove(box_image_file_path)
+    
   else:
       #st.toast('Failed to send photo. Status code:', response.status_code)
       st.toast(response.text)
@@ -53,6 +52,9 @@ def send_twitter_Message():
   media_id = media.media_id
   caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nBox Plot for the {data_option} values\n{box_plot_caption}#CryptoTradingGuideBot."
   client.create_tweet(media_ids=[media_id], text=caption)
+  st.toast('Data Insights available!')
+  if os.path.exists(box_image_file_path):
+      os.remove(box_image_file_path)
 if st.sidebar.button("View Insights"):
     st.header("Percentiles")
     percentileDF = pd.DataFrame({'Percentiles': data[data_option].quantile([0.05, 0.25, 0.5, 0.75, 0.95])}, index=['-'])
@@ -102,7 +104,10 @@ if st.sidebar.button("View Insights"):
       st.write(f":orange[Median: {median}]")
       box_plot_caption+=f"Median: {median}\n"
     #st.write(box_plot_caption)
-    send_twitter_Message()
     send_telegram_Message()
+    send_twitter_Message()
+    
+  
+  
 
                  
