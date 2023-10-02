@@ -56,12 +56,12 @@ box_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
 plt.savefig(box_image_file_path)
 st.pyplot(box_plot.figure)
 with st.expander("More info on Box Plot"):
+  minimum = data[data_option].min()
+  st.write(f":green[Minimum: {minimum}]")
   maximum = data[data_option].max()
   st.write(f":red[Maximum: {maximum}]")
-  minimum = data[data_option].min()
-  st.write(f"Minimum: {minimum}")
   percentile_75 = np.percentile(data[data_option], 75)
-  st.write(f"75th Perentile: {percentile_75}")
+  st.write(f":blue[75th Perentile: {percentile_75}]")
   percentile_25 = np.percentile(data[data_option], 25)
   st.write(f"25th Perentile: {percentile_25}")
   IQR = percentile_75 - percentile_25
@@ -71,7 +71,7 @@ with st.expander("More info on Box Plot"):
   outliers = data[(data[data_option] < lower_bound) | (data[data_option] > upper_bound)][data_option]
   st.write(f"Outliers: {outliers}")
   median = data[data_option].median()
-  st.write(f"Median: {median}")
+  st.write(f":orange[Median: {median}]")
   
   
 #st.image(box_image_file_path) # Testing the exported image.
