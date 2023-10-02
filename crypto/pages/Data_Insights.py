@@ -28,7 +28,7 @@ def send_telegram_Message():
   chat_id=st.secrets['chat_id']
   url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
   #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
-  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval:{st.session_state['Interval']}\nBox Plot for the {data_option} values\n{box_plot_caption}\n#CryptoGuideBotTrading"
+  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category: {st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval: {st.session_state['Interval']}\nBox Plot for the {data_option} values\n{box_plot_caption}\n#CryptoGuideBotTrading"
   payload = {'chat_id': chat_id,'caption': caption}     
   files = {'photo': open(box_image_file_path, 'rb')} # Prepare the payload
   response = requests.post(url, data=payload, files=files) # Send the photo
@@ -52,7 +52,7 @@ def send_twitter_Message():
   api = tweepy.API(auth)
   media = api.media_upload(filename=box_image_file_path)
   media_id = media.media_id
-  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto: ${st.session_state['Token']}\nToken Category:{st.session_state['TokenCategory']}\nInterval={st.session_state['Interval']}\n{st.session_state['End_Date']} Box Plot for the {data_option} values\n{box_plot_caption}#CryptoTradingGuideBot."
+  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto: ${st.session_state['Token']}\nToken Category: {st.session_state['TokenCategory']}\nInterval: {st.session_state['Interval']}\n{st.session_state['End_Date']} {data_option} Box Plot\n{box_plot_caption}#CryptoTradingGuideBot."
   client.create_tweet(media_ids=[media_id], text=caption)
   st.toast('Data Insights available!')
   if os.path.exists(box_image_file_path):
