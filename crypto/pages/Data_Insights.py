@@ -55,6 +55,8 @@ def send_twitter_Message():
   st.toast('Data Insights available!')
   if os.path.exists(box_image_file_path):
       os.remove(box_image_file_path)
+box_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
+plt.savefig(box_image_file_path)
 if st.sidebar.button("View Insights"):
     st.header("Percentiles")
     percentileDF = pd.DataFrame({'Percentiles': data[data_option].quantile([0.05, 0.25, 0.5, 0.75, 0.95])}, index=['-'])
@@ -81,8 +83,6 @@ if st.sidebar.button("View Insights"):
     #box_plot.set_xlabel("index")
     box_plot.set_xlabel(f"{st.session_state['Start_Date']} - {st.session_state['End_Date']}")
     box_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
-    box_image_file_path = f"{st.session_state['CoinPair']}_boxPlot.png"
-    plt.savefig(box_image_file_path)
     st.pyplot(box_plot.figure)
     with st.expander("More info on Box Plot"):
       minimum = data[data_option].min()
