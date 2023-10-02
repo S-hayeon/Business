@@ -101,8 +101,8 @@ if st.sidebar.button("View Insights"):
       median = data[data_option].median()
       st.write(f":orange[Median: {median}]")
       box_plot_caption+=f"Median: {median}\n"
-    st.write(box_plot_caption)
-    #send_twitter_Message()
-    #send_telegram_Message()
+    #st.write(box_plot_caption)
+    send_twitter_Message()
+    send_telegram_Message()
 
                  
