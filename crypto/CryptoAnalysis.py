@@ -45,7 +45,7 @@ def coin_token_selection():
 #@st.cache_data(ttl=3600)
 @st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
-    url = f"https://api.binance.com/api/v3/klines"
+    url = f"https://data.binance.com/api/v3/klines"
     limit = 1000  # Number of data points per request
     all_data = []  # To store all retrieved data
 
@@ -64,7 +64,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
         if not data:
             break
         all_data.extend(data)
-        #start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
+        start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
 
     if not all_data:
         st.warning("No data available for the selected duration.")
