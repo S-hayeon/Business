@@ -40,8 +40,8 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
                      hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'),
                      savefig=image_file_path)
         #candlestickfigure_placeholder.pyplot(fig)
-        st.session_state['support']=round(float(support_resistance_lines[0]),2)
-        st.session_state['resistance']=round(float(support_resistance_lines[1]),2)
+        st.session_state['support']=lambda support_resistance_lines[0]): round(float(support_resistance_lines[0]),2) if support_resistance_lines[0]>1 else round(support_resistance_lines[0],4)
+        st.session_state['resistance']=lambda support_resistance_lines[1]): round(float(support_resistance_lines[1]),2) if support_resistance_lines[1]>1 else round(support_resistance_lines[1],4)
         #st.pyplot(fig)
         #plt.savefig(f"{image_file_path}",dpi=1400)
         st.image(image_file_path)
