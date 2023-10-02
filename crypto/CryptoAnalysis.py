@@ -220,7 +220,7 @@ if __name__=='__main__':
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
         interval = st.sidebar.selectbox("Select an interval", intervals)
         with st.expander("Technical Indicator values"):
-            recent_tech_indicators(interval)
+            #recent_tech_indicators(interval)
         title_placeholder=st.empty()
         #st.write(f"The Interval: {st.session_state['Interval']}")
         start_date = st.sidebar.date_input("Select the start date:")
