@@ -63,13 +63,14 @@ with st.expander("More info on Box Plot"):
   percentile_75 = np.percentile(data[data_option], 75)
   st.write(f":blue[75th Perentile: {percentile_75}]")
   percentile_25 = np.percentile(data[data_option], 25)
-  st.write(f"25th Perentile: {percentile_25}")
+  st.write(f":blue[25th Perentile: {percentile_25}]")
   IQR = percentile_75 - percentile_25
   st.write(f"Inter Quartile Range: {IQR}")
   lower_bound = percentile_25 - 1.5 * IQR
   upper_bound = percentile_75+ 1.5 * IQR
   outliers = data[(data[data_option] < lower_bound) | (data[data_option] > upper_bound)][data_option]
-  st.write(f"Outliers: {outliers}")
+  st.write(f"Lower Bound: {lower_bound}")
+  st.write(f"Upper Bound: {upper_bound}")
   median = data[data_option].median()
   st.write(f":orange[Median: {median}]")
   
