@@ -190,6 +190,7 @@ def recent_tech_indicators(interval):
             st.metric("ADX",round(last_adx_value, 2),f"{round(adx_change, 2)}%")
         with col3:
             st.metric("RSI",round(last_rsi_value,2),f"{round(rsi_change,2)}%")
+    
 def popularCoinPrices():
     # Fetch data from the API
     url='https://api.binance.com/api/v3/ticker/24hr'
@@ -208,7 +209,8 @@ def popularCoinPrices():
             col=col3
         with col:
             st.metric(symbol,crypto_price, crypto_percent)
-    time.sleep(5)
+        
+    
 
 if __name__=='__main__':
     with st.container():
@@ -220,6 +222,7 @@ if __name__=='__main__':
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
         interval = st.sidebar.selectbox("Select an interval", intervals)
         with st.expander("Technical Indicator values"):
+            pass
             #recent_tech_indicators(interval)
         title_placeholder=st.empty()
         #st.write(f"The Interval: {st.session_state['Interval']}")
