@@ -23,8 +23,7 @@ st.session_state['CurrencyPair']=None
 st.session_state['DataFrame']=None
 st.session_state['End_Date']=None
 st.session_state['Start_Date']=None
-cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT',
-                  'ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
+cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT','ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
@@ -43,36 +42,6 @@ def coin_token_selection():
     st.session_state['TokenCategory']= token_selected_key
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
-
-# @st.cache_data(ttl=3600) # Cache data for 1hr
-# def get_historical_data(symbol, interval, start_time, end_time):
-#     #url = f"https://api.binance.us/api/v3/klines"
-#     url = f"https://data.binance.com/api/v3/klines"
-#     params = {
-#         "symbol": symbol,
-#         "interval": interval,
-#         "startTime": start_time,
-#         "endTime": end_time,
-#         "limit": 500000  # Adjust the limit as per your requirement
-#     }
-#     response = requests.get(url, params=params)
-#     st.session_state['response']=response
-#     data = response.json()
-#     print("Response data:", data)  # Print the data retrieved from the API
-#     if not data:
-#         st.warning("No data available for the selected duration.")
-#         return None
-#     # Convert the data into a pandas DataFrame
-#     df = pd.DataFrame(data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-#     # Drop the unnecessary columns
-#     #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
-#     # Convert the timestamp from milliseconds to a datetime object
-#     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
-#     #df.index.name = 'Date'
-#     df.set_index('Date',inplace=True)
-#     # Convert OHLCV values to numeric data types
-#     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
-#     return df
 #@st.cache_data(ttl=3600)
 @st.cache_data
 def get_historical_data(symbol, interval, start_time, end_time):
@@ -94,7 +63,6 @@ def get_historical_data(symbol, interval, start_time, end_time):
 
         if not data:
             break
-
         all_data.extend(data)
         start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
 
@@ -219,9 +187,9 @@ def recent_tech_indicators(interval):
         with col1:
             st.metric("Coin Pair", symbol)
         with col2:
-            st.metric("ADX",round(last_adx_value, 2),round(adx_change, 2))
+            st.metric("ADX",round(last_adx_value, 2),f"{round(adx_change, 2)}%")
         with col3:
-            st.metric("RSI",round(last_rsi_value,2),round(rsi_change,2))
+            st.metric("RSI",round(last_rsi_value,2),f"{round(rsi_change,2)}%")
 def popularCoinPrices():
     # Fetch data from the API
     url='https://data.binance.com/api/v3/ticker/24hr'
