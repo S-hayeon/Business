@@ -57,7 +57,7 @@ plt.savefig(box_image_file_path)
 st.pyplot(box_plot.figure)
 with st.expander("More info on Box Plot"):
   maximum = data[data_option].max()
-  st.write(f"Maximum: {maximum}")
+  st.write(f":red[Maximum: {maximum}]")
   minimum = data[data_option].min()
   st.write(f"Minimum: {minimum}")
   percentile_75 = np.percentile(data[data_option], 75)
@@ -107,6 +107,6 @@ def send_twitter_Message():
   media_id = media.media_id
   caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoTradingGuideBot."
   client.create_tweet(media_ids=[media_id], text=caption)
-send_twitter_Message()
-send_telegram_Message()
+#send_twitter_Message()
+#send_telegram_Message()
                  
