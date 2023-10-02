@@ -5,7 +5,7 @@ import pandas as pd
 import time
 
 st.title(f"Backtesting the {st.session_state['CurrencyPair']} Coin Pair")
-selected_indicators = st.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
+selected_indicators = st.sidebar.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
 class MyStrategy(Strategy):
     def init(self):
         self.indicators = {}
