@@ -194,8 +194,6 @@ def popularCoinPrices():
     # Fetch data from the API
     url='https://data.binance.com/api/v3/ticker/24hr'
     popularcoinDF = pd.DataFrame(requests.get(url).json())
-    
-    
     col1,col2,col3 =st.columns(3)
     for index, symbol in enumerate(cryptolist):
         crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
@@ -215,7 +213,7 @@ if __name__=='__main__':
     with st.container():
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
-        popularCoinPrices()
+        #popularCoinPrices()
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
         interval = st.sidebar.selectbox("Select an interval", intervals)
