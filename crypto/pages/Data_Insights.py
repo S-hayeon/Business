@@ -52,7 +52,7 @@ def send_twitter_Message():
   api = tweepy.API(auth)
   media = api.media_upload(filename=box_image_file_path)
   media_id = media.media_id
-  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto: ${st.session_state['Token']}\nToken Category: {st.session_state['TokenCategory']}\nInterval: {st.session_state['Interval']}\n{st.session_state['End_Date']} {data_option} Box Plot\n{box_plot_caption}#CryptoTradingGuideBot."
+  caption = f"{st.session_state['End_Date']} Coin Pair:{st.session_state['CurrencyPair']} {data_option} Box Plot\nCrypto: ${st.session_state['Token']}\nToken Category: {st.session_state['TokenCategory']}\nInterval: {st.session_state['Interval']}\n{box_plot_caption}#CryptoTradingGuideBot."
   client.create_tweet(media_ids=[media_id], text=caption)
   st.toast('Data Insights available!')
   if os.path.exists(box_image_file_path):
