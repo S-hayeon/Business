@@ -122,7 +122,7 @@ def recent_tech_indicators(interval):
     # Initialize a dictionary to store DataFrames for each cryptocurrency
     crypto_data = {}
     # Define parameters for the API request
-    url = 'https://data.binance.com/api/v3/klines'
+    url = 'https://api.binance.com/api/v3/klines'
     #interval = '1d'  # Daily interval
     start_time = None  # Start time (optional)
     end_time = None  # End time (optional)
@@ -192,7 +192,7 @@ def recent_tech_indicators(interval):
             st.metric("RSI",round(last_rsi_value,2),f"{round(rsi_change,2)}%")
 def popularCoinPrices():
     # Fetch data from the API
-    url='https://data.binance.com/api/v3/ticker/24hr'
+    url='https://api.binance.com/api/v3/ticker/24hr'
     popularcoinDF = pd.DataFrame(requests.get(url).json())
     col1,col2,col3 =st.columns(3)
     for index, symbol in enumerate(cryptolist):
@@ -214,12 +214,13 @@ if __name__=='__main__':
     with st.container():
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
-        #popularCoinPrices()
+        popularCoinPrices()
+        time.sleep(3)
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
         interval = st.sidebar.selectbox("Select an interval", intervals)
-        #with st.expander("Technical Indicator values"):
-            #recent_tech_indicators(interval)
+        with st.expander("Technical Indicator values"):
+            recent_tech_indicators(interval)
         title_placeholder=st.empty()
         #st.write(f"The Interval: {st.session_state['Interval']}")
         start_date = st.sidebar.date_input("Select the start date:")
