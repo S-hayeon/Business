@@ -26,7 +26,7 @@ def send_telegram_Message():
   chat_id=st.secrets['chat_id']
   url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
   #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
-  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nBox Plot for the {data_option} values\n{box_plot_caption}\n#CryptoGuideBotTrading"
+  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nBox Plot for the {data_option} values\n{box_plot_caption}\n#CryptoGuideBotTrading"
   payload = {'chat_id': chat_id,'caption': caption}     
   files = {'photo': open(box_image_file_path, 'rb')} # Prepare the payload
   response = requests.post(url, data=payload, files=files) # Send the photo
