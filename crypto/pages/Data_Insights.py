@@ -1,3 +1,4 @@
+import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -7,6 +8,7 @@ import scipy
 import streamlit as st
 import tweepy
 box_plot_caption=""
+currentDatetime=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 data=st.session_state['DataFrame']
 st.title(f"{st.session_state['CoinPair']} Data Insights")
 ohlcv=['Open','High','Low','Close','Volume']
@@ -50,7 +52,7 @@ def send_twitter_Message():
   api = tweepy.API(auth)
   media = api.media_upload(filename=box_image_file_path)
   media_id = media.media_id
-  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nBox Plot for the {data_option} values\n{box_plot_caption}#CryptoTradingGuideBot."
+  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nInterval={st.session_state['Interval']}\nBox Plot for the {data_option} values as of{currentDatetime}\n{box_plot_caption}#CryptoTradingGuideBot."
   client.create_tweet(media_ids=[media_id], text=caption)
   st.toast('Data Insights available!')
   if os.path.exists(box_image_file_path):
