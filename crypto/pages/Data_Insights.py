@@ -53,7 +53,7 @@ def send_twitter_Message():
   media_id = media.media_id
   caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{box_plot_caption}\n#CryptoTradingGuideBot."
   client.create_tweet(media_ids=[media_id], text=caption)
-if st.sidebar.button("View Insights:"):
+if st.sidebar.button("View Insights"):
     st.header("Percentiles")
     percentileDF = pd.DataFrame({'Percentiles': data[data_option].quantile([0.05, 0.25, 0.5, 0.75, 0.95])}, index=['-'])
     st.write(percentileDF)
@@ -101,7 +101,7 @@ if st.sidebar.button("View Insights:"):
       median = data[data_option].median()
       st.write(f":orange[Median: {median}]")
       box_plot_caption+=f"Median: {median}\n"
-      send_twitter_Message()
-      send_telegram_Message()
+    send_twitter_Message()
+    send_telegram_Message()
 
                  
