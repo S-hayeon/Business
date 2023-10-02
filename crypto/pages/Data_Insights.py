@@ -52,7 +52,7 @@ def send_twitter_Message():
   api = tweepy.API(auth)
   media = api.media_upload(filename=box_image_file_path)
   media_id = media.media_id
-  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nInterval={st.session_state['Interval']}\nBox Plot for the {data_option} values\n{box_plot_caption}#CryptoTradingGuideBot."
+  caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category:{st.session_state['TokenCategory']}\nInterval={st.session_state['Interval']}\n{currentDatetime} Box Plot for the {data_option} values\n{box_plot_caption}#CryptoTradingGuideBot."
   client.create_tweet(media_ids=[media_id], text=caption)
   st.toast('Data Insights available!')
   if os.path.exists(box_image_file_path):
@@ -93,12 +93,12 @@ if st.sidebar.button("View Insights"):
       maximum = data[data_option].max()
       box_plot_caption+=f"Maximum: {maximum}\n"
       st.write(f":red[Maximum: {maximum}]")
-      percentile_75 = np.percentile(data[data_option], 75)
-      box_plot_caption+=f"75th Perentile: {percentile_75}\n"
-      st.write(f":blue[75th Perentile: {percentile_75}]")
-      percentile_25 = np.percentile(data[data_option], 25)
-      box_plot_caption+=f"25th Perentile: {percentile_25}\n"
-      st.write(f":blue[25th Perentile: {percentile_25}]")
+      percentile_75 = round(np.percentile(data[data_option], 75),4)
+      box_plot_caption+=f"75th Percentile: {percentile_75}\n"
+      st.write(f":blue[75th Percentile: {percentile_75}]")
+      percentile_25 = round(np.percentile(data[data_option], 25),4)
+      box_plot_caption+=f"25th Percentile: {percentile_25}\n"
+      st.write(f":blue[25th Percentile: {percentile_25}]")
       IQR = round(percentile_75 - percentile_25,4)
       box_plot_caption+=f"Inter Quartile Range: {IQR}\n"
       st.write(f"Inter Quartile Range: {IQR}")
@@ -106,7 +106,7 @@ if st.sidebar.button("View Insights"):
       st.write(f":orange[Median: {median}]")
       box_plot_caption+=f"Median: {median}\n"
     #st.write(box_plot_caption)
-    #send_telegram_Message()
+    send_telegram_Message()
     send_twitter_Message()
     if os.path.exists(box_image_file_path):
       os.remove(box_image_file_path)
