@@ -41,7 +41,7 @@ def coin_token_selection():
     coin_selected_value = st.sidebar.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
     st.session_state['Token']= token_selected_value
     st.session_state['TokenCategory']= token_selected_key
-    st.session_state['CoinPair']= f"{token_selected_value}/{coin_selected_value}"
+    st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 @st.cache_data(ttl=3600)
 def get_historical_data(symbol, interval, start_time, end_time):
@@ -284,7 +284,7 @@ if __name__=='__main__':
         st.session_state["End_Date"] = st.sidebar.date_input("Select the end date:")
 
 
-        if start_date is not None and end_date is not None:
+        if st.session_state["Start_Date"] is not None and st.session_state["End_Date"] is not None:
             # Convert start_date and end_date to datetime.datetime objects
             start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
             end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
