@@ -132,6 +132,7 @@ def get_historical_data(symbol, interval, start_time, end_time):
 
     # Reorder the columns
     df = df[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]
+    df.set_index('Date',inplace=True)
 
     return df
 
