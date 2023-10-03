@@ -20,7 +20,7 @@ except:
 import talib
 import time
 refresh_interval=60 # Refresh in 60 seconds
-st.session_state['CurrencyPair']=None
+st.session_state['CoinPair']=None
 st.session_state['DataFrame']=None
 st.session_state['End_Date']=None
 st.session_state['Start_Date']=None
@@ -147,7 +147,7 @@ def visualize_data():
     response_placeholder = st.empty()
     # Continuously update the data by fetching new data from the API
     #while True:
-    df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
+    df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
     # If data is not empty, show the data in the frontend
     if df is not None:
         st.session_state['DataFrame']=df
