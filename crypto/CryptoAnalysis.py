@@ -291,7 +291,9 @@ if __name__=='__main__':
             start_datetime = datetime.datetime.combine(start_date, datetime.datetime.min.time())
             end_datetime = datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
             start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
+            start_time_formatted = datetime.datetime.fromtimestamp(start_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
+            end_time_formatted = datetime.datetime.fromtimestamp(end_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
             #st.write(f"The start time: {start_time}")
             #st.write(f"The end time: {end_time}")
@@ -300,8 +302,8 @@ if __name__=='__main__':
             st.cache_data.clear()
             st.session_state['CurrencyPair']=st.session_state['CoinPair']
             st.session_state['Interval']=interval
-            st.session_state['Start_Time']=start_time
-            st.session_state['End_Time']=end_time
+            st.session_state['Start_Time']=start_time_formatted
+            st.session_state['End_Time']=end_time_formatted
             if st.session_state['CurrencyPair'] is not None:
                 st.toast("Successful Data Refresh",icon='😍')
                 df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
