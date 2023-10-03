@@ -118,11 +118,11 @@ def get_historical_data(symbol, interval, start_time, end_time):
                 break
 
     except ccxt.NetworkError as e:
-        print('Network error:', str(e))
+        st.toast(f'Network error: {e}')
     except ccxt.ExchangeError as e:
-        print('Exchange error:', str(e))
+        st.toast(f'Exchange error {e}')
     except Exception as e:
-        print('An error occurred:', str(e))
+        st.toast(f'An error occurred {e}')
 
     # Create a DataFrame from the fetched data
     df = pd.DataFrame(data, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
