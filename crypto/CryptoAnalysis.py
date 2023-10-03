@@ -43,98 +43,97 @@ def coin_token_selection():
     st.session_state['TokenCategory']= token_selected_key
     st.session_state['CoinPair']= f"{token_selected_value}/{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
-#@st.cache_data(ttl=3600)
-
-# def get_historical_data(symbol, interval, start_time, end_time):
-#     url = f"https://data.binance.com/api/v3/klines"
-#     limit = 1000  # Number of data points per request
-#     all_data = []  # To store all retrieved data
-
-#     while start_time < end_time:
-#         params = {
-#             "symbol": symbol,
-#             "interval": interval,
-#             "startTime": start_time,
-#             "endTime": end_time,
-#             "limit": limit
-#         }
-#         response = requests.get(url, params=params)
-#         st.session_state['response']=response
-#         data = response.json()
-
-#         if not data:
-#             break
-#         all_data.extend(data)
-#         start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
-
-#     if not all_data:
-#         st.warning("No data available for the selected duration.")
-#         return None
-
-#     # Convert all_data into a pandas DataFrame
-#     df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-#     # Drop the unnecessary columns
-#     #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
-#     # Convert the timestamp from milliseconds to a datetime object
-#     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
-#     #df.index.name = 'Date'
-#     df.set_index('Date',inplace=True)
-#     # Convert OHLCV values to numeric data types
-#     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
-#     return df
-@st.cache_data()
+@st.cache_data(ttl=3600)
 def get_historical_data(symbol, interval, start_time, end_time):
-    # Initialize the Binance exchange object (you can replace this with your preferred exchange)
-    exchange = ccxt.binance()
+    url = f"https://data.binance.com/api/v3/klines"
+    limit = 1000  # Number of data points per request
+    all_data = []  # To store all retrieved data
 
-    # Define the parameters for fetching historical data
-    params = {
-        'symbol': symbol,
-        'timeframe': interval,
-        'since': start_time,
-        'limit': 1000,  # Adjust this limit as needed
-    }
+    while start_time < end_time:
+        params = {
+            "symbol": symbol,
+            "interval": interval,
+            "startTime": start_time,
+            "endTime": end_time,
+            "limit": limit
+        }
+        response = requests.get(url, params=params)
+        st.session_state['response']=response
+        data = response.json()
 
-    # Initialize an empty list to store the data
-    data = []
+        if not data:
+            break
+        all_data.extend(data)
+        start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
 
-    try:
-        while True:
-            # Fetch candlestick data
-            ohlcv = exchange.fetch_ohlcv(**params)
+    if not all_data:
+        st.warning("No data available for the selected duration.")
+        return None
 
-            # If there's no more data, break the loop
-            if len(ohlcv) == 0:
-                break
-
-            # Append the data to the list
-            data.extend(ohlcv)
-
-            # Update the 'since' parameter for the next request
-            params['since'] = ohlcv[-1][0] + 1
-
-            # If the next timestamp is greater than the end_time, break the loop
-            if params['since'] > end_time:
-                break
-
-    except ccxt.NetworkError as e:
-        st.toast(f'Network error: {e}')
-    except ccxt.ExchangeError as e:
-        st.toast(f'Exchange error {e}')
-    except Exception as e:
-        st.toast(f'An error occurred {e}')
-
-    # Create a DataFrame from the fetched data
-    df = pd.DataFrame(data, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
-
-    # Convert the timestamp to a datetime format
-    df['Date'] = pd.to_datetime(df['Timestamp'], unit='ms')
-
-    # Reorder the columns
-    df = df[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]
+    # Convert all_data into a pandas DataFrame
+    df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+    # Drop the unnecessary columns
+    #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+    # Convert the timestamp from milliseconds to a datetime object
+    df['Date'] = pd.to_datetime(df['Date'], unit='ms')
+    #df.index.name = 'Date'
     df.set_index('Date',inplace=True)
-
+    # Convert OHLCV values to numeric data types
+    df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
     return df
+# @st.cache_data()
+# def get_historical_data(symbol, interval, start_time, end_time):
+#     # Initialize the Binance exchange object (you can replace this with your preferred exchange)
+#     exchange = ccxt.binance()
+
+#     # Define the parameters for fetching historical data
+#     params = {
+#         'symbol': symbol,
+#         'timeframe': interval,
+#         'since': start_time,
+#         'limit': 1000,  # Adjust this limit as needed
+#     }
+
+#     # Initialize an empty list to store the data
+#     data = []
+
+#     try:
+#         while True:
+#             # Fetch candlestick data
+#             ohlcv = exchange.fetch_ohlcv(**params)
+
+#             # If there's no more data, break the loop
+#             if len(ohlcv) == 0:
+#                 break
+
+#             # Append the data to the list
+#             data.extend(ohlcv)
+
+#             # Update the 'since' parameter for the next request
+#             params['since'] = ohlcv[-1][0] + 1
+
+#             # If the next timestamp is greater than the end_time, break the loop
+#             if params['since'] > end_time:
+#                 break
+
+#     except ccxt.NetworkError as e:
+#         st.toast(f'Network error: {e}')
+#     except ccxt.ExchangeError as e:
+#         st.toast(f'Exchange error {e}')
+#     except Exception as e:
+#         st.toast(f'An error occurred {e}')
+
+#     # Create a DataFrame from the fetched data
+#     df = pd.DataFrame(data, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
+
+#     # Convert the timestamp to a datetime format
+#     df['Date'] = pd.to_datetime(df['Timestamp'], unit='ms')
+
+#     # Reorder the columns
+#     df = df[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]
+#     df.set_index('Date',inplace=True)
+
+#     return df
 
 #@st.cache_resource(show_spinner=False)
 def visualize_data():
@@ -280,11 +279,10 @@ if __name__=='__main__':
             #recent_tech_indicators(interval)
         title_placeholder=st.empty()
         #st.write(f"The Interval: {st.session_state['Interval']}")
-        start_date = st.sidebar.date_input("Select the start date:")
-        st.session_state["Start_Date"]=start_date
+        st.session_state["Start_Date"] = st.sidebar.date_input("Select the start date:")
         #st.write(f"The start date: {start_date}")
-        end_date = st.sidebar.date_input("Select the end date:")
-        st.session_state["End_Date"]=end_date
+        st.session_state["End_Date"] = st.sidebar.date_input("Select the end date:")
+
 
         if start_date is not None and end_date is not None:
             # Convert start_date and end_date to datetime.datetime objects
@@ -302,8 +300,8 @@ if __name__=='__main__':
             st.cache_data.clear()
             st.session_state['CurrencyPair']=st.session_state['CoinPair']
             st.session_state['Interval']=interval
-            st.session_state['Start_Time']=start_time_formatted
-            st.session_state['End_Time']=end_time_formatted
+            st.session_state['Start_Time']=start_time
+            st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
                 st.toast("Successful Data Refresh",icon='😍')
                 df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
