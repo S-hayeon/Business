@@ -376,6 +376,6 @@ if __name__=='__main__':
                 st.error("Choose a Coin")
         if st.sidebar.button("Start Technical Analysis"):
            with st.expander("Indicators Change in %"):
-              recent_tech_indicators(interval):
+              recent_tech_indicators(interval)
 	
         st.set_option('deprecation.showPyplotGlobalUse', False)
