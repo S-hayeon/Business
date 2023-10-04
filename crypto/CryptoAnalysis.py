@@ -374,8 +374,8 @@ if __name__=='__main__':
                 st.session_state['DataFrame']=df
             else:
                 st.error("Choose a Coin")
-	if st.sidebar.button("Start Technical Analysis"):
-	   with st.expander("Indicators Change in %"):
+	    if st.sidebar.button("Start Technical Analysis"):
+            with st.expander("Indicators Change in %"):
                 recent_tech_indicators(interval):
 	
         st.set_option('deprecation.showPyplotGlobalUse', False)
