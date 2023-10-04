@@ -242,41 +242,28 @@ def round_value(input_value):
 def recent_tech_indicators(interval):
     # Initialize a dictionary to store DataFrames for each cryptocurrency
     crypto_data = {}
-    # Define parameters for the API request
-    url = 'https://api.binance.com/api/v3/klines'
-    #interval = '1d'  # Daily interval
-    start_time = None  # Start time (optional)
-    end_time = None  # End time (optional)
-    limit = 1000  # Limit result (latest data)
-    # Iterate through the list of cryptocurrencies and make API requests
+    start_date = datetime.now() - timedelta(days=3)  # Last 3 days
+    end_date = datetime.now()
+    # Iterate through the list of cryptocurrencies and retrieve recent data
     for symbol in cryptolist:
-        params = {
-        "symbol": symbol,
-        "interval": interval,
-        "startTime": start_time,
-        "endTime": end_time,
-        "limit": limit
-    }
-        response = requests.get(url, params=params)
-        data = response.json()
-        df = pd.DataFrame(data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-        # Extract relevant data for ADX and RSI calculation
-        high = df['High'].astype(float)
-        low = df['Low'].astype(float)
-        close = df['Close'].astype(float)
-        # Calculate ADX
-        adx = talib.ADX(high, low, close, timeperiod=25)
-        # Calculate RSI
-        rsi = talib.RSI(close, timeperiod=14)
-        # Create a DataFrame for the current symbol pair
-        crypto_df = pd.DataFrame({
-        'Date': df['Date'],
-        'ADX': adx,
-        'RSI': rsi
-    })
-        crypto_df['Date'] = pd.to_datetime(crypto_df['Date'], unit='ms')
-        # Store the DataFrame in the dictionary with the symbol as the key
-        crypto_data[symbol] = crypto_df
+        data = get_historical_data(symbol, interval, start_date, end_date)
+        if data is not None:
+            # Extract relevant data for ADX and RSI calculation
+            high = data['High']
+            low = data['Low']
+            close = data['Close']
+            # Calculate ADX
+            adx = talib.ADX(high, low, close, timeperiod=14)
+            # Calculate RSI
+            rsi = talib.RSI(close, timeperiod=14)
+            # Create a DataFrame for the current symbol pair
+            crypto_df = pd.DataFrame({
+                'Date': data.index,
+                'ADX': adx,
+                'RSI': rsi
+            })
+            # Store the DataFrame in the dictionary with the symbol as the key
+            crypto_data[symbol] = crypto_df
     st.header('Technical IndicatorsAnalysis')
     for symbol in cryptolist:
         coin_data = crypto_data[symbol]
