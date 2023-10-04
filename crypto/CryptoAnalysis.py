@@ -227,7 +227,7 @@ def visualize_data(df):
             st.dataframe(df)
             # Display status message only once
             if not status_displayed:
-                st.sidebar.info(f"Response status {response.status_code}")
+                #st.sidebar.info(f"Response status {response.status_code}")
                 status_displayed = True
         # Display the dataframe inside the placeholder
         with expander_placeholder.expander("Data Statistics"):
