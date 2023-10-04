@@ -353,7 +353,7 @@ if __name__=='__main__':
         title_placeholder=st.empty()
         #st.write(f"The Interval: {st.session_state['Interval']}")
         st.session_state["Start_Date"] = st.sidebar.date_input("Select the start date:")
-        st.write(f"The start date: {st.session_state["Start_Date"]}")
+        st.write(f"The start date: {st.session_state['Start_Date']}")
         st.session_state["End_Date"] = st.sidebar.date_input("Select the end date:")
 
 
