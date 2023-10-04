@@ -359,16 +359,17 @@ if __name__=='__main__':
 
         if st.session_state["Start_Date"] is not None and st.session_state["End_Date"] is not None:
             # Convert start_date and end_date to datetime.datetime objects
-            start_datetime = datetime.datetime.combine(st.session_state["Start_Date"], datetime.datetime.min.time())
-            end_datetime = datetime.datetime.combine(st.session_state["End_Date"], datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
-            start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
-            start_time_formatted = datetime.datetime.fromtimestamp(start_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-            end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
-            end_time_formatted = datetime.datetime.fromtimestamp(end_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+            # start_datetime = datetime.datetime.combine(st.session_state["Start_Date"], datetime.datetime.min.time())
+            # end_datetime = datetime.datetime.combine(st.session_state["End_Date"], datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
+            # start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
+            # start_time_formatted = datetime.datetime.fromtimestamp(start_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+            # end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
+            # end_time_formatted = datetime.datetime.fromtimestamp(end_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
             #st.write(f"The start time: {start_time}")
             #st.write(f"The end time: {end_time}")
             #st.dataframe(df)
+            pass
         if st.sidebar.button('Start Analysis'):
             st.cache_data.clear()
             st.session_state['CurrencyPair']=st.session_state['CoinPair']
@@ -377,7 +378,14 @@ if __name__=='__main__':
             st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
                 st.toast("Successful Data Refresh",icon='😍')
-                df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
+                @st.cache_data
+                def get_cached_data(coin_pair, interval, start_date, end_date):
+                    return get_historical_data(coin_pair, 'Daily', interval, start_date, end_date).returnDF()
+                # Call the cached function
+                start_date=datetime.strptime(st.session_state['Start_Date'], '%Y-%m-%d')
+                end_date=datetime.strptime(st.session_state['End_Date'], '%Y-%m-%d')
+                df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
+                #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.dataframe(df)
                 visualize_data(df)
                 st.session_state['DataFrame']=df
