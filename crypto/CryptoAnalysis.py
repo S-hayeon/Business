@@ -390,8 +390,7 @@ if __name__=='__main__':
                 end_date_str = st.session_state['End_Date'].strftime('%Y-%m-%d')
                 # Parse the string into a datetime.datetime object
                 end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-                get_data = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
-                df=get_data.returnDF()
+                df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)..returnDF()
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
                 st.dataframe(df)
