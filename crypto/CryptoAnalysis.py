@@ -180,17 +180,28 @@ class get_historical_data:
             print(f"Error: Failed to download the .zip file from {url}")
     
     
+    # def returnDF(self):
+    #     # Iterate through dates and concatenate data
+    #     #current_date = start_date
+    #     while self.start_date <= self.end_date:
+    #         formatted_date = self.start_date.strftime('%Y-%m-%d')
+    #         url = self.formaturl(formatted_date)
+    #         if url:
+    #             data = self.download_and_extract_data(url)
+    #             if data is not None:
+    #                 self.combined_data = pd.concat([self.combined_data, data])
+    #         self.start_date += timedelta(days=1)
+    #     return self.combined_data
+    
     def returnDF(self):
         # Iterate through dates and concatenate data
         #current_date = start_date
-        while self.start_date <= self.end_date:
-            formatted_date = self.start_date.strftime('%Y-%m-%d')
-            url = self.formaturl(formatted_date)
-            if url:
-                data = self.download_and_extract_data(url)
-                if data is not None:
-                    self.combined_data = pd.concat([self.combined_data, data])
-            self.start_date += timedelta(days=1)
+        formatted_date = self.end_date.strftime('%Y-%m-%d')
+        url = self.formaturl(formatted_date)
+        if url:
+            data = self.download_and_extract_data(url)
+            if data is not None:
+                self.combined_data = pd.concat([self.combined_data, data])
         return self.combined_data
 # def get_historical_data(symbol, interval, start_time, end_time):
 #     klines = client.get_historical_klines(
