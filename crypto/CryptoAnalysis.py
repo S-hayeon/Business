@@ -264,7 +264,6 @@ def recent_tech_indicators(interval):
             })
             # Store the DataFrame in the dictionary with the symbol as the key
             crypto_data[symbol] = crypto_df
-    st.header('Technical IndicatorsAnalysis')
     for symbol in cryptolist:
         coin_data = crypto_data[symbol]
         last_adx_value = coin_data['ADX'][len(coin_data)-1]
@@ -324,13 +323,13 @@ def popularCoinPrices():
 if __name__=='__main__':
     with st.container():
         st.title("Crypto Analysis App")
-        st.header("Popular coins 24hr Prices (UTC) and Change")
         #popularCoinPrices()
         #time.sleep(3)
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
-        with st.expander("Technical Indicator values"):
+        st.header("Technical Analysis")
+        with st.expander("Indicators % Change"):
             recent_tech_indicators(interval)
             time.sleep(3)
         title_placeholder=st.empty()
