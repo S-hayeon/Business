@@ -381,8 +381,14 @@ if __name__=='__main__':
                 def get_cached_data(coin_pair, interval, start_date, end_date):
                     return get_historical_data(coin_pair, 'Daily', interval, start_date, end_date).returnDF()
                 # Call the cached function
-                start_date=datetime.strptime(st.session_state['Start_Date'], '%Y-%m-%d')
-                end_date=datetime.strptime(st.session_state['End_Date'], '%Y-%m-%d')
+    
+                # Convert the datetime.date object to a string
+                start_date_str = st.session_state['Start_Date'].strftime('%Y-%m-%d')
+                # Parse the string into a datetime.datetime object
+                start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
+                end_date_str = st.session_state['End_Date'].strftime('%Y-%m-%d')
+                # Parse the string into a datetime.datetime object
+                end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
                 df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
