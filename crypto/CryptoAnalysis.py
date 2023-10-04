@@ -377,9 +377,10 @@ if __name__=='__main__':
             st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
                 st.toast("Successful Data Refresh",icon='😍')
-                st.session_state['DataFrame'] = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
-                st.dataframe(st.session_state['DataFrame'])
-                visualize_data(st.session_state['DataFrame'])
+                df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
+                st.dataframe(df)
+                visualize_data(df)
+                st.session_state['DataFrame']=df
             else:
                 st.error("Choose a Coin")
         st.set_option('deprecation.showPyplotGlobalUse', False)
