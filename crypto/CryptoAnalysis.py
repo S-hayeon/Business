@@ -325,8 +325,8 @@ if __name__=='__main__':
     with st.container():
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
-        popularCoinPrices()
-        time.sleep(3)
+        #popularCoinPrices()
+        #time.sleep(3)
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
