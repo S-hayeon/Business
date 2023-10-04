@@ -248,7 +248,6 @@ def recent_tech_indicators(interval):
     for symbol in cryptolist:
         data = get_historical_data(symbol,'Daily',interval,start_date, end_date)
         if data is not None:
-            st.write(data)
             # Extract relevant data for ADX and RSI calculation
             high = data['High']
             low = data['Low']
@@ -301,11 +300,12 @@ def recent_tech_indicators(interval):
             st.metric("RSI",round(last_rsi_value,2),f"{round(rsi_change,2)}%")
     
 def popularCoinPrices():
-    # Fetch data from the API
-    url='https://api.binance.com/api/v3/ticker/24hr'
-    popularcoinDF = pd.DataFrame(requests.get(url).json())
+    start_date = datetime.now() - timedelta(days=2)  # Last 3 days
+    end_date = datetime.now()
+    interval='1d'
     col1,col2,col3 =st.columns(3)
     for index, symbol in enumerate(cryptolist):
+        popularcoinDF = get_historical_data(symbol,'Daily',interval,start_date, end_date)
         crypto_df = popularcoinDF[popularcoinDF.symbol == symbol]
         crypto_price = round_value(float(crypto_df.weightedAvgPrice.iloc[0]))
         crypto_percent = '{:.2f}%'.format(float(crypto_df.priceChangePercent.iloc[0]))
@@ -325,13 +325,14 @@ if __name__=='__main__':
     with st.container():
         st.title("Crypto Analysis App")
         st.header("Popular coins 24hr Prices (UTC) and Change")
-        #popularCoinPrices()
+        popularCoinPrices()
         time.sleep(3)
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
         with st.expander("Technical Indicator values"):
             recent_tech_indicators(interval)
+            time.sleep(3)
         title_placeholder=st.empty()
         #st.write(f"The Interval: {st.session_state['Interval']}")
         st.session_state["Start_Date"] = st.sidebar.date_input("Select the start date:")
