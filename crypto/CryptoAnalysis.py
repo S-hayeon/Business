@@ -1,4 +1,5 @@
 #Import the necessary libraries
+from binance import Client
 import ccxt
 import datetime
 import matplotlib.pyplot as plt
@@ -25,6 +26,9 @@ st.session_state['DataFrame']=None
 st.session_state['End_Date']=None
 st.session_state['Start_Date']=None
 cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT','ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
+api_key = st.secrets['BINA_API']
+api_secret = st.secrets['BINA_SECRET']
+client = Client(api_key, api_secret)
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
@@ -44,44 +48,44 @@ def coin_token_selection():
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 @st.cache_data(ttl=3600)
-def get_historical_data(symbol, interval, start_time, end_time):
-    url = f"https://api.binance.com/api/v3/klines"
-    limit = 1000  # Number of data points per request
-    all_data = []  # To store all retrieved data
+# def get_historical_data(symbol, interval, start_time, end_time):
+#     url = f"https://api.binance.com/api/v3/klines"
+#     limit = 1000  # Number of data points per request
+#     all_data = []  # To store all retrieved data
 
-    while start_time < end_time:
-        params = {
-            "symbol": symbol,
-            "interval": interval,
-            "startTime": start_time,
-            "endTime": end_time,
-            "limit": limit
-        }
-        response = requests.get(url, params=params)
-        st.session_state['response']=response
-        data = response.json()
+#     while start_time < end_time:
+#         params = {
+#             "symbol": symbol,
+#             "interval": interval,
+#             "startTime": start_time,
+#             "endTime": end_time,
+#             "limit": limit
+#         }
+#         response = requests.get(url, params=params)
+#         st.session_state['response']=response
+#         data = response.json()
 
-        if not data:
-            break
-        all_data.extend(data)
-        # if len(data)>0:
-        #     start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
+#         if not data:
+#             break
+#         all_data.extend(data)
+#         if len(data)>0:
+#             start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
 
-    if not all_data:
-        st.warning("No data available for the selected duration.")
-        return None
+#     if not all_data:
+#         st.warning("No data available for the selected duration.")
+#         return None
 
-    # Convert all_data into a pandas DataFrame
-    df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-    # Drop the unnecessary columns
-    #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
-    # Convert the timestamp from milliseconds to a datetime object
-    df['Date'] = pd.to_datetime(df['Date'], unit='ms')
-    #df.index.name = 'Date'
-    df.set_index('Date',inplace=True)
-    # Convert OHLCV values to numeric data types
-    df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
-    return df
+#     # Convert all_data into a pandas DataFrame
+#     df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+#     # Drop the unnecessary columns
+#     #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+#     # Convert the timestamp from milliseconds to a datetime object
+#     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
+#     #df.index.name = 'Date'
+#     df.set_index('Date',inplace=True)
+#     # Convert OHLCV values to numeric data types
+#     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
+#     return df
 # @st.cache_data()
 # def get_historical_data(symbol, interval, start_time, end_time):
 #     # Initialize the Binance exchange object (you can replace this with your preferred exchange)
@@ -135,7 +139,23 @@ def get_historical_data(symbol, interval, start_time, end_time):
 #     df.set_index('Date',inplace=True)
 
 #     return df
-
+def get_historical_data(symbol, interval, start_time, end_time):
+    klines = client.get_historical_klines(
+        symbol=symbol,
+        interval=interval,
+        start_str=start_time,
+        end_str=end_time,
+    )
+    frame=pd.DataFrame(klines)
+    frame=frame.iloc[:,:6] # All rows and column upto 6
+    # Naming the columns
+    frame.columns=['Date','Open','High','Low','Close','Volume']
+    # Name the rows
+    frame=frame.set_index('Date') # Note this is in ms
+    # Convert this Time to readable form since this is time from 1970s
+    frame.index=pd.to_datetime(frame.index,unit='ms')
+    frame=frame.astype(float) # Convert values from strings to float
+    return frame
 #@st.cache_resource(show_spinner=False)
 def visualize_data():
     # Create  placeholders
