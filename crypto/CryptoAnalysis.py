@@ -138,71 +138,60 @@ def coin_token_selection():
 #     df.set_index('Date',inplace=True)
 
 #     return df
-@st.cache_resource()
-class get_historical_data:
-    def __init__(self,symbol,type,interval,start_date,end_date):
-        self.end_date=end_date
-        self.symbol=symbol
-        self.interval=interval
-        self.type=type
-        self.combined_data = []
-        self.start_date=start_date
-    def formaturl(self,date):
-        if self.type == 'Daily':
-            baseurl = 'https://data.binance.vision/data/spot/daily/klines/'
-        elif self.type == 'Monthly':
-            baseurl = 'https://data.binance.vision/data/spot/monthly/klines/'
-        else:
-            return None
-    
-        url_formatted = f"{baseurl}{self.symbol}/{self.interval}/{self.symbol}-{self.interval}-{date}.zip"
-        return url_formatted
-    
-    # Function to download and extract data
-    def download_and_extract_data(self,url):
-        response = requests.get(url)
-        if response.status_code == 200:
-            with zipfile.ZipFile(BytesIO(response.content), 'r') as zip_file:
-                file_list = zip_file.namelist()
-                if len(file_list) == 1:
-                    with zip_file.open(file_list[0]) as csv_file:
-                        datatable = pd.read_csv(csv_file)
-                        datatable = datatable.iloc[:, :6]  # All rows and columns up to 6
-                        datatable.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
-                        datatable = datatable.set_index('Date')  # Note this is in ms
-                        datatable.index = pd.to_datetime(datatable.index, unit='ms')
-                        datatable.set_index('Date',inplace=True)
-                        datatable = datatable.astype(float)  # Convert values from strings to float
-                    return datatable.to_dict(orient='records')  # Convert DataFrame to a list of dictionaries
-                else:
-                    print("Error: The .zip file contains more than one file.")
-        else:
-            print(f"Error: Failed to download the .zip file from {url}")
-    
-    
-    # def returnDF(self):
-    #     # Iterate through dates and concatenate data
-    #     #current_date = start_date
-    #     while self.start_date <= self.end_date:
-    #         formatted_date = self.start_date.strftime('%Y-%m-%d')
-    #         url = self.formaturl(formatted_date)
-    #         if url:
-    #             data = self.download_and_extract_data(url)
-    #             if data is not None:
-    #                 self.combined_data = pd.concat([self.combined_data, data])
-    #         self.start_date += timedelta(days=1)
-    #     return self.combined_data
-    
-    def returnDF(self):
-        # Iterate through dates and concatenate data
-        #current_date = start_date
-        formatted_date = self.end_date.strftime('%Y-%m-%d')
-        url = self.formaturl(formatted_date)
+import requests
+import pandas as pd
+from io import BytesIO
+import zipfile
+from datetime import datetime, timedelta
+
+def format_url(symbol, type, interval, date):
+    if type == 'Daily':
+        base_url = 'https://data.binance.vision/data/spot/daily/klines/'
+    elif type == 'Monthly':
+        base_url = 'https://data.binance.vision/data/spot/monthly/klines/'
+    else:
+        return None
+
+    url_formatted = f"{base_url}{symbol}/{interval}/{symbol}-{interval}-{date}.zip"
+    return url_formatted
+
+# Function to download and extract data
+def download_and_extract_data(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with zipfile.ZipFile(BytesIO(response.content), 'r') as zip_file:
+            file_list = zip_file.namelist()
+            if len(file_list) == 1:
+                with zip_file.open(file_list[0]) as csv_file:
+                    datatable = pd.read_csv(csv_file)
+                    datatable = datatable.iloc[:, :6]  # All rows and columns up to 6
+                    datatable.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
+                    datatable = datatable.set_index('Date')  # Note this is in ms
+                    datatable.index = pd.to_datetime(datatable.index, unit='ms')
+                    datatable = datatable.astype(float)  # Convert values from strings to float
+                return datatable
+            else:
+                print("Error: The .zip file contains more than one file.")
+    else:
+        print(f"Error: Failed to download the .zip file from {url}")
+
+# Function to retrieve historical data for a date range
+def get_historical_data(symbol, type, interval, start_date, end_date):
+    combined_data = pd.DataFrame()
+    current_date = start_date
+
+    while current_date <= end_date:
+        formatted_date = current_date.strftime('%Y-%m-%d')
+        url = format_url(symbol, type, interval, formatted_date)
+        
         if url:
-            data = self.download_and_extract_data(url)
+            data = download_and_extract_data(url)
             if data is not None:
-                self.combined_data = pd.concat([self.combined_data, data])
-        return self.combined_data
+                combined_data = pd.concat([combined_data, data])
+        
+        current_date += timedelta(days=1)
+
+    return combined_data
 # def get_historical_data(symbol, interval, start_time, end_time):
 #     klines = client.get_historical_klines(
 #         symbol=symbol,
@@ -401,7 +390,7 @@ if __name__=='__main__':
                 end_date_str = st.session_state['End_Date'].strftime('%Y-%m-%d')
                 # Parse the string into a datetime.datetime object
                 end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-                df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date).returnDF()
+                df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
                 st.dataframe(df)
