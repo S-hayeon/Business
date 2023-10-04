@@ -374,10 +374,9 @@ if __name__=='__main__':
             st.cache_data.clear()
             st.session_state['CurrencyPair']=st.session_state['CoinPair']
             st.session_state['Interval']=interval
-            st.session_state['Start_Time']=start_time
-            st.session_state['End_Time']=end_time
+            #st.session_state['Start_Time']=start_time
+            #st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
-                st.toast("Successful Data Refresh",icon='😍')
                 @st.cache_data
                 def get_cached_data(coin_pair, interval, start_date, end_date):
                     return get_historical_data(coin_pair, 'Daily', interval, start_date, end_date).returnDF()
@@ -386,6 +385,7 @@ if __name__=='__main__':
                 end_date=datetime.strptime(st.session_state['End_Date'], '%Y-%m-%d')
                 df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
+                st.toast("Successful Data Refresh",icon='😍')
                 st.dataframe(df)
                 visualize_data(df)
                 st.session_state['DataFrame']=df
