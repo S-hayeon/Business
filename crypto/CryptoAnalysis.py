@@ -248,6 +248,7 @@ def recent_tech_indicators(interval):
     for symbol in cryptolist:
         data = get_historical_data(symbol,None,interval,start_date, end_date)
         if data is not None:
+            st.write(data)
             # Extract relevant data for ADX and RSI calculation
             high = data['High']
             low = data['Low']
