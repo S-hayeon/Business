@@ -138,6 +138,7 @@ def coin_token_selection():
 #     df.set_index('Date',inplace=True)
 
 #     return df
+@st.cache_resource()
 class get_historical_data:
     def __init__(self,symbol,type,interval,start_date,end_date):
         self.end_date=end_date
