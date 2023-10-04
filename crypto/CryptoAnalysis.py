@@ -169,7 +169,7 @@ def download_and_extract_data(url):
                 print("Error: The .zip file contains more than one file.")
     else:
         print(f"Error: Failed to download the .zip file from {url}")
-
+@st.cache_resource(show_spinner=True)
 # Function to retrieve historical data for a date range
 def get_historical_data(symbol, type, interval, start_date, end_date):
     combined_data = pd.DataFrame()
