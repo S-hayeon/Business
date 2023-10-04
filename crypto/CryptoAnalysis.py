@@ -246,7 +246,7 @@ def recent_tech_indicators(interval):
     end_date = datetime.now()
     # Iterate through the list of cryptocurrencies and retrieve recent data
     for symbol in cryptolist:
-        data = get_historical_data(symbol, interval, start_date, end_date)
+        data = get_historical_data(symbol, interval, type=None,start_date, end_date)
         if data is not None:
             # Extract relevant data for ADX and RSI calculation
             high = data['High']
