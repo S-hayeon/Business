@@ -138,11 +138,6 @@ def coin_token_selection():
 #     df.set_index('Date',inplace=True)
 
 #     return df
-import requests
-import pandas as pd
-from io import BytesIO
-import zipfile
-from datetime import datetime, timedelta
 
 def format_url(symbol, type, interval, date):
     if type == 'Daily':
@@ -232,7 +227,6 @@ def visualize_data(df):
             st.dataframe(df)
             # Display status message only once
             if not status_displayed:
-                response=st.session_state['response']
                 st.sidebar.info(f"Response status {response.status_code}")
                 status_displayed = True
         # Display the dataframe inside the placeholder
