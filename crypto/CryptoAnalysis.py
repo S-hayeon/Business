@@ -378,7 +378,7 @@ if __name__=='__main__':
             #st.session_state['Start_Time']=start_time
             #st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
-                @st.cache_data
+                @st.cache_resource
                 def get_cached_data(coin_pair, interval, start_date, end_date):
                     return get_historical_data(coin_pair, 'Daily', interval, start_date, end_date).returnDF()
                 # Call the cached function
