@@ -145,7 +145,7 @@ class get_historical_data:
         self.symbol=symbol
         self.interval=interval
         self.type=type
-        self.combined_data = pd.DataFrame()
+        self.combined_data = []
         self.start_date=start_date
     def formaturl(self,date):
         if self.type == 'Daily':
@@ -173,7 +173,7 @@ class get_historical_data:
                         datatable.index = pd.to_datetime(datatable.index, unit='ms')
                         datatable.set_index('Date',inplace=True)
                         datatable = datatable.astype(float)  # Convert values from strings to float
-                    return datatable
+                    return datatable.to_dict(orient='records')  # Convert DataFrame to a list of dictionaries
                 else:
                     print("Error: The .zip file contains more than one file.")
         else:
