@@ -379,7 +379,7 @@ if __name__=='__main__':
                 st.toast("Successful Data Refresh",icon='😍')
                 st.session_state['DataFrame'] = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.dataframe(st.session_state['DataFrame'])
-            visualize_data(st.session_state['DataFrame'])
+                visualize_data(st.session_state['DataFrame'])
             else:
                 st.error("Choose a Coin")
         st.set_option('deprecation.showPyplotGlobalUse', False)
