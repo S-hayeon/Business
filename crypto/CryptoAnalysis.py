@@ -1,7 +1,7 @@
 #Import the necessary libraries
 import ccxt
 from datetime import datetime, timedelta
-import datetime
+#import datetime
 from io import BytesIO
 import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
