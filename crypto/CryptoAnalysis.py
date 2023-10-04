@@ -1,7 +1,8 @@
 #Import the necessary libraries
-from binance import Client
 import ccxt
+from datetime import datetime, timedelta
 import datetime
+from io import BytesIO
 import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
 import mplfinance as mpf
@@ -20,15 +21,13 @@ except:
 #sys.path.append('/app/business/fx')
 import talib
 import time
+import zipfile
 refresh_interval=60 # Refresh in 60 seconds
 st.session_state['CoinPair']=None
 st.session_state['DataFrame']=None
 st.session_state['End_Date']=None
 st.session_state['Start_Date']=None
 cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT','ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
-api_key = st.secrets['BINA_API']
-api_secret = st.secrets['BINA_SECRET']
-client = Client(api_key, api_secret)
 def format_key(key):
     # Split the key by underscores, capitalize each word, and join them with a space
     return " ".join(word.capitalize() for word in key.split('_'))
@@ -139,25 +138,78 @@ def coin_token_selection():
 #     df.set_index('Date',inplace=True)
 
 #     return df
-def get_historical_data(symbol, interval, start_time, end_time):
-    klines = client.get_historical_klines(
-        symbol=symbol,
-        interval=interval,
-        start_str=start_time,
-        end_str=end_time,
-    )
-    frame=pd.DataFrame(klines)
-    frame=frame.iloc[:,:6] # All rows and column upto 6
-    # Naming the columns
-    frame.columns=['Date','Open','High','Low','Close','Volume']
-    # Name the rows
-    frame=frame.set_index('Date') # Note this is in ms
-    # Convert this Time to readable form since this is time from 1970s
-    frame.index=pd.to_datetime(frame.index,unit='ms')
-    frame=frame.astype(float) # Convert values from strings to float
-    return frame
+class get_historical_data:
+    def __init__(self,symbol,type,interval,start_date,end_date):
+        self.end_date=end_date
+        self.symbol=symbol
+        self.interval=interval
+        self.type=type
+        self.combined_data = pd.DataFrame()
+        self.start_date=start_date
+    def formaturl(self,date):
+        if self.type == 'Daily':
+            baseurl = 'https://data.binance.vision/data/spot/daily/klines/'
+        elif self.type == 'Monthly':
+            baseurl = 'https://data.binance.vision/data/spot/monthly/klines/'
+        else:
+            return None
+    
+        url_formatted = f"{baseurl}{self.symbol}/{self.interval}/{self.symbol}-{self.interval}-{date}.zip"
+        return url_formatted
+    
+    # Function to download and extract data
+    def download_and_extract_data(self,url):
+        response = requests.get(url)
+        if response.status_code == 200:
+            with zipfile.ZipFile(BytesIO(response.content), 'r') as zip_file:
+                file_list = zip_file.namelist()
+                if len(file_list) == 1:
+                    with zip_file.open(file_list[0]) as csv_file:
+                        datatable = pd.read_csv(csv_file)
+                        datatable = datatable.iloc[:, :6]  # All rows and columns up to 6
+                        datatable.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
+                        datatable = datatable.set_index('Date')  # Note this is in ms
+                        datatable.index = pd.to_datetime(datatable.index, unit='ms')
+                        datatable.set_index('Date',inplace=True)
+                        datatable = datatable.astype(float)  # Convert values from strings to float
+                    return datatable
+                else:
+                    print("Error: The .zip file contains more than one file.")
+        else:
+            print(f"Error: Failed to download the .zip file from {url}")
+    
+    
+    def returnDF(self):
+        # Iterate through dates and concatenate data
+        #current_date = start_date
+        while self.start_date <= self.end_date:
+            formatted_date = self.start_date.strftime('%Y-%m-%d')
+            url = self.formaturl(formatted_date)
+            if url:
+                data = self.download_and_extract_data(url)
+                if data is not None:
+                    self.combined_data = pd.concat([self.combined_data, data])
+            self.start_date += timedelta(days=1)
+        return self.combined_data
+# def get_historical_data(symbol, interval, start_time, end_time):
+#     klines = client.get_historical_klines(
+#         symbol=symbol,
+#         interval=interval,
+#         start_str=start_time,
+#         end_str=end_time,
+#     )
+#     frame=pd.DataFrame(klines)
+#     frame=frame.iloc[:,:6] # All rows and column upto 6
+#     # Naming the columns
+#     frame.columns=['Date','Open','High','Low','Close','Volume']
+#     # Name the rows
+#     frame=frame.set_index('Date') # Note this is in ms
+#     # Convert this Time to readable form since this is time from 1970s
+#     frame.index=pd.to_datetime(frame.index,unit='ms')
+#     frame=frame.astype(float) # Convert values from strings to float
+#     return frame
 #@st.cache_resource(show_spinner=False)
-def visualize_data():
+def visualize_data(df):
     # Create  placeholders
     candlestickfigure_placeholder = st.empty()
     #data_placeholder = st.empty()
@@ -167,10 +219,10 @@ def visualize_data():
     response_placeholder = st.empty()
     # Continuously update the data by fetching new data from the API
     #while True:
-    df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
+    #df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
     # If data is not empty, show the data in the frontend
     if df is not None:
-        st.session_state['DataFrame']=df
+        #st.session_state['DataFrame']=df
         title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
         fig=mpf.plot(df,type='line',volume=True,style='binance')
         candlestickfigure_placeholder.pyplot(fig)
@@ -293,7 +345,7 @@ if __name__=='__main__':
         #popularCoinPrices()
         time.sleep(3)
         coin_token_selection()
-        intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d']
+        intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
         with st.expander("Technical Indicator values"):
             pass
@@ -325,9 +377,9 @@ if __name__=='__main__':
             st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
                 st.toast("Successful Data Refresh",icon='😍')
-                df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
-                st.dataframe(df)
-            #visualize_data()
+                st.session_state['DataFrame'] = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
+                st.dataframe(st.session_state['DataFrame'])
+            visualize_data(st.session_state['DataFrame'])
             else:
                 st.error("Choose a Coin")
         st.set_option('deprecation.showPyplotGlobalUse', False)
