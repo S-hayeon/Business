@@ -328,10 +328,6 @@ if __name__=='__main__':
         coin_token_selection()
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
-        st.header("Technical Analysis")
-        with st.expander("Indicators % Change"):
-            recent_tech_indicators(interval)
-            time.sleep(3)
         title_placeholder=st.empty()
         #st.write(f"The Interval: {st.session_state['Interval']}")
         st.session_state["Start_Date"] = st.sidebar.date_input("Select the start date:")
@@ -378,4 +374,5 @@ if __name__=='__main__':
                 st.session_state['DataFrame']=df
             else:
                 st.error("Choose a Coin")
+		
         st.set_option('deprecation.showPyplotGlobalUse', False)
