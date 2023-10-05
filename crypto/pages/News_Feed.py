@@ -12,6 +12,7 @@ try:
 except:  
     sys.path.append('/mount/src/business')
     from crypto import main
+import time
 import tweepy
 from wordcloud import WordCloud
 API_KEY=st.secrets['CP_API']
