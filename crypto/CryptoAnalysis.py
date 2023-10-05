@@ -369,7 +369,6 @@ if __name__=='__main__':
                 df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
-                st.dataframe(df)
                 visualize_data(df)
                 st.session_state['DataFrame']=df
             else:
