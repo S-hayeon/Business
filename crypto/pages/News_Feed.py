@@ -121,7 +121,7 @@ st.toast("Retrieved news from Crypto articles")
 time.sleep(2)
 search_symbol=main.crypto_dict[st.session_state['Token']]
 google_news=googleNews(search_symbol)
-#news_paragraph += " ".join(map(str, google_news))
+news_paragraph += " ".join(map(str, google_news))
 st.toast("Combined news from Google articles")
 time.sleep(2)
 multimedia_wordcloud=WordCloud(background_color='white',max_words=3000).generate(multimedia_paragraph)
