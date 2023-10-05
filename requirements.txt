@@ -2,6 +2,7 @@ ccxt
 pip==23.2.1
 backtesting
 fredapi
+gnews
 #json
 #./libs/MetaTrader5-5.0.45-cp311-cp311-win_amd64.whl
 ipyvizzu
