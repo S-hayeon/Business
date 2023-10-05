@@ -328,8 +328,8 @@ if __name__=='__main__':
         #popularCoinPrices()
         #time.sleep(3)
         coin_token_selection()
-	app_title=st.empty()
-	st.title(f"Crypto Token: :blue[{st.session_state['TokenName']}] Analysis App")
+        app_title=st.empty()
+        st.title(f"Crypto Token: :blue[{st.session_state['TokenName']}] Analysis App")
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
         title_placeholder=st.empty()
