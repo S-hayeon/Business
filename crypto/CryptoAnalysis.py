@@ -43,6 +43,7 @@ def coin_token_selection():
     # Second dropdown showing values based on the selected key
     coin_selected_value = st.sidebar.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
     st.session_state['Token']= token_selected_value
+    st.session_state['TokenName']= main.crypto_dict[token_selected_value]
     st.session_state['TokenCategory']= token_selected_key
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
@@ -322,10 +323,13 @@ def popularCoinPrices():
 
 if __name__=='__main__':
     with st.container():
-        st.title("Crypto Analysis App")
+	app_title=st.empty()
+        app_title.title("Crypto Analysis App")
         #popularCoinPrices()
         #time.sleep(3)
         coin_token_selection()
+	app_title=st.empty()
+	st.title(f"Crypto Token: :blue[{st.session_state['TokenName']}] Analysis App")
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
         title_placeholder=st.empty()
