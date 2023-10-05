@@ -1,14 +1,30 @@
 import datetime
+from gnews import GNews
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
 import requests
 import streamlit as st
+import sys
+try:
+    sys.path.append('/app/business')
+    from crypto import main
+except:  
+    sys.path.append('/mount/src/business')
+    from crypto import main
 import tweepy
 from wordcloud import WordCloud
 API_KEY=st.secrets['CP_API']
+google_news=GNews()
 st.title(f"{st.session_state['CoinPair']} NEWS Feed")
 current_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def googleNews(search_symbol):
+    titles=[]
+    latest_news=google_news.get_news(search_symbol)
+    for item in latest_news:
+        title=item['title']
+        titles.append(title)
+    return titles
 def make_url(filter=None, currencies=None, kind=None, region=None, page=None):
     """Handle of URL variables for API POST."""
     url = 'https://cryptopanic.com/api/v1/posts/?auth_token={}'.format(API_KEY)
@@ -99,6 +115,13 @@ multimedia_title_list=multimedia_df['title'].apply(stripContents).tolist()
 news_title_list=news_df['title'].apply(stripContents).tolist()
 multimedia_paragraph=" ".join(map(str,multimedia_title_list))
 news_paragraph=" ".join(map(str,news_title_list))
+st.toast("Retrieved news from Crypto articles")
+time.sleep(2)
+search_symbol=main.crypto_dict[st.session_state['Token']]
+google_news=googleNews(search_symbol)
+#news_paragraph += " ".join(map(str, google_news))
+st.toast("Combined news from Google articles")
+time.sleep(2)
 multimedia_wordcloud=WordCloud(background_color='white',max_words=3000).generate(multimedia_paragraph)
 fig, ax = plt.subplots() 
 ax.imshow(multimedia_wordcloud, interpolation='bilinear') 
