@@ -47,7 +47,7 @@ def send_twitter_Message():
   accessToken=st.secrets['accessToken']
   accessSecret=st.secrets['accessSecret']
   client = tweepy.Client(bearer_token=bearerToken,consumer_key=apiKey,consumer_secret=apiSecret,access_token=accessToken,access_token_secret=accessSecret)
-  auth = tweepy.OAuth1UserHandler(apiKey, apiSecret)
+  auth = tweepy.OAuthHandler(apiKey, apiSecret)
   auth.set_access_token(accessToken,accessSecret)
   api = tweepy.API(auth)
   media = api.media_upload(filename=box_image_file_path)
