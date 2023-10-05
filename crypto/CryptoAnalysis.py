@@ -323,7 +323,7 @@ def popularCoinPrices():
 
 if __name__=='__main__':
     with st.container():
-	app_title=st.empty()
+        app_title=st.empty()
         app_title.title("Crypto Analysis App")
         #popularCoinPrices()
         #time.sleep(3)
