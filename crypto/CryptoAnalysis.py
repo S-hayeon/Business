@@ -343,7 +343,7 @@ if __name__=='__main__':
             start_datetime = datetime.combine(st.session_state["Start_Date"], datetime.min.time())
             end_datetime = datetime.combine(st.session_state["End_Date"], datetime.min.time()) + timedelta(days=1) - timedelta(milliseconds=1)
             start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
-            start_time_formatted = datetime.datetime.fromtimestamp(start_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+            #start_time_formatted = datetime.datetime.fromtimestamp(start_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
             # end_time_formatted = datetime.datetime.fromtimestamp(end_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
