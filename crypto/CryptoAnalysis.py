@@ -49,7 +49,7 @@ def coin_token_selection():
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 @st.cache_data(ttl=3600)
 def get_historical_data(symbol, interval, start_time, end_time):
-    url = f"https://api2.binance.com/api/v3/klines"
+    url = f"https://api3.binance.com/api/v3/klines"
     limit = 1000  # Number of data points per request
     all_data = []  # To store all retrieved data
 
