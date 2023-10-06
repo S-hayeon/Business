@@ -162,7 +162,7 @@ def download_and_extract_data(url):
                     datatable = pd.read_csv(csv_file)
                     datatable = datatable.iloc[:, :6]  # All rows and columns up to 6
                     datatable.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
-                    datatable['Date'] = pd.to_datetime(datatable['Date'], unit='ms')  # Convert 'Date' column to datetime
+                    #datatable['Date'] = pd.to_datetime(datatable['Date'], unit='ms')  # Convert 'Date' column to datetime
                     datatable = datatable.set_index('Date',inplace=True)  # Note this is in ms
                     datatable.index = pd.to_datetime(datatable.index, unit='ms')
                     #datatable = datatable.astype(float)  # Convert values from strings to float
