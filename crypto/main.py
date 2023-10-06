@@ -93,7 +93,7 @@ crypto_dict = {
     'CHESS': 'ChessCoin',
     'CHR': 'Chromia',
     'CHZ': 'Chiliz',
-    'CITY': 'SuperFarm City',
+    'CITY': 'Manchester City Fan Token',
     'CKB': 'Nervos Network',
     'CLV': 'Clover Finance',
     'COMBO': 'Rocket Vault-Rocket Token',
