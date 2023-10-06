@@ -166,7 +166,7 @@ def download_and_extract_data(url):
                     datatable = datatable.set_index('Date',inplace=True)  # Note this is in ms
                     #datatable.index = pd.to_datetime(datatable.index, unit='ms')
                     #datatable = datatable.astype(float)  # Convert values from strings to float
-                return datatable
+                    return datatable
             else:
                 print("Error: The .zip file contains more than one file.")
     else:
