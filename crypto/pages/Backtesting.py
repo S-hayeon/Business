@@ -95,7 +95,8 @@ if st.sidebar.button("Test my strategy"):
     fig, ax = plt.subplots()
     ax.axis('tight')
     ax.axis('off')
-    ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
+    #ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
+    ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns)
     # Save the Matplotlib plot as an image
     plt.savefig(backtesting_strat_image, format='png')
     with st.container():
