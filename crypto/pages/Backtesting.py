@@ -92,6 +92,12 @@ if st.sidebar.button("Test my strategy"):
     bt = Backtest(data, MyStrategy, cash=10000)
     strategy_stats = bt.run()
     strategy_statsDF = pd.DataFrame(strategy_stats)
+    fig, ax = plt.subplots()
+    ax.axis('tight')
+    ax.axis('off')
+    ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
+    # Save the Matplotlib plot as an image
+    plt.savefig(backtesting_strat_image, format='png')
     with st.container():
         # Display strategy statistics and equity curve
         stats_placeholder=st.empty()
@@ -100,12 +106,6 @@ if st.sidebar.button("Test my strategy"):
         with stats_placeholder.expander("Strategy Results"):
             #st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
             # Create a Matplotlib plot from the DataFrame
-            fig, ax = plt.subplots()
-            ax.axis('tight')
-            ax.axis('off')
-            ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
-            # Save the Matplotlib plot as an image
-            plt.savefig(backtesting_strat_image, format='png')
             st.image(backtesting_strat_image, use_column_width=True)
             # if os.path.exists(backtesting_strat_image):
             #     os.remove(backtesting_strat_image)
