@@ -95,7 +95,7 @@ if st.sidebar.button("Test my strategy"):
     fig, ax = plt.subplots()
     #ax.axis('tight')
     ax.set_axis_off() 
-    ax.table(cellText=[strategy_statsDF.columns.tolist()] + strategy_statsDF.values.tolist(), colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
+    ax.table(cellText=[strategy_statsDF.columns.tolist()] + strategy_statsDF.values.tolist(), colLabels=strategy_statsDF.columns, cellLoc='center', loc='center',bbox=[0, 0, 1, 1])
     #ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns,cellLoc='center')
     # Save the Matplotlib plot as an image
     plt.savefig(backtesting_strat_image,bbox_inches='tight', format='png')
@@ -108,8 +108,8 @@ if st.sidebar.button("Test my strategy"):
             #st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
             # Create a Matplotlib plot from the DataFrame
             st.image(backtesting_strat_image, use_column_width=True)
-            # if os.path.exists(backtesting_strat_image):
-            #     os.remove(backtesting_strat_image)
+            if os.path.exists(backtesting_strat_image):
+                os.remove(backtesting_strat_image)
             #st.dataframe(strategy_statsDF)
         with equity_placeholder.expander("Equity curve"):
             st.write("Equity Curve:")
