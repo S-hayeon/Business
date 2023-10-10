@@ -1,4 +1,5 @@
 from backtesting import Backtest, Strategy
+import matplotlib.pyplot as plt
 import pandas as pd
 import os
 import streamlit as st
