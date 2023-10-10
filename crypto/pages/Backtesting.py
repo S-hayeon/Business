@@ -107,8 +107,8 @@ if st.sidebar.button("Test my strategy"):
             # Save the Matplotlib plot as an image
             plt.savefig(backtesting_strat_image, format='png')
             st.image(backtesting_strat_image, use_column_width=True)
-            if os.path.exists(backtesting_strat_image):
-                os.remove(backtesting_strat_image)
+            # if os.path.exists(backtesting_strat_image):
+            #     os.remove(backtesting_strat_image)
             #st.dataframe(strategy_statsDF)
         with equity_placeholder.expander("Equity curve"):
             st.write("Equity Curve:")
