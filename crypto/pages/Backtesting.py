@@ -1,4 +1,5 @@
 from backtesting import Backtest, Strategy
+from io import BytesIO
 import streamlit as st
 import talib
 import pandas as pd
@@ -88,6 +89,7 @@ data = st.session_state['DataFrame']
 if st.sidebar.button("Test my strategy"):
     bt = Backtest(data, MyStrategy, cash=10000)
     strategy_stats = bt.run()
+    strategy_statsDF = pd.DataFrame(strategy_stats)
     with st.container():
         # Display strategy statistics and equity curve
         stats_placeholder=st.empty()
@@ -95,7 +97,16 @@ if st.sidebar.button("Test my strategy"):
         equity_percent_placeholder=st.empty()
         with stats_placeholder.expander("Strategy Results"):
             #st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
-            st.dataframe(pd.DataFrame(strategy_stats))
+            # Create a Matplotlib plot from the DataFrame
+            fig, ax = plt.subplots()
+            ax.axis('tight')
+            ax.axis('off')
+            ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
+            # Save the Matplotlib plot as an image
+            image_stream = BytesIO()
+            plt.savefig(image_stream, format='png')
+            st.image(image_stream.getvalue(), use_column_width=True)
+            #st.dataframe(strategy_statsDF)
         with equity_placeholder.expander("Equity curve"):
             st.write("Equity Curve:")
             st.line_chart(strategy_stats['_equity_curve']['Equity'])
