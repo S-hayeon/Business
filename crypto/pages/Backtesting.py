@@ -17,7 +17,7 @@ class MyStrategy(Strategy):
         if 'SMA' in selected_indicators:
             self.indicators['SMA'] = self.I(talib.SMA, self.data.Close, timeperiod=self.sma_time_period)
         if 'EMA' in selected_indicators:
-            self.indicators['EMA'] = self.I(talib.EMA, self.data.Cle, timeperiod=self.ema_time_period)
+            self.indicators['EMA'] = self.I(talib.EMA, self.data.Close, timeperiod=self.ema_time_period)
         if 'ADX' in selected_indicators:
             self.indicators['ADX'] = self.I(talib.ADX, self.data.High, self.data.Low, self.data.Close, timeperiod=self.adx_time_period)
 
@@ -53,13 +53,13 @@ for indicator_name in selected_indicators:
         range_value_choice=st.sidebar.selectbox("Do you want one ADX value or range?",['One Value','Range'])
         if range_value_choice=='One Value':
             MyStrategy.adx_upper_bound=None
-            MyStrategy.adx_lower_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or above:", 0, 40, step=1)
-            MyStrategy.adx_time_period = st.sidebar.number_input("ADX Indicator Time Period", min_value=1, step=1)
+            MyStrategy.adx_lower_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or above:", 1, 40, step=1)
+            MyStrategy.adx_time_period = st.sidebar.number_input("ADX Indicator Time Period", min_value=2, step=1)
             st.toast("Knowledge Nugget: ADX shows a trending market",icon="💹")
         elif range_value_choice=='Range':
-            MyStrategy.adx_upper_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or below:", 0, 40, step=1)
-            MyStrategy.adx_lower_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or above:", 0, 40, step=1)
-            MyStrategy.adx_time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period", min_value=1, step=1)
+            MyStrategy.adx_upper_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or below:", 1, 40, step=1)
+            MyStrategy.adx_lower_bound = st.sidebar.slider("ADX Value, Buy/Sell when ADX is or above:", 1, 40, step=1)
+            MyStrategy.adx_time_period = st.sidebar.number_input("Enter the ADX Indicator Time Period", min_value=2, step=1)
             if MyStrategy.adx_upper_bound>MyStrategy.adx_lower_bound:
                 st.toast("Knowledge Nugget: ADX shows a trending market",icon="💹")
             else:
@@ -68,18 +68,18 @@ for indicator_name in selected_indicators:
     elif indicator_name == 'EMA':
         MyStrategy.ema_upper_bound = None
         MyStrategy.ema_lower_bound = None
-        MyStrategy.ema_time_period = st.sidebar.number_input("Enter the EMA Indicator Time Period", min_value=1, step=1)
+        MyStrategy.ema_time_period = st.sidebar.number_input("Enter the EMA Indicator Time Period", min_value=2, step=1)
         st.toast("Strategy buys when the last close is above the EMA")
         time.sleep(2)
     elif indicator_name == 'RSI':
-        MyStrategy.rsi_lower_bound = st.sidebar.slider("Enter the RSI Lower Limit", 0, 100, step=1)
+        MyStrategy.rsi_lower_bound = st.sidebar.slider("Enter the RSI Lower Limit", 1, 100, step=1)
         MyStrategy.rsi_upper_bound = st.sidebar.slider("Enter the RSI Upper Limit", MyStrategy.rsi_lower_bound, 100, step=1)
         MyStrategy.rsi_time_period = st.sidebar.number_input("Enter the RSI Time Period", min_value=2, step=1)
         time.sleep(2)
     elif indicator_name == 'SMA':
         MyStrategy.sma_upper_bound = None
         MyStrategy.sma_lower_bound = None
-        MyStrategy.sma_time_period = st.sidebar.number_input("Enter the SMA Indicator Time Period", min_value=1, step=1)
+        MyStrategy.sma_time_period = st.sidebar.number_input("Enter the SMA Indicator Time Period", min_value=2, step=1)
         st.toast("Strategy buys when the last close is above the SMA")
         time.sleep(2)
 
