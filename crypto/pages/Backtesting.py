@@ -96,11 +96,7 @@ if st.sidebar.button("Test my strategy"):
         equity_placeholder=st.empty()
         equity_percent_placeholder=st.empty()
         with stats_placeholder.expander("Strategy Results"):
-            st.header("Strategy Backtesting results")
-            st.dataframe(strategy_statsDF)
-            st.header("My Strategy Details")
-            st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
-                      
+            st.dataframe(strategy_statsDF)                      
         with equity_placeholder.expander("Equity curve"):
             st.write("Equity Curve:")
             st.line_chart(strategy_stats['_equity_curve']['Equity'])
