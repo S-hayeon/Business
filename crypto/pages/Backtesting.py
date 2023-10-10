@@ -98,7 +98,7 @@ if st.sidebar.button("Test my strategy"):
     #ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
     #ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns,cellLoc='center')
     # Save the Matplotlib plot as an image
-    plt.savefig(backtesting_strat_image, format='png')
+    plt.savefig(backtesting_strat_image,bbox_inches='tight', format='png')
     with st.container():
         # Display strategy statistics and equity curve
         stats_placeholder=st.empty()
