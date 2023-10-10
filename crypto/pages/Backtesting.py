@@ -1,12 +1,13 @@
 from backtesting import Backtest, Strategy
-from io import BytesIO
+import pandas as pd
+import os
 import streamlit as st
 import talib
-import pandas as pd
 import time
 
 st.title(f"Backtesting the {st.session_state['CurrencyPair']} Coin Pair")
 selected_indicators = st.sidebar.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
+backtesting_strat_image = f"{st.session_state['CoinPair'}{selected_indicators}_strategy_results"
 class MyStrategy(Strategy):
     def init(self):
         self.indicators = {}
@@ -103,9 +104,10 @@ if st.sidebar.button("Test my strategy"):
             ax.axis('off')
             ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns, cellLoc='center', loc='center')
             # Save the Matplotlib plot as an image
-            image_stream = BytesIO()
-            plt.savefig(image_stream, format='png')
-            st.image(image_stream.getvalue(), use_column_width=True)
+            plt.savefig(backtesting_strat_image, format='png')
+            st.image(backtesting_strat_image, use_column_width=True)
+            if os.path.exists(backtesting_strat_image):
+                os.remove(backtesting_strat_image)
             #st.dataframe(strategy_statsDF)
         with equity_placeholder.expander("Equity curve"):
             st.write("Equity Curve:")
