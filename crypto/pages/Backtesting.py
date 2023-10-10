@@ -7,7 +7,7 @@ import time
 
 st.title(f"Backtesting the {st.session_state['CurrencyPair']} Coin Pair")
 selected_indicators = st.sidebar.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
-backtesting_strat_image = f"{st.session_state['CoinPair'}{selected_indicators}_strategy_results"
+backtesting_strat_image = f"{st.session_state['CoinPair']}{selected_indicators}_strategy_results"
 class MyStrategy(Strategy):
     def init(self):
         self.indicators = {}
