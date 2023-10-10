@@ -8,7 +8,6 @@ import time
 
 st.title(f"Backtesting the {st.session_state['CurrencyPair']} Coin Pair")
 selected_indicators = st.sidebar.multiselect("Select Technical Indicators", ['RSI', 'SMA', 'EMA', 'ADX'])
-backtesting_strat_image = f"{st.session_state['CoinPair']}{selected_indicators}_strategy_results"
 class MyStrategy(Strategy):
     def init(self):
         self.indicators = {}
@@ -86,7 +85,7 @@ for indicator_name in selected_indicators:
         time.sleep(2)
 
 data = st.session_state['DataFrame']
-
+backtesting_strat_image = f"{st.session_state['CoinPair']}{selected_indicators}_strategy_results"
 # Run backtest on button click
 if st.sidebar.button("Test my strategy"):
     bt = Backtest(data, MyStrategy, cash=10000)
