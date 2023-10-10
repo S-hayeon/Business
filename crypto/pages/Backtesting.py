@@ -107,7 +107,8 @@ if st.sidebar.button("Test my strategy"):
         with stats_placeholder.expander("Strategy Results"):
             #st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
             # Create a Matplotlib plot from the DataFrame
-            st.image(backtesting_strat_image, use_column_width=True)
+            st.image(backtesting_strat_image)
+            #st.image(backtesting_strat_image, use_column_width=True)
             if os.path.exists(backtesting_strat_image):
                 os.remove(backtesting_strat_image)
             #st.dataframe(strategy_statsDF)
