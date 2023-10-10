@@ -1,7 +1,6 @@
 from backtesting import Backtest, Strategy
 import matplotlib.pyplot as plt
 import pandas as pd
-import os
 import streamlit as st
 import talib
 import time
@@ -18,7 +17,7 @@ class MyStrategy(Strategy):
         if 'SMA' in selected_indicators:
             self.indicators['SMA'] = self.I(talib.SMA, self.data.Close, timeperiod=self.sma_time_period)
         if 'EMA' in selected_indicators:
-            self.indicators['EMA'] = self.I(talib.EMA, self.data.Close, timeperiod=self.ema_time_period)
+            self.indicators['EMA'] = self.I(talib.EMA, self.data.Cle, timeperiod=self.ema_time_period)
         if 'ADX' in selected_indicators:
             self.indicators['ADX'] = self.I(talib.ADX, self.data.High, self.data.Low, self.data.Close, timeperiod=self.adx_time_period)
 
@@ -85,34 +84,23 @@ for indicator_name in selected_indicators:
         time.sleep(2)
 
 data = st.session_state['DataFrame']
-backtesting_strat_image = f"{st.session_state['CoinPair']}{selected_indicators}_strategy_results"
 # Run backtest on button click
 if st.sidebar.button("Test my strategy"):
     bt = Backtest(data, MyStrategy, cash=10000)
     strategy_stats = bt.run()
     strategy_statsDF = pd.DataFrame(strategy_stats)
     fig, ax = plt.subplots()
-    #ax.axis('tight')
-    #ax.set_axis_off() 
-    #ax.table(cellText=[strategy_statsDF.columns.tolist()] + strategy_statsDF.values.tolist(), colLabels=None, cellLoc='center', loc='center',bbox=[0, 0, 1, 1])
-    #ax.table(cellText=[strategy_statsDF.columns.tolist()] + strategy_statsDF.values.tolist(), colLabels=strategy_statsDF.columns, cellLoc='center', loc='center',bbox=[0, 0, 1, 1])
-    #ax.table(cellText=strategy_statsDF.values, colLabels=strategy_statsDF.columns,cellLoc='center')
-    # Save the Matplotlib plot as an image
-    #plt.savefig(backtesting_strat_image,bbox_inches='tight', format='png')
-    plt.savefig(backtesting_strat_image)
     with st.container():
         # Display strategy statistics and equity curve
         stats_placeholder=st.empty()
         equity_placeholder=st.empty()
         equity_percent_placeholder=st.empty()
         with stats_placeholder.expander("Strategy Results"):
-            #st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
-            # Create a Matplotlib plot from the DataFrame
-            st.image(backtesting_strat_image)
-            #st.image(backtesting_strat_image, use_column_width=True)
-            if os.path.exists(backtesting_strat_image):
-                os.remove(backtesting_strat_image)
-            #st.dataframe(strategy_statsDF)
+            st.header("Strategy Backtesting results")
+            st.dataframe(strategy_statsDF)
+            st.header("My Strategy Details")
+            st.dataframe(pd.DataFrame(strategy_stats['_strategy']))
+                      
         with equity_placeholder.expander("Equity curve"):
             st.write("Equity Curve:")
             st.line_chart(strategy_stats['_equity_curve']['Equity'])
