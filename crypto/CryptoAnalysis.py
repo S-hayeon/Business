@@ -1,4 +1,4 @@
-#Import the necessary libraries
+#Import the necessary libraries 
 import ccxt
 from datetime import datetime, timedelta
 #import datetime
