@@ -11,9 +11,12 @@ if response.status_code==200:
   token_data = response.json()
 else:
   st.toast("Data Fetch Error")
-for key,value in token_data['data'].items():
-  if value.get('symbol')==crypto_symbol:
-    value_id=value['id']
+try:
+  for key,value in token_data['data'].items():
+    if value.get('symbol')==crypto_symbol:
+      value_id=value['id']
+except:
+  st.toast("Coin Pair Tokenomics not available")
 tokenomics_data=token_data['data'][str(value_id)]
 token_market_cap=tokenomics_data['quotes']['USD']['market_cap']
 token_total_supply=tokenomics_data['total_supply']
