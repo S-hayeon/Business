@@ -5,7 +5,7 @@ crypto_coins = {
 crypto_tokens = {
     "Storage coins": ["AR","BLZ","BTTC","FIL", "HOT","PROM","RIF","SC","SNM","STORJ","STX"],
     "Meme": ["DOGE", "FLOKI", "PEPE","PEOPLE","SHIB"],
-    "AI": ["AGIX","CTXC", "FET","MDT","NMR","OCEAN""PHB","WLD"],
+    "AI": ["-","AGIX","CTXC", "FET","MDT","NMR","OCEAN""PHB","WLD"],
     "Metaverse": ["ALICE","AXS","BURGER","COMBO","DAR","FLOKI","GHST","HIGH","ILV","MAGIC","MANA","MBOX","PYR","SAND","SLP","TLM","TVK"],
     "Infrastructure": ["ADX","ANT","API3","ARKM","ARPA","ASTR","ATA","BAT","BICO","CLV","CTK","CVC","DATA","DENT","LINK", "BAND"],
     "Fan Token": ["ACM","ALPINE","ASR","ATM","BAR","CHZ","CITY","JUV","LAZIO","OG","PORTO","PSG","SANTOS"],
