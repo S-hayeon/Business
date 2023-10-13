@@ -46,7 +46,7 @@ def coin_token_selection():
     # Second dropdown showing values based on the selected key
     coin_selected_value = st.sidebar.selectbox("Select your Coin Currency Symbol:", main.crypto_coins[coin_original_key])
     st.session_state['Token']= token_selected_value
-    st.session_state['TokenName']= main.crypto_dict[token_selected_value]
+    #st.session_state['TokenName']= main.crypto_dict[token_selected_value]
     st.session_state['TokenCategory']= token_selected_key
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
