@@ -330,7 +330,8 @@ def peakTroughPlot(data,cointitle):
     mpf.make_addplot(data['Trough'], type='scatter', color='k', markersize=100, marker='v', label=legend_dict['Trough']),
 ]
     # Create the plot with the legend
-    mpf.plot(data, type='candle', style='charles', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
+    fig=mpf.plot(data, type='candle', style='charles', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
+    st.pyplot(fig)
 
 def popularCoinPrices():
     start_date = datetime.now() - timedelta(days=2)  # Last 3 days
