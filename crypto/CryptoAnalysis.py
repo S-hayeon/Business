@@ -301,7 +301,37 @@ def recent_tech_indicators(interval):
             st.metric("ADX",round(last_adx_value, 2),f"{round(adx_change, 2)}%")
         with col3:
             st.metric("RSI",round(last_rsi_value,2),f"{round(rsi_change,2)}%")
-    
+def peakTroughPlot(data,cointitle):
+    data['Date'] = pd.to_datetime(data['Date'])
+    data.set_index('Date', inplace=True)
+    # Define short-term and long-term periods
+    short_period = 5
+    long_period = 20
+    # Calculate moving averages
+    data['SMA_short'] = data['Close'].rolling(window=short_period).mean()
+    data['SMA_long'] = data['Close'].rolling(window=long_period).mean()
+    #  "Peak" is defined as a price where the current closing price is greater than both the previous and next closing prices.
+    data['Peak'] = data['Close'][(data['Close'] > data['Close'].shift(1)) & (data['Close'] > data['Close'].shift(-1))]
+    # A "Trough" is defined as a price where the current closing price is less than both the previous and next closing prices.
+    data['Trough'] = data['Close'][(data['Close'] < data['Close'].shift(1)) & (data['Close'] < data['Close'].shift(-1))]
+    # Create a dictionary to specify legend labels for your features
+    legend_dict = {
+    'SMA_short': 'Short SMA',
+    'SMA_long': 'Long SMA',
+    'Peak': 'Peaks',
+    'Trough': 'Troughs'}
+    sma_short=data['SMA_short']
+    sma_long=data['SMA_long']
+    # Create addplots with legend labels
+    feature_plots = [
+    mpf.make_addplot(sma_short, label=legend_dict['SMA_short']),
+    mpf.make_addplot(sma_long, label=legend_dict['SMA_long']),
+    mpf.make_addplot(data['Peak'], type='scatter', color='r', markersize=100, marker='^', label=legend_dict['Peak']),
+    mpf.make_addplot(data['Trough'], type='scatter', color='k', markersize=100, marker='v', label=legend_dict['Trough']),
+]
+    # Create the plot with the legend
+    mpf.plot(data, type='candle', style='charles', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
+
 def popularCoinPrices():
     start_date = datetime.now() - timedelta(days=2)  # Last 3 days
     end_date = datetime.now()
@@ -375,7 +405,10 @@ if __name__=='__main__':
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
                 visualize_data(df)
+                st.toast("Bar Chart Visualization complete")
                 st.session_state['DataFrame']=df
+                peakTroughPlot(df,st.session_state['CurrencyPair'])
+                st.toast("Peak Trough Visualization complete")
             else:
                 st.error("Choose a Coin")
         if st.sidebar.button("Start Technical Analysis"):
