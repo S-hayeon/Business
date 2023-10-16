@@ -356,6 +356,7 @@ if __name__=='__main__':
         # Create  placeholders
         candlestickfigure_placeholder = st.empty()
         #data_placeholder = st.empty()
+        title_placeholder=st.empty()
         df_expander_placeholder = st.empty()
         expander_placeholder = st.empty()
 
