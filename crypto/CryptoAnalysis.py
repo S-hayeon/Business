@@ -222,10 +222,6 @@ def visualize_data(df):
         with df_expander_placeholder.expander("View the data"):
             #data_placeholder.dataframe(df)
             st.dataframe(df)
-            # Display status message only once
-            if not status_displayed:
-                #st.sidebar.info(f"Response status {response.status_code}")
-                status_displayed = True
         # Display the dataframe inside the placeholder
         with expander_placeholder.expander("Data Statistics"):
             st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
