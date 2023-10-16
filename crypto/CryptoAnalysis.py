@@ -302,8 +302,6 @@ def recent_tech_indicators(interval):
         with col3:
             st.metric("RSI",round(last_rsi_value,2),f"{round(rsi_change,2)}%")
 def peakTroughPlot(data,cointitle):
-    data['Date'] = pd.to_datetime(data['Date'])
-    data.set_index('Date', inplace=True)
     # Define short-term and long-term periods
     short_period = 5
     long_period = 20
