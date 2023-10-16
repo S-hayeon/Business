@@ -347,8 +347,8 @@ if __name__=='__main__':
     with st.container():
         #popularCoinPrices()
         #time.sleep(3)
-        st.title(f" :blue[{st.session_state['TokenName']}] Crypto Analysis App")
         coin_token_selection()
+        st.title(f" :blue[{st.session_state['TokenName']}] Crypto Analysis App")
         intervals = ['1m', '5m', '15m', '30m', '1h', '4h', '1d','3d','1w','1mo']
         interval = st.sidebar.selectbox("Select an interval", intervals)
         st.session_state["Start_Date"] = st.sidebar.date_input("Select the start date:")
