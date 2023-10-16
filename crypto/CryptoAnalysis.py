@@ -210,13 +210,6 @@ def get_historical_data(symbol, type, interval, start_date, end_date):
 #     return frame
 #@st.cache_resource(show_spinner=False)
 def visualize_data(df):
-    # Create  placeholders
-    candlestickfigure_placeholder = st.empty()
-    #data_placeholder = st.empty()
-    df_expander_placeholder = st.empty()
-    expander_placeholder = st.empty()
-    status_displayed = False  # Flag to track whether status message has been displayed
-    response_placeholder = st.empty()
     # Continuously update the data by fetching new data from the API
     #while True:
     #df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
@@ -327,9 +320,10 @@ def peakTroughPlot(data,cointitle):
     mpf.make_addplot(data['Peak'], type='scatter', color='r', markersize=100, marker='^', label=legend_dict['Peak']),
     mpf.make_addplot(data['Trough'], type='scatter', color='k', markersize=100, marker='v', label=legend_dict['Trough']),
 ]
-    # Create the plot with the legend
-    fig=mpf.plot(data, type='candle', style='binance', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
-    st.pyplot(fig)
+    with st.expander(f"{cointitle} Peaks and Troughs Plot"):
+        # Create the plot
+        fig=mpf.plot(data, type='candle', style='binance', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
+        st.pyplot(fig)
 
 def popularCoinPrices():
     start_date = datetime.now() - timedelta(days=2)  # Last 3 days
@@ -357,6 +351,11 @@ if __name__=='__main__':
     with st.container():
         #popularCoinPrices()
         #time.sleep(3)
+        # Create  placeholders
+        candlestickfigure_placeholder = st.empty()
+        #data_placeholder = st.empty()
+        df_expander_placeholder = st.empty()
+        expander_placeholder = st.empty()
         coin_token_selection()
         app_title=st.empty()
         st.title(f" :blue[{st.session_state['TokenName']}] Crypto Analysis App")
