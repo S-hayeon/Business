@@ -209,7 +209,7 @@ def get_historical_data(symbol, type, interval, start_date, end_date):
 #     frame=frame.astype(float) # Convert values from strings to float
 #     return frame
 #@st.cache_resource(show_spinner=False)
-def visualize_data(df):
+def visualize_data(df,title_text):
     # Continuously update the data by fetching new data from the API
     #while True:
     #df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
@@ -219,11 +219,11 @@ def visualize_data(df):
         title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
         fig=mpf.plot(df,type='line',volume=True,style='binance')
         candlestickfigure_placeholder.pyplot(fig)
-        with df_expander_placeholder.expander("View the data"):
+        with df_expander_placeholder.expander(f"View the {title_text} data"):
             #data_placeholder.dataframe(df)
             st.dataframe(df)
         # Display the dataframe inside the placeholder
-        with expander_placeholder.expander("Data Statistics"):
+        with expander_placeholder.expander(f"{title_text} Data Statistics"):
             st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
             st.table(df.describe())
 def round_value(input_value):
@@ -400,7 +400,7 @@ if __name__=='__main__':
                 df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
-                visualize_data(df)
+                visualize_data(df,st.session_state['CurrencyPair'])
                 st.toast("Bar Chart Visualization complete")
                 st.session_state['DataFrame']=df
                 peakTroughPlot(df,st.session_state['CurrencyPair'])
