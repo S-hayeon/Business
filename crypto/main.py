@@ -64,7 +64,7 @@ crypto_dict = {
     'BAKE': 'BakeryToken',
     'BAL': 'Balancer',
     'BAND': 'Band Protocol',
-    'BAR': 'BarterTrade',
+    'BAR': 'Barcelona FC Fan Token',
     'BAT': 'Basic Attention Token',
     'BCH': 'Bitcoin Cash',
     'BEL': 'Bella Protocol',
