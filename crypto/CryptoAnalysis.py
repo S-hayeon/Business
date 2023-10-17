@@ -322,7 +322,7 @@ def peakTroughPlot(data,cointitle):
         st.header(f":blue[{cointitle} Peaks and Troughs Plot]")
         st.pyplot(fig)
         peak_troughDF = data.loc[data['Peak'].notna() | data['Trough'].notna(), ['Peak', 'Trough']]
-        st.header(f":blue[{cointitle} Peaks and Troughs Table"])
+        st.header(f":blue[{cointitle} Peaks and Troughs Table]")
         st.dataframe(peak_troughDF)
 
 def popularCoinPrices():
