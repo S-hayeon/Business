@@ -16,6 +16,7 @@ pandas_ta
 plotly
 python-binance
 requests
+scikit-learn
 scipy
 streamlit
 #st-vizzu
