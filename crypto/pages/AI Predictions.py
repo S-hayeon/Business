@@ -38,8 +38,8 @@ plt.scatter(open_data, closeData_KNN_predict, label='Predicted data')
 st.pyplot(plt)
 # Create a DataFrame
 predictions_table = pd.DataFrame({
-    "Open": btc_open_data,
-    "Close": btc_close_data,
+    "Open": open_data,
+    "Close": close_data,
     "Close (Predicted)": closeData_KNN_predict
 })
 # Optionally, display more details
