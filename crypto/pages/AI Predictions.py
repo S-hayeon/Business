@@ -36,12 +36,14 @@ st.write(f"R-squared (R2) Score: {R2_Score}")
 plt.title("BTC-USDT Predicted data")
 plt.scatter(open_data, closeData_KNN_predict, label='Predicted data')
 st.pyplot(plt)
-
+# Create a DataFrame
+predictions_table = pd.DataFrame({
+    "Open": btc_open_data.flatten(),
+    "Close": btc_close_data.flatten(),
+    "Close (Predicted)": closeData_KNN_predict.flatten()
+})
 # Optionally, display more details
-if st.checkbox("Show Data Details"):
-    st.write("BTC Open Data:")
-    st.write(open_data)
-    st.write("BTC Close Data:")
-    st.write(close_data)
-    st.write("Predicted Close Data:")
-    st.write(closeData_KNN_predict)
+if st.sidebar.checkbox("Show Data Details"):
+    st.write(f"{st.session_state['CoinPair'} Price Predictions Data Table")
+    st.dataframe(predictions_table)
+
