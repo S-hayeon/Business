@@ -5,14 +5,14 @@ from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 
 # Read the BTC data
-btc = pd.read_csv('DataFullTest.csv')
-rows_count = len(btc.index)
+df = st.session_state['DataFrame']
+rows_count = len(df.index)
 
 # Conventional 70-30 rule for training and validation data set
 train_rows = int(0.7 * rows_count)
 test_rows = int(0.3 * rows_count)
-data = btc.tail(rows_count)
-data_test = btc.head(test_rows)
+data = df.tail(rows_count)
+data_test = df.head(test_rows)
 
 open_data = data.Open.values.reshape(-1, 1)
 close_data = data.Close.values.reshape(-1, 1)
