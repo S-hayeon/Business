@@ -40,11 +40,12 @@ open_data = data.Open.values.reshape(-1, 1)
 close_data = data.Close.values.reshape(-1, 1)
 closeData_KNN_predict = closeData_KNN_predict.reshape(-1, 1)
 # Create a DataFrame
-predictions_table = pd.DataFrame({
-    "Open": open_data,
-    "Close": close_data,
-    "Close (Predicted)": closeData_KNN_predict
-})
+# predictions_table = pd.DataFrame({
+#     "Open": open_data,
+#     "Close": close_data,
+#     "Close (Predicted)": closeData_KNN_predict
+# })
+predictions_table = pd.DataFrame({"Close (Predicted)": closeData_KNN_predict})
 # Optionally, display more details
 if st.sidebar.checkbox("Show Data Details"):
     st.write(f"{st.session_state['CoinPair']} Price Predictions Data Table")
