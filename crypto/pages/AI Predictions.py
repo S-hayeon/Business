@@ -24,13 +24,13 @@ closeData_KNN_predict = KNN_model.predict(open_data)
 
 # Calculate metrics
 MSE = mean_squared_error(close_data, closeData_KNN_predict)
-R2_Score = r2_score(close_data, closeData_KNN_predict)
+R2_Score = (r2_score(close_data, closeData_KNN_predict))*100
 
 # Create a Streamlit app
 st.title("BTC-USDT Predicted Data")
 st.write("Predicted prices using K-Nearest Neighbors Regressor")
-st.write(f"Mean Squared Error: {MSE}")
-st.write(f"R-squared (R2) Score: {R2_Score}")
+# st.write(f"Mean Squared Error: {MSE}")
+st.write(f"Accuracy Score% : {R2_Score}")
 
 # Display the plot
 plt.title("BTC-USDT Predicted data")
@@ -44,6 +44,6 @@ predictions_table = pd.DataFrame({
 })
 # Optionally, display more details
 if st.sidebar.checkbox("Show Data Details"):
-    st.write(f"{st.session_state['CoinPair'} Price Predictions Data Table")
+    st.write(f"{st.session_state['CoinPair']} Price Predictions Data Table")
     st.dataframe(predictions_table)
 
