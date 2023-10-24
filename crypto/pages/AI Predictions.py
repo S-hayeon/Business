@@ -36,6 +36,8 @@ st.write(f"Accuracy Score% : {R2_Score}")
 plt.title("BTC-USDT Predicted data")
 plt.scatter(open_data, closeData_KNN_predict, label='Predicted data')
 st.pyplot(plt)
+open_data = data.Open.values.reshape(-1, 1)
+close_data = data.Close.values.reshape(-1, 1)
 closeData_KNN_predict = closeData_KNN_predict.reshape(-1, 1)
 # Create a DataFrame
 predictions_table = pd.DataFrame({
