@@ -24,7 +24,7 @@ closeData_KNN_predict = KNN_model.predict(open_data)
 
 # Calculate metrics
 MSE = mean_squared_error(close_data, closeData_KNN_predict)
-R2_Score = (r2_score(close_data, closeData_KNN_predict))*100
+R2_Score = round((r2_score(close_data, closeData_KNN_predict))*100,3)
 
 # Create a Streamlit app
 st.title("BTC-USDT Predicted Data")
@@ -38,9 +38,9 @@ plt.scatter(open_data, closeData_KNN_predict, label='Predicted data')
 st.pyplot(plt)
 # Create a DataFrame
 predictions_table = pd.DataFrame({
-    "Open": btc_open_data.flatten(),
-    "Close": btc_close_data.flatten(),
-    "Close (Predicted)": closeData_KNN_predict.flatten()
+    "Open": btc_open_data,
+    "Close": btc_close_data,
+    "Close (Predicted)": closeData_KNN_predict
 })
 # Optionally, display more details
 if st.sidebar.checkbox("Show Data Details"):
