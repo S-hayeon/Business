@@ -19,8 +19,8 @@ KNN_model = KNeighborsRegressor(n_neighbors=3).fit(volume_train, close_train)
 closeData_KNN_predict = KNN_model.predict(close_test)
 
 # Calculate metrics
-MSE = mean_squared_error(close_train, closeData_KNN_predict)
-R2_Score = round((r2_score(close_train, closeData_KNN_predict))*100,3)
+MSE = mean_squared_error(close_test, closeData_KNN_predict)
+R2_Score = round((r2_score(close_test, closeData_KNN_predict))*100,3)
 
 # Create a Streamlit app
 st.title(f"Artificial Intelligence Price Predictions")
@@ -30,7 +30,7 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     st.write(f"Accuracy Score% : {R2_Score}")
     # Display the plot
     plt.title(f"{st.session_state['CoinPair']} Actual and Predicted data")
-    plt.scatter(close_train, closeData_KNN_predict, label='Predicted data')
+    plt.scatter(close_test, closeData_KNN_predict, label='Predicted data')
     st.pyplot(plt)
     # Create a DataFrame
     # predictions_table = pd.DataFrame({"Open": open_data,"Close": close_data,"Close (Predicted)": closeData_KNN_predict})
