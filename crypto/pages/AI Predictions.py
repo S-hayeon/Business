@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import f1_score,mean_squared_error, precision_score, r2_score
 import matplotlib.pyplot as plt
 
 # Read the crpto data
@@ -19,15 +19,20 @@ KNN_model = KNeighborsRegressor(n_neighbors=3).fit(volume_train, close_train)
 closeData_KNN_predict = KNN_model.predict(close_test)
 
 # Calculate metrics
+f1_Score = f1_score(close_test, closeData_KNN_predict)
 MSE = mean_squared_error(close_test, closeData_KNN_predict)
-R2_Score = round((r2_score(close_test, closeData_KNN_predict))*100,3)
+precision=round(precision_score(close_test,closeData_KNN_predict),3)
+R2_Score = abs(round((r2_score(close_test, closeData_KNN_predict))*100,3))
 
 # Create a Streamlit app
 st.title(f"Artificial Intelligence Price Predictions")
 with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
-    st.write("Predicted prices using K-Nearest Neighbors Regressor")
+    st.write("Predicted prices using AI Machine Learning")
     # st.write(f"Mean Squared Error: {MSE}")
-    st.write(f"Accuracy Score% : {R2_Score}")
+    st.write(f"Balanced F-score measure : {f1_Score}")     
+    st.write(f"Prediction MSE : {MSE}")     
+    st.write(f"Precision Score : {precision}")     
+    st.write(f"Correlation Score : {R2_Score}")     
     # Display the plot
     st.header("Scatter Plot of AI Predicted vs Actual Price ")
     plt.scatter(close_test, closeData_KNN_predict, label='AI Predictions')
