@@ -30,7 +30,10 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     st.write(f"Accuracy Score% : {R2_Score}")
     # Display the plot
     plt.title(f"{st.session_state['CoinPair']} Actual and Predicted data")
-    plt.scatter(close_test, closeData_KNN_predict, label='Predicted data')
+    plt.xlabel('Close Test Data')
+    plt.ylabel('Predicted Close Data')
+    plt.legend()
+    #plt.show()
     st.pyplot(plt)
     # Create a DataFrame
     # predictions_table = pd.DataFrame({"Open": open_data,"Close": close_data,"Close (Predicted)": closeData_KNN_predict})
@@ -44,5 +47,6 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     # Optionally, display more details
     if st.checkbox("Show Data Details"):
         st.write(f"{st.session_state['CoinPair']} Price Predictions Data Table")
-        st.dataframe(closeData_KNN_predict)
+        #st.dataframe(closeData_KNN_predict)
+        st.dataframe(predictions_table)
 
