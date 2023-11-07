@@ -19,7 +19,7 @@ KNN_model = KNeighborsRegressor(n_neighbors=3).fit(volume_train, close_train)
 closeData_KNN_predict = KNN_model.predict(close_test)
 
 # Calculate metrics
-f1_Score = f1_score(close_test, closeData_KNN_predict)
+#f1_Score = f1_score(close_test, closeData_KNN_predict)
 MSE = mean_squared_error(close_test, closeData_KNN_predict)
 precision=round(precision_score(close_test,closeData_KNN_predict),3)
 R2_Score = abs(round((r2_score(close_test, closeData_KNN_predict))*100,3))
@@ -29,7 +29,7 @@ st.title(f"Artificial Intelligence Price Predictions")
 with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     st.write("Predicted prices using AI Machine Learning")
     # st.write(f"Mean Squared Error: {MSE}")
-    st.write(f"Balanced F-score measure : {f1_Score}")     
+    #st.write(f"Balanced F-score measure : {f1_Score}")     
     st.write(f"Prediction MSE : {MSE}")     
     st.write(f"Precision Score : {precision}")     
     st.write(f"Correlation Score : {R2_Score}")     
