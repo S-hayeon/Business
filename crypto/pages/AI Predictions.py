@@ -29,7 +29,7 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     # st.write(f"Mean Squared Error: {MSE}")
     st.write(f"Accuracy Score% : {R2_Score}")
     # Display the plot
-    plt.scatter(close_test, closeData_KNN_predict, label='Predicted data')
+    plt.scatter(close_test, closeData_KNN_predict, label='AI Predictions')
     plt.title(f"{st.session_state['CoinPair']} Actual and Predicted data")
     plt.xlabel('Close Test Data')
     plt.ylabel('Predicted Close Data')
