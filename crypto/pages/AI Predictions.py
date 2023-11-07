@@ -44,6 +44,6 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     predictions_table = pd.DataFrame({"Close (Predicted)": closeData_KNN_predict})
     # Optionally, display more details
     if st.checkbox("Show Data Details"):
-    st.write(f"{st.session_state['CoinPair']} Price Predictions Data Table")
-    st.dataframe(closeData_KNN_predict)
+        st.write(f"{st.session_state['CoinPair']} Price Predictions Data Table")
+        st.dataframe(closeData_KNN_predict)
 
