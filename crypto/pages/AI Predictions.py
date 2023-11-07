@@ -34,8 +34,13 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     st.pyplot(plt)
     # Create a DataFrame
     # predictions_table = pd.DataFrame({"Open": open_data,"Close": close_data,"Close (Predicted)": closeData_KNN_predict})
-    predictions_table = pd.DataFrame({"Close (Predicted)": closeData_KNN_predict, "Actual Close (Test)": close_test})
-    #predictions_table = pd.DataFrame({"Close (Predicted)": closeData_KNN_predict})
+    #predictions_table = pd.DataFrame({"Close (Predicted)": closeData_KNN_predict, "Actual Close (Test)": close_test})
+    predictions_table = pd.DataFrame({
+    "Close (Predicted)": closeData_KNN_predict.flatten(),
+    "Actual Close (Test)": close_test.flatten()
+})
+    
+
     # Optionally, display more details
     if st.checkbox("Show Data Details"):
         st.write(f"{st.session_state['CoinPair']} Price Predictions Data Table")
