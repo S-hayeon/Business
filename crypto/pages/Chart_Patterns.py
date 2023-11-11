@@ -38,7 +38,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         fig, axlist=mpf.plot(st.session_state['DataFrame'],type='candle',title=f"{st.session_state['CoinPair']} {st.session_state['Interval']} Support Resistance Plot",
                      volume=True,style='binance',
                      hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'),
-                     savefig=image_file_path)
+                     savefig=image_file_path,returnfig=True)
         axlist[-2].set_xlabel=f"{st.session_state['Start_Date']} to {st.session_state['End_Date']}"
         #candlestickfigure_placeholder.pyplot(fig)
         #st.session_state['support']=lambda round(float(support_resistance_lines[0]), 2): round(float(support_resistance_lines[0]),2) if support_resistance_lines[0]>1 else round(support_resistance_lines[0],4)
