@@ -35,7 +35,7 @@ if st.session_state['CurrencyPair'] is not None and st.session_state['DataFrame'
         support_resistance_lines=list(chart_pattern.support_resistance())
         #support_resistance_lines=list(chart_pattern.support_resistance(int(lookback)))
         st.session_state['support_resistance_lines'] = support_resistance_lines
-        fig axlist=mpf.plot(st.session_state['DataFrame'],type='candle',title=f"{st.session_state['CoinPair']} {st.session_state['Interval']} Support Resistance Plot",
+        fig, axlist=mpf.plot(st.session_state['DataFrame'],type='candle',title=f"{st.session_state['CoinPair']} {st.session_state['Interval']} Support Resistance Plot",
                      volume=True,style='binance',
                      hlines=dict(hlines=support_resistance_lines,colors=['g','r'],linestyle='-.'),
                      savefig=image_file_path)
