@@ -375,7 +375,7 @@ if __name__=='__main__':
             end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
             #end_time_formatted = datetime.datetime.fromtimestamp(end_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             st.session_state['Start_Time']=start_time
-	    st.session_state['End_Time']=end_time
+            st.session_state['End_Time']=end_time
 	    #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
             # st.write(f"The start time: {start_time}")
             # st.write(f"The end time: {end_time}")
