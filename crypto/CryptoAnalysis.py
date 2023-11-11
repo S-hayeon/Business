@@ -51,44 +51,44 @@ def coin_token_selection():
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 #@st.cache_data(ttl=3600)
-def get_historical_data(symbol, interval, start_time, end_time):
-    url = f"https://api.binance.com/api/v3/klines"
-    limit = 1000  # Number of data points per request
-    all_data = []  # To store all retrieved data
+# def get_historical_data(symbol, interval, start_time, end_time):
+#     url = f"https://api.binance.com/api/v3/klines"
+#     limit = 1000  # Number of data points per request
+#     all_data = []  # To store all retrieved data
 
-    while start_time < end_time:
-        params = {
-            "symbol": symbol,
-            "interval": interval,
-            "startTime": start_time,
-            "endTime": end_time,
-            "limit": limit
-        }
-        response = requests.get(url, params=params)
-        st.session_state['response']=response
-        data = response.json()
+#     while start_time < end_time:
+#         params = {
+#             "symbol": symbol,
+#             "interval": interval,
+#             "startTime": start_time,
+#             "endTime": end_time,
+#             "limit": limit
+#         }
+#         response = requests.get(url, params=params)
+#         st.session_state['response']=response
+#         data = response.json()
 
-        if not data:
-            break
-        all_data.extend(data)
-        if len(data)>0:
-            start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
+#         if not data:
+#             break
+#         all_data.extend(data)
+#         if len(data)>0:
+#             start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
 
-    if not all_data:
-        st.warning("No data available for the selected duration.")
-        return None
+#     if not all_data:
+#         st.warning("No data available for the selected duration.")
+#         return None
 
-    # Convert all_data into a pandas DataFrame
-    df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-    # Drop the unnecessary columns
-    #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
-    # Convert the timestamp from milliseconds to a datetime object
-    df['Date'] = pd.to_datetime(df['Date'], unit='ms')
-    #df.index.name = 'Date'
-    df.set_index('Date',inplace=True)
-    # Convert OHLCV values to numeric data types
-    df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
-    return df
+#     # Convert all_data into a pandas DataFrame
+#     df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+#     # Drop the unnecessary columns
+#     #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+#     # Convert the timestamp from milliseconds to a datetime object
+#     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
+#     #df.index.name = 'Date'
+#     df.set_index('Date',inplace=True)
+#     # Convert OHLCV values to numeric data types
+#     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
+#     return df
 # @st.cache_data()
 # def get_historical_data(symbol, interval, start_time, end_time):
 #     # Initialize the Binance exchange object (you can replace this with your preferred exchange)
@@ -175,22 +175,22 @@ def download_and_extract_data(url):
         print(f"Error: Failed to download the .zip file from {url}")
 @st.cache_resource(show_spinner=True)
 # Function to retrieve historical data for a date range
-# def get_historical_data(symbol, type, interval, start_date, end_date):
-#     combined_data = pd.DataFrame()
-#     current_date = start_date
+def get_historical_data(symbol, type, interval, start_date, end_date):
+    combined_data = pd.DataFrame()
+    current_date = start_date
 
-#     while current_date <= end_date:
-#         formatted_date = current_date.strftime('%Y-%m-%d')
-#         url = format_url(symbol, type, interval, formatted_date)
+    while current_date <= end_date:
+        formatted_date = current_date.strftime('%Y-%m-%d')
+        url = format_url(symbol, type, interval, formatted_date)
         
-#         if url:
-#             data = download_and_extract_data(url)
-#             if data is not None:
-#                 combined_data = pd.concat([combined_data, data])
+        if url:
+            data = download_and_extract_data(url)
+            if data is not None:
+                combined_data = pd.concat([combined_data, data])
         
-#         current_date += timedelta(days=1)
+        current_date += timedelta(days=1)
 
-#     return combined_data
+    return combined_data
 # def get_historical_data(symbol, interval, start_time, end_time):
 #     klines = client.get_historical_klines(
 #         symbol=symbol,
@@ -388,10 +388,10 @@ if __name__=='__main__':
             #st.session_state['Start_Time']=start_time
             #st.session_state['End_Time']=end_time
             if st.session_state['CurrencyPair'] is not None:
-                # @st.cache_resource()
-                # def get_cached_data(coin_pair, interval, start_date, end_date):
-                #     return get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], start_time=st.session_state['Start_Time'], end_time=st.session_state['End_Time'])
-                    #return get_historical_data(coin_pair, 'Daily', interval, start_date, end_date)
+                @st.cache_resource()
+                def get_cached_data(coin_pair, interval, start_date, end_date):
+                    #return get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], start_time=st.session_state['Start_Time'], end_time=st.session_state['End_Time'])
+                    return get_historical_data(coin_pair, 'Daily', interval, start_date, end_date)
                 # Call the cached function
     
                 # Convert the datetime.date object to a string
@@ -401,8 +401,8 @@ if __name__=='__main__':
                 end_date_str = st.session_state['End_Date'].strftime('%Y-%m-%d')
                 # Parse the string into a datetime.datetime object
                 end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-                df=get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], start_time=st.session_state['Start_Time'], end_time=st.session_state['End_Time'])
-                #df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
+                #df=get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], start_time=st.session_state['Start_Time'], end_time=st.session_state['End_Time'])
+                df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
                 visualize_data(df,st.session_state['CurrencyPair'])
