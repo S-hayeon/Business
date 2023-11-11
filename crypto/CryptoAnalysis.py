@@ -368,8 +368,8 @@ if __name__=='__main__':
 
         if st.session_state["Start_Date"] is not None and st.session_state["End_Date"] is not None:
             # Convert start_date and end_date to datetime.datetime objects
-            start_datetime = datetime.combine(st.session_state["Start_Date"], datetime.datetime.min.time())
-            end_datetime = datetime.combine(st.session_state["End_Date"], datetime.datetime.min.time()) + datetime.timedelta(days=1) - datetime.timedelta(milliseconds=1)
+            start_datetime = datetime.combine(st.session_state["Start_Date"], datetime.min.time())
+            end_datetime = datetime.combine(st.session_state["End_Date"], datetime.min.time()) + timedelta(days=1) - timedelta(milliseconds=1)
             start_time = int(start_datetime.timestamp() * 1000)  # Convert to milliseconds
             #start_time_formatted = datetime.datetime.fromtimestamp(start_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             end_time = int(end_datetime.timestamp() * 1000)  # Convert to milliseconds
