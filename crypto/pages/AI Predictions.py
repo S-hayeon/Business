@@ -49,7 +49,7 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     plt.xlabel('Volume')
     plt.ylabel('Close')
     plt.legend()
-    #st.pyplot(plt)
+    st.pyplot(plt)
     # Create a DataFrame
     # predictions_table = pd.DataFrame({"Open": open_data,"Close": close_data,"Close (Predicted)": closeData_KNN_predict})
     #predictions_table = pd.DataFrame({"Close (Predicted)": closeData_KNN_predict, "Actual Close (Test)": close_test})
