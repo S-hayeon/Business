@@ -5,8 +5,10 @@ The Crypto Analysis App is the **Crypto Trading Guide Bot.** It simplifies the m
 1. Custom Currency and Token selection.
    
    ![Token Categories](https://github.com/Dre-AsiliVentures/Business/assets/61284769/d223c7f4-25f9-4fcd-8a00-1a7d0fcbb018)
+   
    [Currency Selection](https://github.com/Dre-AsiliVentures/Business/assets/61284769/20488ec7-1aea-4e73-a3a2-1795f3ec0d5b)
 2. Trading Time Interval selection.
+
 ![ Trading Time Interval](https://github.com/Dre-AsiliVentures/Business/assets/61284769/071da1af-0614-49cd-af1a-7abf43339b97)
 
 Other Features in the CRYPTO ANALYSIS APP
