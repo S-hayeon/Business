@@ -1,4 +1,5 @@
 The Crypto Analysis App is the **Crypto Trading Guide Bot.** It simplifies the market price trend, shows the Bullish/Bearish strength, allows you to backtest trading strategies, calculates the AI price prediction, shows the latest news sentiments, plots the Support and Resistance price levels, displays the latest chart patterns and latest candlestick pattern IDs, which makes trading easier.
+
 **FEATURES OF THE CRYPTO ANALYSIS APP**
 
 1. Custom Currency and token selection.
