@@ -35,7 +35,7 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     st.write(f"Correlation Score : {R2_Score}")     
     # Display the plot
     st.header("Scatter Plot of AI Predicted vs Actual Price ")
-    plt.scatter(close_test, closeData_KNN_predict, label='AI Predictions')
+    #plt.scatter(close_test, closeData_KNN_predict, label='AI Price Predictions')
     plt.title(f"{st.session_state['CoinPair']} Actual and Predicted data")
     plt.xlabel('Close Test Data')
     plt.ylabel('Predicted Close Data')
@@ -44,11 +44,11 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     st.pyplot(plt)
     st.header("Scatter Plot of Actual and Predicted Close Prices vs Volume with Viridis Colormap")
     plt.scatter(volume_test, close_test, c=close_test, cmap='viridis', label='Actual Data')
-    plt.scatter(volume_test, closeData_KNN_predict, c=closeData_KNN_predict, marker='x', cmap='viridis', label='Predicted Data')
+    #plt.scatter(volume_test, closeData_KNN_predict, c=closeData_KNN_predict, marker='x', cmap='viridis', label='Predicted Data')
     plt.xlabel('Volume')
     plt.ylabel('Close')
     plt.legend()
-    st.pyplot(plt)
+    #st.pyplot(plt)
     # Create a DataFrame
     # predictions_table = pd.DataFrame({"Open": open_data,"Close": close_data,"Close (Predicted)": closeData_KNN_predict})
     #predictions_table = pd.DataFrame({"Close (Predicted)": closeData_KNN_predict, "Actual Close (Test)": close_test})
