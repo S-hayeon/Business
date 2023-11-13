@@ -45,9 +45,8 @@ MAIN TABS IN THE CRYPTO ANALYSIS APP
 7. Tokenomics.
 8. AI PREDICTIONS
    
-  ![AI Predictions](https://github.com/Dre-AsiliVentures/Business/assets/61284769/48a154db-54f6-4144-a22b-b717e9fac330)
-   
-   
+   ![AI Predictions](https://github.com/Dre-AsiliVentures/Business/assets/61284769/36c438f8-c445-4506-bbe6-643f601f79d6)
+
    
    
 
