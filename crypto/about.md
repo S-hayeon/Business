@@ -1,14 +1,14 @@
 The Crypto Analysis App is the **Crypto Trading Guide Bot.** It simplifies the market price trend, shows the Bullish/Bearish strength, allows you to backtest trading strategies, calculates the AI price prediction, shows the latest news sentiments, plots the Support and Resistance price levels, displays the latest chart patterns and latest candlestick pattern IDs, which makes trading easier.
 Features of the CRYPTO ANALYSIS APP
 1. Custom Currency and token selection.
-  ![Token Categories](https://github.com/Dre-AsiliVentures/Business/assets/61284769/d223c7f4-25f9-4fcd-8a00-1a7d0fcbb018)
+   [Token Categories](https://github.com/Dre-AsiliVentures/Business/assets/61284769/d223c7f4-25f9-4fcd-8a00-1a7d0fcbb018)
 [Currency Selection](https://github.com/Dre-AsiliVentures/Business/assets/61284769/20488ec7-1aea-4e73-a3a2-1795f3ec0d5b)
-2. Trading Time Interval selection.
+3. Trading Time Interval selection.
 ![ Trading Time Interval](https://github.com/Dre-AsiliVentures/Business/assets/61284769/071da1af-0614-49cd-af1a-7abf43339b97)
 
 Other Features in the CRYPTO ANALYSIS APP
 1. Data Insights.
-   ![ Data Insights](https://github.com/Dre-AsiliVentures/Business/assets/61284769/9d62334d-b69e-4a5e-8ba1-6a46b5e8d71a)
+   [ Data Insights](https://github.com/Dre-AsiliVentures/Business/assets/61284769/9d62334d-b69e-4a5e-8ba1-6a46b5e8d71a)
 2. Descriptive Stats.
    ![ Descriptive Stats](https://github.com/Dre-AsiliVentures/Business/assets/61284769/4137aaef-c14c-46c9-987a-5d0f6da1d1c3)
 3. Peak and Trough Analysis.
