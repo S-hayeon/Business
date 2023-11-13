@@ -43,6 +43,7 @@ with st.expander(f"{st.session_state['CoinPair']} AI Price Predictions"):
     #plt.show()
     st.pyplot(plt)
     st.header("Scatter Plot of Actual and Predicted Close Prices vs Volume with Viridis Colormap")
+    plt.scatter(close_test, closeData_KNN_predict, label='AI Price Predictions')
     plt.scatter(volume_test, close_test, c=close_test, cmap='viridis', label='Actual Data')
     #plt.scatter(volume_test, closeData_KNN_predict, c=closeData_KNN_predict, marker='x', cmap='viridis', label='Predicted Data')
     plt.xlabel('Volume')
