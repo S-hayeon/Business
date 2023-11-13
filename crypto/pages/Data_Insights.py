@@ -82,7 +82,7 @@ if st.sidebar.button("View Insights"):
     st.header("Box Plot")
     box_plot = data[data_option].plot.box()
     #box_plot.set_xlabel("index")
-    box_plot.set_title(f"Box Plot for {data_option} from {st.session_state['Start_Date']} to {st.session_state['End_Date']}")
+    box_plot.set_title(f"{st.session_state['CoinPair']} Box Plot")
     box_plot.set_xlabel(f"{st.session_state['Start_Date']} - {st.session_state['End_Date']}")
     box_plot.set_ylabel(f"{st.session_state['CoinPair']} {data_option} values")
     plt.savefig(box_image_file_path)
