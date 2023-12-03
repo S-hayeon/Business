@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+import random
 import re
 import requests
 import streamlit as st
