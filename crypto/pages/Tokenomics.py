@@ -28,13 +28,13 @@ random_index=random.randint(0,count-1)
 tip=str(glossary[random_index])
 # Use a regular expression to remove HTML tags
 today_tip = re.sub(r'<.*?>', '',tip)
-today_tip_caption=f"Trading 📊Tip💡 {today_tip}"
+today_tip_caption=f"Trading 📊Tip💡:{today_tip}"
 def send_telegram_Message():
   bot_token=st.secrets['bot_token']
   chat_id=st.secrets['chat_id']
   url = f'https://api.telegram.org/bot{bot_token}/sendMessage' # URL to the Telegram Bot API for sending photos
   #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
-  payload = {'chat_id': chat_id,'caption': today_tip_caption}     
+  payload = {'chat_id': chat_id,'text': today_tip_caption}     
   response = requests.post(url, data=payload) # Send the Message
   if response.status_code == 200:
     st.toast('Tokenomics available!')
