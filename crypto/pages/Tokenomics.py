@@ -36,9 +36,9 @@ def send_telegram_Message():
   response = requests.post(url, data=payload) # Send the Message
   if response.status_code == 200:
     st.toast('Tokenomics available!')
-    else:
-      #st.toast('Failed to send photo. Status code:', response.status_code)
-      st.toast(response.text)
+  else:
+    #st.toast('Failed to send photo. Status code:', response.status_code)
+    st.toast(response.text)
 def send_twitter_Message():
   apiKey= st.secrets['apiKey']
   apiSecret=st.secrets['apiSecret']
