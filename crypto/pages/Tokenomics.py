@@ -28,7 +28,7 @@ random_index=random.randint(0,count-1)
 tip=str(glossary[random_index])
 # Use a regular expression to remove HTML tags
 today_tip = re.sub(r'<.*?>', '',tip)
-today_tip_caption=f"Trading 📊Tip💡:{today_tip}"
+today_tip_caption=f"Trading 📊Tip💡: {today_tip}"
 def send_telegram_Message():
   bot_token=st.secrets['bot_token']
   chat_id=st.secrets['chat_id']
