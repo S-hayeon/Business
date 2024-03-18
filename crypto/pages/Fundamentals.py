@@ -1,9 +1,9 @@
-
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 import os
 import pandas as pd
+import streamlit as st
 
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
 #url = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/historical'
