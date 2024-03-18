@@ -2,7 +2,7 @@ from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 import os
-import pandas as pd
+import pandas as pd 
 import streamlit as st
 
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
@@ -32,4 +32,4 @@ for idx in range(len(data['data'])):
     token_index=idx
     st.write(f"Token ID: {token_index}")
     st.write(f"Token Name: {data['data'][token_index]['name']}")
-    st.write(f"Token Circulating Supply: {data['data'][token_index]['circulating_supply']}")
+    st.write(f"Token Circulating Supply: {data['data'][token_index]['circulating_supply']:,}")
