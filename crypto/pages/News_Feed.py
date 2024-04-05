@@ -130,8 +130,8 @@ ax.imshow(multimedia_wordcloud, interpolation='bilinear')
 ax.axis("off") 
 media_wordcloud_img=f"{st.session_state['CoinPair']}_media_wordcloud.png"
 plt.savefig(media_wordcloud_img, transparent=True, bbox_inches='tight', pad_inches=0) # Save as PNG
-send_telegram_Message(type="Youtube",image_file_path=media_wordcloud_img)
 send_twitter_Message(type="Youtube",image_file_path=media_wordcloud_img)
+send_telegram_Message(type="Youtube",image_file_path=media_wordcloud_img)
 st.header("Latest :red[Youtube] Sentiments")
 st.pyplot(fig)
 #st.image(media_wordcloud_img)
