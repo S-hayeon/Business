@@ -357,7 +357,7 @@ def trading_session(time):
         sessions.append('New York')
     return ', '.join(sessions) if sessions else 'Closed'
 def expand_sessions(row):
-    sessions = row['Sessions'].split(', ')
+    sessions = row['Session'].split(', ')
     return [(session, row['Volume']) for session in sessions]	
 if __name__=='__main__':
     with st.container():
