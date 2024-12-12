@@ -417,11 +417,12 @@ if __name__=='__main__':
                 st.session_state['DataFrame']=df
                 with st.expander(f"{st.session_state['CoinPair']} Trading Sessions"):
                     df['Session'] = df.index.map(trading_session)
-                    st.write('Active Hours for each session. Sydney: from 11 PM to 8 AM UTC, \n'
-         'Nairobi: from 6AM to 3PM UTC, \n'
-         'Tokyo: from midnight to 9AM UTC, \n'
-         'London: from 8AM to 4 PM UTC, \n'
-         'New York: from 1PM to 10PM UTC, ')
+                    st.write('Active Hours for each session:\n'
+         'Sydney: from 11 PM to 8 AM UTC\n'
+         'Nairobi: from 6 AM to 3 PM UTC\n'
+         'Tokyo: from midnight to 9 AM UTC\n'
+         'London: from 8 AM to 4 PM UTC\n'
+         'New York: from 1 PM to 10 PM UTC')
                     st.dataframe(df[['Open','Close','Volume','Session']]) # Display particular columns
                     expanded_data = [entry for _, row in df.iterrows() for entry in expand_sessions(row)]
                     session_volume_df = pd.DataFrame(expanded_data, columns=['Session', 'Volume'])
