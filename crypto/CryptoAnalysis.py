@@ -324,7 +324,7 @@ def peakTroughPlot(data,cointitle):
         st.pyplot(fig)
         peak_troughDF = data.loc[data['Peak'].notna() | data['Trough'].notna(), ['Peak', 'Trough']]
         st.header(f":blue[{cointitle} Peaks and Troughs Table]")
-	st.dataframe(peak_troughDF)
+        st.dataframe(peak_troughDF)
 def popularCoinPrices():
     start_date = datetime.now() - timedelta(days=2)  # Last 3 days
     end_date = datetime.now()
