@@ -418,7 +418,7 @@ if __name__=='__main__':
                 with st.expander(f"{st.session_state['CoinPair']} Trading Sessions"):
                     df['Session'] = df.index.map(trading_session)
                     st.dataframe(df[['Open','Close','Volume','Session']]) # Display particular columns
-                    expanded_data = [entry for _, row in data_df.iterrows() for entry in expand_sessions(row)]
+                    expanded_data = [entry for _, row in df.iterrows() for entry in expand_sessions(row)]
                     session_volume_df = pd.DataFrame(expanded_data, columns=['Session', 'Volume'])
                     # Sum the volumes for each session
                     total_volume_by_session = session_volume_df.groupby('Session').sum()
