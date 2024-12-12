@@ -319,7 +319,7 @@ def peakTroughPlot(data,cointitle):
     with st.expander(f"{cointitle} Peaks and Troughs Plot"):
         # Create the plot
         fig,ax=plt.subplots()
-	mpf.plot(data, type='candle', style='binance', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
+        mpf.plot(data, type='candle', style='binance', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
         st.header(f":blue[{cointitle} Peaks and Troughs Plot]")
         st.pyplot(fig)
         peak_troughDF = data.loc[data['Peak'].notna() | data['Trough'].notna(), ['Peak', 'Trough']]
