@@ -416,7 +416,7 @@ if __name__=='__main__':
                 with st.expander(f"{st.session_state['CoinPair']} Trading Sessions"):
                     st.write(df.columns)
                     df['Session'] = df.index.map(trading_session)
-                    st.dataframe(df)
+                    st.dataframe(df[['Open','Close','Volume','Session']) # Display particular columns
                 #peakTroughPlot(df,st.session_state['CurrencyPair'])
                 #st.toast("Peak Trough Visualization complete")
             else:
