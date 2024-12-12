@@ -318,7 +318,8 @@ def peakTroughPlot(data,cointitle):
 ]
     with st.expander(f"{cointitle} Peaks and Troughs Plot"):
         # Create the plot
-        fig=mpf.plot(data, type='candle', style='binance', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
+        fig,ax=plt.subplots()
+	mpf.plot(data, type='candle', style='binance', title=f"{cointitle} Peaks and Troughs Plot",addplot=feature_plots, figscale=1.25, volume=True)
         st.header(f":blue[{cointitle} Peaks and Troughs Plot]")
         st.pyplot(fig)
         peak_troughDF = data.loc[data['Peak'].notna() | data['Trough'].notna(), ['Peak', 'Trough']]
@@ -344,9 +345,9 @@ def popularCoinPrices():
             col=col3
         with col:
             st.metric(symbol,crypto_price, crypto_percent)
-        
-    
-
+def trading_session(data):
+	pass
+	
 if __name__=='__main__':
     with st.container():
         #popularCoinPrices()
@@ -376,11 +377,6 @@ if __name__=='__main__':
             #end_time_formatted = datetime.datetime.fromtimestamp(end_time / 1000.0).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
             st.session_state['Start_Time']=start_time
             st.session_state['End_Time']=end_time
-	    #df = get_historical_data(st.session_state['CurrencyPair'], st.session_state['Interval'], st.session_state['Start_Time'], st.session_state['End_Time'])
-            # st.write(f"The start time: {start_time}")
-            # st.write(f"The end time: {end_time}")
-            #st.dataframe(df)
-            # pass
         if st.sidebar.button('Start Analysis'):
             st.cache_data.clear()
             st.session_state['CurrencyPair']=st.session_state['CoinPair']
