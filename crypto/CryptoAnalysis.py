@@ -414,6 +414,7 @@ if __name__=='__main__':
                 st.toast("Bar Chart Visualization complete")
                 st.session_state['DataFrame']=df
                 with st.expander(f"{st.session_state['CoinPair']} Trading Sessions"):
+                    st.write(df.columns)
                     df['Session'] = df['Date'].apply(trading_session)
                     st.dataframe(df)
                 #peakTroughPlot(df,st.session_state['CurrencyPair'])
