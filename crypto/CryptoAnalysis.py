@@ -356,7 +356,9 @@ def trading_session(time):
     if (hour >= 13 and hour <= 22):
         sessions.append('New York')
     return ', '.join(sessions) if sessions else 'Closed'
-	
+def expand_sessions(row):
+    sessions = row['trading_sessions'].split(', ')
+    return [(session, row['Volume']) for session in sessions]	
 if __name__=='__main__':
     with st.container():
         #popularCoinPrices()
@@ -414,11 +416,15 @@ if __name__=='__main__':
                 st.toast("Bar Chart Visualization complete")
                 st.session_state['DataFrame']=df
                 with st.expander(f"{st.session_state['CoinPair']} Trading Sessions"):
-                    st.write(df.columns)
                     df['Session'] = df.index.map(trading_session)
                     st.dataframe(df[['Open','Close','Volume','Session']]) # Display particular columns
-                #peakTroughPlot(df,st.session_state['CurrencyPair'])
-                #st.toast("Peak Trough Visualization complete")
+                    expanded_data = [entry for _, row in data_df.iterrows() for entry in expand_sessions(row)]
+                    session_volume_df = pd.DataFrame(expanded_data, columns=['Session', 'Volume'])
+                    # Sum the volumes for each session
+                    total_volume_by_session = session_volume_df.groupby('Session').sum()
+                    st.write(total_volume_by_session)
+                    #peakTroughPlot(df,st.session_state['CurrencyPair'])
+                    #st.toast("Peak Trough Visualization complete")
             else:
                 st.error("Choose a Coin")
         if st.sidebar.button("Start Technical Analysis"):
