@@ -344,8 +344,18 @@ def popularCoinPrices():
             col=col3
         with col:
             st.metric(symbol,crypto_price, crypto_percent)
-def trading_session(data):
-	pass
+def trading_session(time):
+	hour = time.hour
+    sessions = []
+    if (hour >= 23 or hour <= 8):
+        sessions.append('Sydney')
+    if (hour >= 0 and hour <= 9):
+        sessions.append('Tokyo')
+    if (hour >= 8 and hour <= 16):
+        sessions.append('London')
+    if (hour >= 13 and hour <= 22):
+        sessions.append('New York')
+    return ', '.join(sessions) if sessions else 'Closed'
 	
 if __name__=='__main__':
     with st.container():
@@ -403,12 +413,11 @@ if __name__=='__main__':
                 visualize_data(df,st.session_state['CurrencyPair'])
                 st.toast("Bar Chart Visualization complete")
                 st.session_state['DataFrame']=df
-                peakTroughPlot(df,st.session_state['CurrencyPair'])
-                st.toast("Peak Trough Visualization complete")
+                df['Session'] = df['Date'].apply(trading_session)
+                #peakTroughPlot(df,st.session_state['CurrencyPair'])
+                #st.toast("Peak Trough Visualization complete")
             else:
                 st.error("Choose a Coin")
         if st.sidebar.button("Start Technical Analysis"):
            with st.expander("Indicators Change in %"):
               recent_tech_indicators(interval)
-	
-        st.set_option('deprecation.showPyplotGlobalUse', False)
