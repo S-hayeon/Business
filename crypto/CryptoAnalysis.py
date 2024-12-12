@@ -345,7 +345,7 @@ def popularCoinPrices():
         with col:
             st.metric(symbol,crypto_price, crypto_percent)
 def trading_session(time):
-	hour = time.hour
+    hour = time.hour
     sessions = []
     if (hour >= 23 or hour <= 8):
         sessions.append('Sydney')
