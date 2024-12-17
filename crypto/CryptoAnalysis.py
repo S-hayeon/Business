@@ -51,98 +51,7 @@ def coin_token_selection():
     st.session_state['CoinPair']= f"{token_selected_value}{coin_selected_value}"
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 #@st.cache_data(ttl=3600)
-# def get_historical_data(symbol, interval, start_time, end_time):
 #     url = f"https://api.binance.com/api/v3/klines"
-#     limit = 1000  # Number of data points per request
-#     all_data = []  # To store all retrieved data
-
-#     while start_time < end_time:
-#         params = {
-#             "symbol": symbol,
-#             "interval": interval,
-#             "startTime": start_time,
-#             "endTime": end_time,
-#             "limit": limit
-#         }
-#         response = requests.get(url, params=params)
-#         st.session_state['response']=response
-#         data = response.json()
-
-#         if not data:
-#             break
-#         all_data.extend(data)
-#         if len(data)>0:
-#             start_time = int(data[-1][0]) + 1  # Set the new start_time to the next timestamp in the response
-
-#     if not all_data:
-#         st.warning("No data available for the selected duration.")
-#         return None
-
-#     # Convert all_data into a pandas DataFrame
-#     df = pd.DataFrame(all_data, columns=['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
-#     # Drop the unnecessary columns
-#     #df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
-#     # Convert the timestamp from milliseconds to a datetime object
-#     df['Date'] = pd.to_datetime(df['Date'], unit='ms')
-#     #df.index.name = 'Date'
-#     df.set_index('Date',inplace=True)
-#     # Convert OHLCV values to numeric data types
-#     df[['Open', 'High', 'Low', 'Close', 'Volume']] = df[['Open', 'High', 'Low', 'Close', 'Volume']].apply(pd.to_numeric)
-#     return df
-# @st.cache_data()
-# def get_historical_data(symbol, interval, start_time, end_time):
-#     # Initialize the Binance exchange object (you can replace this with your preferred exchange)
-#     exchange = ccxt.binance()
-
-#     # Define the parameters for fetching historical data
-#     params = {
-#         'symbol': symbol,
-#         'timeframe': interval,
-#         'since': start_time,
-#         'limit': 1000,  # Adjust this limit as needed
-#     }
-
-#     # Initialize an empty list to store the data
-#     data = []
-
-#     try:
-#         while True:
-#             # Fetch candlestick data
-#             ohlcv = exchange.fetch_ohlcv(**params)
-
-#             # If there's no more data, break the loop
-#             if len(ohlcv) == 0:
-#                 break
-
-#             # Append the data to the list
-#             data.extend(ohlcv)
-
-#             # Update the 'since' parameter for the next request
-#             params['since'] = ohlcv[-1][0] + 1
-
-#             # If the next timestamp is greater than the end_time, break the loop
-#             if params['since'] > end_time:
-#                 break
-
-#     except ccxt.NetworkError as e:
-#         st.toast(f'Network error: {e}')
-#     except ccxt.ExchangeError as e:
-#         st.toast(f'Exchange error {e}')
-#     except Exception as e:
-#         st.toast(f'An error occurred {e}')
-
-#     # Create a DataFrame from the fetched data
-#     df = pd.DataFrame(data, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
-
-#     # Convert the timestamp to a datetime format
-#     df['Date'] = pd.to_datetime(df['Timestamp'], unit='ms')
-
-#     # Reorder the columns
-#     df = df[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]
-#     df.set_index('Date',inplace=True)
-
-#     return df
-
 def format_url(symbol, type, interval, date):
     if type == 'Daily':
         base_url = 'https://data.binance.vision/data/spot/daily/klines/'
@@ -191,24 +100,6 @@ def get_historical_data(symbol, type, interval, start_date, end_date):
         current_date += timedelta(days=1)
 
     return combined_data
-# def get_historical_data(symbol, interval, start_time, end_time):
-#     klines = client.get_historical_klines(
-#         symbol=symbol,
-#         interval=interval,
-#         start_str=start_time,
-#         end_str=end_time,
-#     )
-#     frame=pd.DataFrame(klines)
-#     frame=frame.iloc[:,:6] # All rows and column upto 6
-#     # Naming the columns
-#     frame.columns=['Date','Open','High','Low','Close','Volume']
-#     # Name the rows
-#     frame=frame.set_index('Date') # Note this is in ms
-#     # Convert this Time to readable form since this is time from 1970s
-#     frame.index=pd.to_datetime(frame.index,unit='ms')
-#     frame=frame.astype(float) # Convert values from strings to float
-#     return frame
-#@st.cache_resource(show_spinner=False)
 def visualize_data(df,title_text):
     # Continuously update the data by fetching new data from the API
     #while True:
