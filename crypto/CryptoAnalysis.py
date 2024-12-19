@@ -320,7 +320,7 @@ if __name__=='__main__':
                     # Sum the volumes for each session
                     total_volume_by_session = session_volume_df.groupby('Session').sum()
                     #sort in descending order
-                    total_volume_by_session.sort_values(by='Volume', ascending=False) #Calculate sum and arrange in Descending order
+                    total_volume_by_session=total_volume_by_session.sort_values(by='Volume', ascending=False) #Calculate sum and arrange in Descending order
                     st.dataframe(total_volume_by_session)
                     #peakTroughPlot(df,st.session_state['CurrencyPair'])
                     #st.toast("Peak Trough Visualization complete")
