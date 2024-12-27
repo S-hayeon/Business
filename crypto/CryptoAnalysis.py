@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 #from mpl_finance import candlestick_ohlc
 import mplfinance as mpf
 import numpy as np
+import os
 import pandas as pd
 import requests
 #from streamlit import caching
@@ -101,28 +102,6 @@ def get_historical_data(symbol, type, interval, start_date, end_date):
         current_date += timedelta(days=1)
 
     return combined_data
-def visualize_data(df,title_text):
-    # Continuously update the data by fetching new data from the API
-    #while True:
-    #df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
-    # If data is not empty, show the data in the frontend
-    if df is not None:
-        #st.session_state['DataFrame']=df
-        image_file_path = f"{st.session_state['CurrencyPair']}_chart.png"
-        title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
-        #fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [3, 1]}, sharex=True)
-        #fig,(ax1, ax2)=plt.subplots()
-        #mpf.plot(df, type='candle', volume=True,ax=ax1,volume_ax=ax2,style='binance',savefig=image_file_path,returnfig=True)
-        fig, ax = mpf.plot(df, type='candle', volume=True, style='binance', returnfig=True)
-        candlestickfigure_placeholder.pyplot(fig)
-        #st.image(image_file_path)
-        with df_expander_placeholder.expander(f"View the {title_text} data"):
-            #data_placeholder.dataframe(df)
-            st.dataframe(df)
-        # Display the dataframe inside the placeholder
-        with expander_placeholder.expander(f"{title_text} Data Statistics"):
-            st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
-            st.table(df.describe())
 def round_value(input_value):
     if input_value>1:
         a=round(input_value,3) # Round values above 1 to 3 decimal
@@ -283,6 +262,29 @@ def trading_session(time):
     if (hour >= 13 and hour <= 22):
         sessions.append('New York')
     return ', '.join(sessions) if sessions else 'Closed'
+
+def visualize_data(df,title_text):
+    # Continuously update the data by fetching new data from the API
+    #while True:
+    #df = get_historical_data(st.session_state['CoinPair'], st.session_state['Interval'], st.session_state['Start_Time'],st.session_state['End_Time'])
+    # If data is not empty, show the data in the frontend
+    if df is not None:
+        #st.session_state['DataFrame']=df
+        image_file_path = f"{st.session_state['CurrencyPair']}_chart.png"
+        title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
+        #fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [3, 1]}, sharex=True)
+        #fig,(ax1, ax2)=plt.subplots()
+        #mpf.plot(df, type='candle', volume=True,ax=ax1,volume_ax=ax2,style='binance',savefig=image_file_path,returnfig=True)
+        fig, ax = mpf.plot(df, type='candle', volume=True, style='binance', returnfig=True)
+        candlestickfigure_placeholder.pyplot(fig)
+        #st.image(image_file_path)
+        with df_expander_placeholder.expander(f"View the {title_text} data"):
+            #data_placeholder.dataframe(df)
+            st.dataframe(df)
+        # Display the dataframe inside the placeholder
+        with expander_placeholder.expander(f"{title_text} Data Statistics"):
+            st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
+            st.table(df.describe())
 def expand_sessions(row):
     sessions = row['Session'].split(', ')
     return [(session, row['Volume']) for session in sessions]	
