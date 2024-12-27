@@ -1,6 +1,6 @@
-ccxt
-pip==23.2.1
 backtesting
+ccxt
+dataframe_image
 fredapi
 gnews
 #json
@@ -13,6 +13,7 @@ mplfinance
 openpyxl
 pandas
 pandas_ta
+pip==23.2.1
 plotly
 python-binance
 requests
