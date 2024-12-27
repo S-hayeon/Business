@@ -107,10 +107,12 @@ def visualize_data(df,title_text):
     # If data is not empty, show the data in the frontend
     if df is not None:
         #st.session_state['DataFrame']=df
+        image_file_path = f"{st.session_state['CurrencyPair']}_chart.png"
         title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
         fig,ax=plt.subplots()
-        mpf.plot(df, type='candle', volume=True, style='binance', ax=ax)
-        candlestickfigure_placeholder.pyplot(fig)
+        mpf.plot(df, type='candle', volume=True, style='binance', ax=ax,savefig=image_file_path,returnfig=True)
+        st.image(image_file_path)
+        #candlestickfigure_placeholder.pyplot(fig)
         with df_expander_placeholder.expander(f"View the {title_text} data"):
             #data_placeholder.dataframe(df)
             st.dataframe(df)
