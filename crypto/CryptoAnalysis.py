@@ -89,7 +89,16 @@ def get_chrome_path():
     if os.name == 'nt':  # For Windows
         return os.path.join(os.getenv('ProgramFiles'), 'Google', 'Chrome', 'Application', 'chrome.exe')
     elif os.name == 'posix':  # For macOS and Linux
-        return '/usr/bin/google-chrome'
+        possible_paths = [
+            '/usr/bin/google-chrome',
+            '/usr/local/bin/google-chrome',
+            '/usr/bin/chromium-browser',
+            '/usr/local/bin/chromium-browser'
+        ]
+        for path in possible_paths:
+            if os.path.exists(path):
+                return path
+        raise FileNotFoundError("Chrome executable not found on your machine")
     else:
         raise OSError("Unsupported operating system")
 # Function to retrieve historical data for a date range
