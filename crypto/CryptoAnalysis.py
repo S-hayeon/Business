@@ -109,8 +109,9 @@ def visualize_data(df,title_text):
         #st.session_state['DataFrame']=df
         image_file_path = f"{st.session_state['CurrencyPair']}_chart.png"
         title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
-        fig,ax=plt.subplots()
-        mpf.plot(df, type='candle', volume=True, style='binance', ax=ax,savefig=image_file_path,returnfig=True)
+        fig, (ax1, ax2) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [3, 1]}, sharex=True)
+        #fig,ax=plt.subplots()
+        mpf.plot(df, type='candle', volume=True,ax=ax1,volume_ax=ax2,style='binance', ax=ax,savefig=image_file_path,returnfig=True)
         st.image(image_file_path)
         #candlestickfigure_placeholder.pyplot(fig)
         with df_expander_placeholder.expander(f"View the {title_text} data"):
