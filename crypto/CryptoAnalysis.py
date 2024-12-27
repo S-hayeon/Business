@@ -109,6 +109,7 @@ def visualize_data(df,title_text):
         #st.session_state['DataFrame']=df
         title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
         fig=mpf.plot(df,type='line',volume=True,style='binance')
+        st.pyplot(fig)
         candlestickfigure_placeholder.pyplot(fig)
         with df_expander_placeholder.expander(f"View the {title_text} data"):
             #data_placeholder.dataframe(df)
