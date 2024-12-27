@@ -119,9 +119,9 @@ def visualize_data(df,title_text):
             #data_placeholder.dataframe(df)
             st.dataframe(df)
         # Display the dataframe inside the placeholder
-        #with expander_placeholder.expander(f"{title_text} Data Statistics"):
-            #st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
-            #st.table(df.describe())
+        with expander_placeholder.expander(f"{title_text} Data Statistics"):
+            st.markdown(f":blue[The descriptive statistics of OHLCV values:]")
+            st.table(df.describe())
 def round_value(input_value):
     if input_value>1:
         a=round(input_value,3) # Round values above 1 to 3 decimal
