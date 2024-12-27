@@ -212,7 +212,7 @@ def peakTroughPlot(data,cointitle):
         fig, ax = plt.subplots()
         mpf.plot(data, type='candle', style='binance', title=f"{cointitle} Peaks and Troughs Plot", addplot=feature_plots, figscale=1.25, volume=True, ax=ax)
         st.header(f":blue[{cointitle} Peaks and Troughs Plot]")
-        st.pyplot(fig)
+        peakTrough_fig.pyplot(fig)
         peak_troughDF = data.loc[data['Peak'].notna() | data['Trough'].notna(), ['Peak', 'Trough']]
         st.header(f":blue[{cointitle} Peaks and Troughs Table]")
         st.dataframe(peak_troughDF)
@@ -267,7 +267,7 @@ if __name__=='__main__':
         title_placeholder=st.empty()
         df_expander_placeholder = st.empty()
         expander_placeholder = st.empty()
-
+        peakTrough_fig=st.empty()
 
         if st.session_state["Start_Date"] is not None and st.session_state["End_Date"] is not None:
             # Convert start_date and end_date to datetime.datetime objects
@@ -322,7 +322,7 @@ if __name__=='__main__':
                     #sort in descending order
                     total_volume_by_session=total_volume_by_session.sort_values(by='Volume', ascending=False) #Calculate sum and arrange in Descending order
                     st.dataframe(total_volume_by_session)
-                    #peakTroughPlot(df,st.session_state['CurrencyPair'])
+                    peakTroughPlot(df,st.session_state['CurrencyPair'])
                     #st.toast("Peak Trough Visualization complete")
             else:
                 st.error("Choose a Coin")
