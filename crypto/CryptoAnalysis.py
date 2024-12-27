@@ -113,9 +113,8 @@ def visualize_data(df,title_text):
         #fig,(ax1, ax2)=plt.subplots()
         #mpf.plot(df, type='candle', volume=True,ax=ax1,volume_ax=ax2,style='binance',savefig=image_file_path,returnfig=True)
         fig, ax = mpf.plot(df, type='candle', volume=True, style='binance', returnfig=True)
-        st.pyplot(fig)
+        candlestickfigure_placeholder.pyplot(fig)
         #st.image(image_file_path)
-        #candlestickfigure_placeholder.pyplot(fig)
         with df_expander_placeholder.expander(f"View the {title_text} data"):
             #data_placeholder.dataframe(df)
             st.dataframe(df)
