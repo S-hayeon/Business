@@ -185,7 +185,7 @@ def peakTroughPlot(data,cointitle):
     # Define short-term and long-term periods
     short_period = 5
     long_period = 20
-    # Calculate moving averages
+    """# Calculate moving averages
     data['SMA_short'] = data['Close'].rolling(window=short_period).mean()
     data['SMA_long'] = data['Close'].rolling(window=long_period).mean()
     #  "Peak" is defined as a price where the current closing price is greater than both the previous and next closing prices.
@@ -215,7 +215,7 @@ def peakTroughPlot(data,cointitle):
         peakTrough_fig.pyplot(fig)
         peak_troughDF = data.loc[data['Peak'].notna() | data['Trough'].notna(), ['Peak', 'Trough']]
         st.header(f":blue[{cointitle} Peaks and Troughs Table]")
-        st.dataframe(peak_troughDF)
+        st.dataframe(peak_troughDF)"""
 def popularCoinPrices():
     start_date = datetime.now() - timedelta(days=2)  # Last 3 days
     end_date = datetime.now()
@@ -322,7 +322,7 @@ if __name__=='__main__':
                     #sort in descending order
                     total_volume_by_session=total_volume_by_session.sort_values(by='Volume', ascending=False) #Calculate sum and arrange in Descending order
                     st.dataframe(total_volume_by_session)
-                    peakTroughPlot(df,st.session_state['CurrencyPair'])
+                    #peakTroughPlot(df,st.session_state['CurrencyPair'])
                     #st.toast("Peak Trough Visualization complete")
             else:
                 st.error("Choose a Coin")
