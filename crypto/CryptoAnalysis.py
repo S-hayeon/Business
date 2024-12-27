@@ -356,7 +356,7 @@ if __name__=='__main__':
                     total_volume_by_session = session_volume_df.groupby('Session').sum()
                     #sort in descending order
                     total_volume_by_session=total_volume_by_session.sort_values(by='Volume', ascending=False) #Calculate sum and arrange in Descending order
-                    session_df_img=f"{st.session_state['CurrencyPair']}_session_df_img.img
+                    session_df_img=f"{st.session_state['CurrencyPair']}_session_df_img.png"
                     dfi.export(total_volume_by_session,f"{session_df_img}")
                     send_telegram_Message(image_file_path=session_df_img)
                     st.dataframe(total_volume_by_session)
