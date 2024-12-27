@@ -109,7 +109,6 @@ def visualize_data(df,title_text):
         #st.session_state['DataFrame']=df
         title_placeholder.header(f"{st.session_state['CurrencyPair']} Crypto Analysis")
         fig=mpf.plot(df,type='line',volume=True,style='binance')
-        st.pyplot(fig)
         candlestickfigure_placeholder.pyplot(fig)
         with df_expander_placeholder.expander(f"View the {title_text} data"):
             #data_placeholder.dataframe(df)
@@ -268,7 +267,6 @@ if __name__=='__main__':
         title_placeholder=st.empty()
         df_expander_placeholder = st.empty()
         expander_placeholder = st.empty()
-        peakTrough_fig=st.empty()
 
         if st.session_state["Start_Date"] is not None and st.session_state["End_Date"] is not None:
             # Convert start_date and end_date to datetime.datetime objects
