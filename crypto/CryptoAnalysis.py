@@ -84,23 +84,6 @@ def format_url(symbol, type, interval, date):
 
     url_formatted = f"{base_url}{symbol}/{interval}/{symbol}-{interval}-{date}.zip"
     return url_formatted
-# Function to find the Chrome executable path
-def get_chrome_path():
-    if os.name == 'nt':  # For Windows
-        return os.path.join(os.getenv('ProgramFiles'), 'Google', 'Chrome', 'Application', 'chrome.exe')
-    elif os.name == 'posix':  # For macOS and Linux
-        possible_paths = [
-            '/usr/bin/google-chrome',
-            '/usr/local/bin/google-chrome',
-            '/usr/bin/chromium-browser',
-            '/usr/local/bin/chromium-browser'
-        ]
-        for path in possible_paths:
-            if os.path.exists(path):
-                return path
-        raise FileNotFoundError("Chrome executable not found on your machine")
-    else:
-        raise OSError("Unsupported operating system")
 # Function to retrieve historical data for a date range
 def get_historical_data(symbol, type, interval, start_date, end_date):
     combined_data = pd.DataFrame()
@@ -376,7 +359,7 @@ if __name__=='__main__':
                     total_volume_by_session=total_volume_by_session.sort_values(by='Volume', ascending=False) #Calculate sum and arrange in Descending order
                     session_df_img=f"{st.session_state['CurrencyPair']}_session_df_img.png"
                     # Set the path to your Chrome executable
-                    chrome_path = get_chrome_path()
+                    #chrome_path = get_chrome_path()
                     #dfi.export(total_volume_by_session,f"{session_df_img}",chrome_path=chrome_path)
                     #dfi.export(total_volume_by_session,f"{session_df_img}",table_conversion='chrome')
                     #send_telegram_Message(image_file_path=session_df_img)
