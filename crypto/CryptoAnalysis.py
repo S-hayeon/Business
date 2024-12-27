@@ -30,9 +30,6 @@ st.session_state['DataFrame']=None
 st.session_state['End_Date']=None
 st.session_state['Start_Date']=None
 cryptolist = ['BTCBUSD', 'BTCUSDT', 'ETHBUSD', 'ETHUSDT', 'BNBUSDT', 'BNBBUSD', 'XRPBUSD', 'XRPUSDT','ADABUSD', 'ADAUSDT', 'MATICBUSD', 'MATICUSDT', 'SHIBBUSD', 'SHIBUSDT', 'DOGEBUSD', 'DOGEUSDT']
-def format_key(key):
-    # Split the key by underscores, capitalize each word, and join them with a space
-    return " ".join(word.capitalize() for word in key.split('_'))
 def coin_token_selection():
     # Coin, Token dictionary containing the keys and values for the dropdowns
     # First dropdown for selecting the Token key
@@ -54,17 +51,6 @@ def coin_token_selection():
     st.sidebar.success(f"Coin pair is: {st.session_state['CoinPair']} ",icon="✅")
 #@st.cache_data(ttl=3600)
 #     url = f"https://api.binance.com/api/v3/klines"
-def format_url(symbol, type, interval, date):
-    if type == 'Daily':
-        base_url = 'https://data.binance.vision/data/spot/daily/klines/'
-    elif type == 'Monthly':
-        base_url = 'https://data.binance.vision/data/spot/monthly/klines/'
-    else:
-        return None
-
-    url_formatted = f"{base_url}{symbol}/{interval}/{symbol}-{interval}-{date}.zip"
-    return url_formatted
-
 # Function to download and extract data
 def download_and_extract_data(url):
     response = requests.get(url)
@@ -85,6 +71,27 @@ def download_and_extract_data(url):
     else:
         print(f"Error: Failed to download the .zip file from {url}")
 @st.cache_resource(show_spinner=True)
+def format_key(key):
+    # Split the key by underscores, capitalize each word, and join them with a space
+    return " ".join(word.capitalize() for word in key.split('_'))
+def format_url(symbol, type, interval, date):
+    if type == 'Daily':
+        base_url = 'https://data.binance.vision/data/spot/daily/klines/'
+    elif type == 'Monthly':
+        base_url = 'https://data.binance.vision/data/spot/monthly/klines/'
+    else:
+        return None
+
+    url_formatted = f"{base_url}{symbol}/{interval}/{symbol}-{interval}-{date}.zip"
+    return url_formatted
+# Function to find the Chrome executable path
+def get_chrome_path():
+    if os.name == 'nt':  # For Windows
+        return os.path.join(os.getenv('ProgramFiles'), 'Google', 'Chrome', 'Application', 'chrome.exe')
+    elif os.name == 'posix':  # For macOS and Linux
+        return '/usr/bin/google-chrome'
+    else:
+        raise OSError("Unsupported operating system")
 # Function to retrieve historical data for a date range
 def get_historical_data(symbol, type, interval, start_date, end_date):
     combined_data = pd.DataFrame()
@@ -359,7 +366,10 @@ if __name__=='__main__':
                     #sort in descending order
                     total_volume_by_session=total_volume_by_session.sort_values(by='Volume', ascending=False) #Calculate sum and arrange in Descending order
                     session_df_img=f"{st.session_state['CurrencyPair']}_session_df_img.png"
-                    dfi.export(total_volume_by_session,f"{session_df_img}",table_conversion='chrome')
+                    # Set the path to your Chrome executable
+                    chrome_path = get_chrome_path()
+                    dfi.export(total_volume_by_session,f"{session_df_img}",chrome_path=chrome_path)
+                    #dfi.export(total_volume_by_session,f"{session_df_img}",table_conversion='chrome')
                     send_telegram_Message(image_file_path=session_df_img)
                     st.dataframe(total_volume_by_session)
                     #peakTroughPlot(df,st.session_state['CurrencyPair'])
