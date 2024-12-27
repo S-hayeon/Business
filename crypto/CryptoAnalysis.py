@@ -377,9 +377,9 @@ if __name__=='__main__':
                     session_df_img=f"{st.session_state['CurrencyPair']}_session_df_img.png"
                     # Set the path to your Chrome executable
                     chrome_path = get_chrome_path()
-                    dfi.export(total_volume_by_session,f"{session_df_img}",chrome_path=chrome_path)
+                    #dfi.export(total_volume_by_session,f"{session_df_img}",chrome_path=chrome_path)
                     #dfi.export(total_volume_by_session,f"{session_df_img}",table_conversion='chrome')
-                    send_telegram_Message(image_file_path=session_df_img)
+                    #send_telegram_Message(image_file_path=session_df_img)
                     st.dataframe(total_volume_by_session)
                     #peakTroughPlot(df,st.session_state['CurrencyPair'])
                     #st.toast("Peak Trough Visualization complete")
