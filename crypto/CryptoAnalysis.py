@@ -242,35 +242,35 @@ def popularCoinPrices():
         with col:
             st.metric(symbol,crypto_price, crypto_percent)
 def send_telegram_Message(image_file_path):
-        bot_token=st.secrets['bot_token']
-        chat_id=st.secrets['chat_id']
-        url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
-        #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
-        caption = f"Coin Pair: {st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category: {st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoGuideBotTrading"
-        payload = {'chat_id': chat_id,'caption': caption}     
-        files = {'photo': open(image_file_path, 'rb')} # Prepare the payload
-        response = requests.post(url, data=payload, files=files) # Send the photo
-        if response.status_code == 200:
-            st.toast('Chart Patterns available!')
-            if os.path.exists(image_file_path):
-                os.remove(image_file_path)
-        else:
-            #st.toast('Failed to send photo. Status code:', response.status_code)
-            st.toast(response.text)
-    def send_twitter_Message(image_file_path):
-        apiKey= st.secrets['apiKey']
-        apiSecret=st.secrets['apiSecret']
-        bearerToken=st.secrets['bearerToken']
-        accessToken=st.secrets['accessToken']
-        accessSecret=st.secrets['accessSecret']
-        client = tweepy.Client(bearer_token=bearerToken,consumer_key=apiKey,consumer_secret=apiSecret,access_token=accessToken,access_token_secret=accessSecret)
-        auth = tweepy.OAuthHandler(apiKey, apiSecret)
-        auth.set_access_token(accessToken,accessSecret)
-        api = tweepy.API(auth)
-        media = api.media_upload(filename=image_file_path)
-        media_id = media.media_id
-        caption = f"Coin Pair: {st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category: {st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoTradingGuideBot."
-        client.create_tweet(media_ids=[media_id], text=caption)
+    bot_token=st.secrets['bot_token']
+    chat_id=st.secrets['chat_id']
+    url = f'https://api.telegram.org/bot{bot_token}/sendPhoto' # URL to the Telegram Bot API for sending photos
+    #caption = f"Coin Pair:{st.session_state['CurrencyPair']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n{st.session_state['DataFrame'].iloc[-1]}"
+    caption = f"Coin Pair: {st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category: {st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoGuideBotTrading"
+    payload = {'chat_id': chat_id,'caption': caption}     
+    files = {'photo': open(image_file_path, 'rb')} # Prepare the payload
+    response = requests.post(url, data=payload, files=files) # Send the photo
+    if response.status_code == 200:
+        st.toast('Chart Patterns available!')
+        if os.path.exists(image_file_path):
+            os.remove(image_file_path)
+    else:
+        #st.toast('Failed to send photo. Status code:', response.status_code)
+        st.toast(response.text)
+def send_twitter_Message(image_file_path):
+    apiKey= st.secrets['apiKey']
+    apiSecret=st.secrets['apiSecret']
+    bearerToken=st.secrets['bearerToken']
+    accessToken=st.secrets['accessToken']
+    accessSecret=st.secrets['accessSecret']
+    client = tweepy.Client(bearer_token=bearerToken,consumer_key=apiKey,consumer_secret=apiSecret,access_token=accessToken,access_token_secret=accessSecret)
+    auth = tweepy.OAuthHandler(apiKey, apiSecret)
+    auth.set_access_token(accessToken,accessSecret)
+    api = tweepy.API(auth)
+    media = api.media_upload(filename=image_file_path)
+    media_id = media.media_id
+    caption = f"Coin Pair: {st.session_state['CurrencyPair']}\nCrypto Token: ${st.session_state['Token']}\nCrypto Token Category: {st.session_state['TokenCategory']}\nStart Date: {st.session_state['Start_Date']} to {st.session_state['End_Date']}\nInterval={st.session_state['Interval']}\nSupport Level: {st.session_state['support']}\nResistance Level: {st.session_state['resistance']}\n#CryptoTradingGuideBot."
+    client.create_tweet(media_ids=[media_id], text=caption)
 def trading_session(time):
     hour = time.hour
     sessions = []
