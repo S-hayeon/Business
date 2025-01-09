@@ -85,7 +85,7 @@ def format_url(symbol, type, interval, date):
     url_formatted = f"{base_url}{symbol}/{interval}/{symbol}-{interval}-{date}.zip"
     return url_formatted
 # Function to retrieve historical data for a date range
-def get_historical_data(symbol, type, interval, start_date, end_date):
+"""def get_historical_data(symbol, type, interval, start_date, end_date):
     combined_data = pd.DataFrame()
     current_date = start_date
 
@@ -101,6 +101,22 @@ def get_historical_data(symbol, type, interval, start_date, end_date):
         current_date += timedelta(days=1)
 
     return combined_data
+    """
+def get_historical_data(symbol, type, interval, start_date, end_date): 
+    base_url = "https://api.binance.com" endpoint = "/api/v3/klines" 
+    params = { "symbol": symbol, 
+              "interval": interval, 
+              "startTime": int(datetime.strptime(start_date, "%Y-%m-%d").timestamp() * 1000),
+              "endTime": int(datetime.strptime(end_date, "%Y-%m-%d").timestamp() * 1000), 
+              "limit": 1000 # Maximum number of data points per request } 
+    response = requests.get(base_url + endpoint, params=params) 
+    data = response.json() 
+    # Convert data to a DataFrame 
+    df = pd.DataFrame(data, columns=[ "Open Time", "Open", "High", "Low", "Close", "Volume", "Close Time", "Quote Asset Volume", "Number of Trades", "Taker Buy Base Asset Volume", "Taker Buy Quote Asset Volume", "Ignore" ]) 
+    # Convert timestamp to datetime 
+    df["Open Time"] = pd.to_datetime(df["Open Time"], unit='ms') 
+    df["Close Time"] = pd.to_datetime(df["Close Time"], unit='ms')
+    return df
 def round_value(input_value):
     if input_value>1:
         a=round(input_value,3) # Round values above 1 to 3 decimal
