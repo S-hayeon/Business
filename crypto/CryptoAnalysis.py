@@ -1,4 +1,4 @@
-#Import the necessary libraries 
+-#Import the necessary libraries 
 import ccxt
 import dataframe_image as dfi
 from datetime import datetime, timedelta
@@ -349,7 +349,7 @@ if __name__=='__main__':
                 end_date_str = st.session_state['End_Date'].strftime('%Y-%m-%d')
                 # Parse the string into a datetime.datetime object
                 end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-                df=get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], start_time=st.session_state['Start_Time'], end_time=st.session_state['End_Time'])
+                df=get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], startTime=st.session_state['Start_Time'], endTime=st.session_state['End_Time'])
                 #df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
