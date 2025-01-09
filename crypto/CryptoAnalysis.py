@@ -109,7 +109,8 @@ def get_historical_data(symbol, type, interval, start_date, end_date):
               "interval": interval, 
               "startTime": int(datetime.strptime(start_date, "%Y-%m-%d").timestamp() * 1000),
               "endTime": int(datetime.strptime(end_date, "%Y-%m-%d").timestamp() * 1000), 
-              "limit": 1000 # Maximum number of data points per request } 
+              "limit": 1000 
+             } 
     response = requests.get(base_url + endpoint, params=params) 
     data = response.json() 
     # Convert data to a DataFrame 
