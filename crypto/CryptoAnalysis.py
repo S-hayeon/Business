@@ -1,4 +1,4 @@
--#Import the necessary libraries 
+#Import the necessary libraries 
 import ccxt
 import dataframe_image as dfi
 from datetime import datetime, timedelta
