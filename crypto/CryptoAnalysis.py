@@ -91,23 +91,20 @@ def format_url(symbol, type, interval, date):
     while current_date <= end_date:
         formatted_date = current_date.strftime('%Y-%m-%d')
         url = format_url(symbol, type, interval, formatted_date)
-        
         if url:
             data = download_and_extract_data(url)
             if data is not None:
-                combined_data = pd.concat([combined_data, data])
-        
+                combined_data = pd.concat([combined_data, data]) 
         current_date += timedelta(days=1)
-
     return combined_data
     """
-def get_historical_data(symbol, type, interval, start_date, end_date): 
+def get_historical_data(symbol, interval, startTime, endTime): 
     base_url = "https://api.binance.com" 
     endpoint = "/api/v3/klines" 
     params = { "symbol": symbol, 
               "interval": interval, 
-              "startTime": int(datetime.strptime(start_date, "%Y-%m-%d").timestamp() * 1000),
-              "endTime": int(datetime.strptime(end_date, "%Y-%m-%d").timestamp() * 1000), 
+              "startTime":startTime ,
+              "endTime":endTime , 
               "limit": 1000 
              } 
     response = requests.get(base_url + endpoint, params=params) 
