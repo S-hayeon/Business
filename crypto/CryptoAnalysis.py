@@ -103,7 +103,8 @@ def format_url(symbol, type, interval, date):
     return combined_data
     """
 def get_historical_data(symbol, type, interval, start_date, end_date): 
-    base_url = "https://api.binance.com" endpoint = "/api/v3/klines" 
+    base_url = "https://api.binance.com" 
+    endpoint = "/api/v3/klines" 
     params = { "symbol": symbol, 
               "interval": interval, 
               "startTime": int(datetime.strptime(start_date, "%Y-%m-%d").timestamp() * 1000),
