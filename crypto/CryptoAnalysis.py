@@ -88,7 +88,6 @@ def format_url(symbol, type, interval, date):
 """def get_historical_data(symbol, type, interval, start_date, end_date):
     combined_data = pd.DataFrame()
     current_date = start_date
-
     while current_date <= end_date:
         formatted_date = current_date.strftime('%Y-%m-%d')
         url = format_url(symbol, type, interval, formatted_date)
@@ -353,8 +352,8 @@ if __name__=='__main__':
                 end_date_str = st.session_state['End_Date'].strftime('%Y-%m-%d')
                 # Parse the string into a datetime.datetime object
                 end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
-                #df=get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], start_time=st.session_state['Start_Time'], end_time=st.session_state['End_Time'])
-                df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
+                df=get_historical_data(symbol=st.session_state['CurrencyPair'], interval=st.session_state['Interval'], start_time=st.session_state['Start_Time'], end_time=st.session_state['End_Time'])
+                #df = get_cached_data(st.session_state['CoinPair'], st.session_state['Interval'], start_date,end_date)
                 #df = get_historical_data(st.session_state['CoinPair'],'Daily',st.session_state['Interval'], st.session_state['Start_Date'],st.session_state['End_Date']).returnDF()
                 st.toast("Successful Data Refresh",icon='😍')
                 visualize_data(df,st.session_state['CurrencyPair'])
