@@ -111,7 +111,20 @@ def get_historical_data(symbol, interval, startTime, endTime):
     'http': 'http://123.45.67.89:8080',
     'https': 'http://123.45.67.89:8080',
 }
-    response = requests.get(base_url + endpoint, params=params,proxies=proxies) 
+    response = requests.get(base_url + endpoint, params=params,proxies=proxies)
+    from requests.exceptions import ProxyError
+    try:
+        response = requests.get(url, proxies=proxies)
+        response.raise_for_status()
+    except ProxyError as err:
+        st.write(f"Proxy error occurred: {err}")
+    except requests.exceptions.HTTPError as err:
+        st.write(f"HTTP error occurred: {err}")
+    except Exception as err:
+        st.write(f"An error occurred: {err}")
+    else:
+        st.write(response.json())
+
     data = response.json()
     st.write(response.status_code)
     # Convert data to a DataFrame 
