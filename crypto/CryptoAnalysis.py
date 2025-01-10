@@ -108,8 +108,8 @@ def get_historical_data(symbol, interval, startTime, endTime):
               "limit": 1000 
              } 
     proxies = {
-    'http': 'http://123.45.67.89:8080',
-    'https': 'http://123.45.67.89:8080',
+    'http': 'http://102.219.208.178:80',
+    'https': 'http://102.219.208.178:80',
 }
     response = requests.get(base_url + endpoint, params=params,proxies=proxies)
     from requests.exceptions import ProxyError
