@@ -108,7 +108,8 @@ def get_historical_data(symbol, interval, startTime, endTime):
               "limit": 1000 
              } 
     response = requests.get(base_url + endpoint, params=params) 
-    data = response.json() 
+    data = response.json()
+    st.write(response.status_code)
     # Convert data to a DataFrame 
     df = pd.DataFrame(data, columns=[ "Open Time", "Open", "High", "Low", "Close", "Volume", "Close Time", "Quote Asset Volume", "Number of Trades", "Taker Buy Base Asset Volume", "Taker Buy Quote Asset Volume", "Ignore" ]) 
     # Convert timestamp to datetime 
