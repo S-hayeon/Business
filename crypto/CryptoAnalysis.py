@@ -107,7 +107,11 @@ def get_historical_data(symbol, interval, startTime, endTime):
               "endTime":endTime , 
               "limit": 1000 
              } 
-    response = requests.get(base_url + endpoint, params=params) 
+    proxies = {
+    'http': 'http://123.45.67.89:8080',
+    'https': 'http://123.45.67.89:8080',
+}
+    response = requests.get(base_url + endpoint, params=params,proxies=proxies) 
     data = response.json()
     st.write(response.status_code)
     # Convert data to a DataFrame 
