@@ -114,6 +114,7 @@ def get_historical_data(symbol, interval, startTime, endTime):
     # Convert timestamp to datetime 
     df["Open Time"] = pd.to_datetime(df["Open Time"], unit='ms') 
     df["Close Time"] = pd.to_datetime(df["Close Time"], unit='ms')
+    st.write(df.columns)
     df = df.set_index('Date')  # Note this is in ms
     df.index = pd.to_datetime(df.index, unit='ms')
     return df
