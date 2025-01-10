@@ -115,8 +115,8 @@ def get_historical_data(symbol, interval, startTime, endTime):
     df["Open Time"] = pd.to_datetime(df["Open Time"], unit='ms') 
     df["Close Time"] = pd.to_datetime(df["Close Time"], unit='ms')
     st.write(df.head())
-    df = df.set_index('Date')  # Note this is in ms
-    df.index = pd.to_datetime(df.index, unit='ms')
+    df = df.set_index('Open Time')  # Note this is in ms
+    #df.index = pd.to_datetime(df.index, unit='ms')
     return df
 def round_value(input_value):
     if input_value>1:
@@ -131,7 +131,7 @@ def recent_tech_indicators(interval):
     end_date = datetime.now()
     # Iterate through the list of cryptocurrencies and retrieve recent data
     for symbol in cryptolist:
-        data = get_historical_data(symbol,'Daily',interval,start_date, end_date)
+        data = get_historical_data(symbol,interval,start_date, end_date)
         if data is not None:
             # Extract relevant data for ADX and RSI calculation
             high = data['High']
